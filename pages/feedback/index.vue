@@ -85,7 +85,7 @@
 </template>
 
 <script>
-	import {Base64} from '../../utils/base64.js'
+import {Base64} from '../../utils/base64.js'
 export default {
   props: {},
   data() {

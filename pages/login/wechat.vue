@@ -119,9 +119,9 @@
 				    })
 					that.$refs.loading.hideLoading() 
 				    return;
-				  }
+				}
 				let nonce = Math.random().toString(36).substr(2)
-				let  time_stamp = Date.parse(new Date())/1000
+				let time_stamp = Date.parse(new Date())/1000
 				let getData = {}
 				
 				uni.checkSession({

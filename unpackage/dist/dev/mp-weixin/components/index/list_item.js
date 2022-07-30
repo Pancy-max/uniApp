@@ -157,7 +157,7 @@ var _time = __webpack_require__(/*! ../../utils/time.js */ 59); //
 //
 //
 //
-var _default = { props: { list: { type: Array, default: [] } }, filters: { timeStamp: _time.timeStamp }, methods: { noticeDetail: function noticeDetail(id, allViews) {this.$emit('noticeDetail', id);} } };exports.default = _default;
+var _default = { props: { list: { type: Array, default: [] } }, filters: { timeStamp: _time.timeStamp }, methods: { doTest: function doTest(id) {this.$emit('doTest', id);} } };exports.default = _default;
 
 /***/ }),
 

@@ -43,7 +43,7 @@
 			</view>
 		</view>
 		<scroll-view scroll-y="true" style="height: 100%;">
-			<ListItem :list='newslist' @noticeDetail='noticeDetail' />
+			<ListItem :list='newslist' @doTest='doTest' />
 		</scroll-view>
 		<!-- 弹出层 -->
 		<view class="" v-if="vers">
@@ -144,21 +144,21 @@
 					url: '/v1/slides',
 					method: 'get'
 				}).then((res) => {
-					if(res.data!=''){
-						this.bannerList = res.data
-					}else{
+					// if(res.data!=''){
+					// 	this.bannerList = res.data
+					// }else{
 						this.bannerList = [{
 								"id": 1,
 								"cid": 1,
 								"name": "banner1",
-								"image": "../../static/images/index/banner1.png",
+								// "image": "../../static/images/index/banner1.png",
 						},{
 								"id": 2,
 								"cid": 1,
 								"name": "banner1",
-								"image": "../../static/images/index/banner2.png",
+								// "image": "../../static/images/index/banner2.png",
 						}]
-					}
+					// }
 					
 				});
 			},
@@ -351,9 +351,9 @@
 				})
 			},
 			//点击进入详情
-			noticeDetail(id) {
+			doTest(id) {
 				uni.navigateTo({
-					url: '../noticeDetail/noticeDetail?id=' + id
+					url: '../doTest/index?id=' + id
 				})
 			},
 			//获取列表
@@ -375,7 +375,7 @@
 						classify_id: 6,
 						create_time: 1658835367,
 						id: 59,
-						photo: "https://wy.yszyun.com/uploads/20220726/84f54a8d818b07a28b71069c52b662d7.jpeg",
+						// photo: "https://wy.yszyun.com/uploads/20220726/84f54a8d818b07a28b71069c52b662d7.jpeg",
 						status: 1,
 						title: "儿童感觉综合测评",
 						desc: 'desc',

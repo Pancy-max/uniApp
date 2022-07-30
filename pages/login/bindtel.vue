@@ -8,7 +8,7 @@
 				<view class="fee_rad">
 					<view class="fee_radio2">手机号码</view>
 				</view>
-				<view class="input ">
+				<view class="input">
 					<input class="form_input" type="text" placeholder-style="color:#b3b3b3" v-model="tel"
 						maxlength="11" @focus="phonePlaceHolder=''" @blur="tel==''?phonePlaceHolder='请输入手机号码':''"
 						:placeholder="phonePlaceHolder" />

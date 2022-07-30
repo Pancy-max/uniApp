@@ -58,14 +58,14 @@
 			</view>
 		</view>
 
-		<view class="my_banner">
+		<!-- <view class="my_banner">
 			<view class="" @click="trading">
 				<image src="../../static/my/btn_17.png" mode=""></image>
 			</view>
-			<!-- <view class="" @click="repair">
+			<view class="" @click="repair">
 				<image src="../../static/my/btn_18.png" mode=""></image>
-			</view> -->
-		</view>
+			</view>
+		</view> -->
 
 		<!-- <view class="test">
 			<text>我的操作</text>

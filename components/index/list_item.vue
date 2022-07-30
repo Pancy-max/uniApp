@@ -1,6 +1,6 @@
 <template>
 	<view class="news_list">
-		<view class="list_box" v-for="(item, index) in list" :key="index" @tap="noticeDetail(item.id, item.views)" v-if="item.status == 1">
+		<view class="list_box" v-for="(item, index) in list" :key="index">
 			<image style="width: 200rpx; height: 140rpx; border-radius: 6rpx;" :src="item.photo" mode="scaleToFill" lazy-load v-if="item.photo != ''" />
 			<image style="width: 200rpx; height: 140rpx; border-radius: 6rpx; z-index: 999;" src="../../static/common/noImg.png" v-if="item.photo == ''" mode="scaleToFill" lazy-load></image>
 			<view class="box_detail">
@@ -12,7 +12,7 @@
 					<!-- <image src="../../static/images/index/btn_06_view.png" style="width: 36rpx; height: 36rpx; margin-left: 34rpx; margin-right: 5rpx;" mode="scaleToFill" />
 					<view class="detail_text">{{ item.views }}</view> -->
 					<view v-if="item.yearRange" class="detail_source">适合{{ item.yearRange[0] }}~{{ item.yearRange[1] }}岁儿童</view>
-					<button class="test_button">立即测评</button>
+					<button class="test_button" @click="doTest(item.id)">立即测评</button>
 				</view>
 			</view>
 		</view>
@@ -32,8 +32,8 @@
 			timeStamp
 		},
 		methods:{
-			noticeDetail(id, allViews){
-				this.$emit('noticeDetail', id)
+			doTest(id){
+				this.$emit('doTest', id)
 			}
 		}
 	}

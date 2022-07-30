@@ -278,21 +278,21 @@ var _default = {
         url: '/v1/slides',
         method: 'get' }).
       then(function (res) {
-        if (res.data != '') {
-          _this.bannerList = res.data;
-        } else {
-          _this.bannerList = [{
-            "id": 1,
-            "cid": 1,
-            "name": "banner1",
-            "image": "../../static/images/index/banner1.png" },
-          {
-            "id": 2,
-            "cid": 1,
-            "name": "banner1",
-            "image": "../../static/images/index/banner2.png" }];
-
-        }
+        // if(res.data!=''){
+        // 	this.bannerList = res.data
+        // }else{
+        _this.bannerList = [{
+          "id": 1,
+          "cid": 1,
+          "name": "banner1"
+          // "image": "../../static/images/index/banner1.png",
+        }, {
+          "id": 2,
+          "cid": 1,
+          "name": "banner1"
+          // "image": "../../static/images/index/banner2.png",
+        }];
+        // }
 
       });
     },
@@ -485,9 +485,9 @@ var _default = {
 
     },
     //点击进入详情
-    noticeDetail: function noticeDetail(id) {
+    doTest: function doTest(id) {
       uni.navigateTo({
-        url: '../noticeDetail/noticeDetail?id=' + id });
+        url: '../doTest/index?id=' + id });
 
     },
     //获取列表
@@ -509,7 +509,7 @@ var _default = {
           classify_id: 6,
           create_time: 1658835367,
           id: 59,
-          photo: "https://wy.yszyun.com/uploads/20220726/84f54a8d818b07a28b71069c52b662d7.jpeg",
+          // photo: "https://wy.yszyun.com/uploads/20220726/84f54a8d818b07a28b71069c52b662d7.jpeg",
           status: 1,
           title: "儿童感觉综合测评",
           desc: 'desc',

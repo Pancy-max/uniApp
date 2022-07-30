@@ -24,9 +24,10 @@
 			}
 		},
 		{
-			"path": "pages/noticeDetail/noticeDetail",
+			"path": "pages/doTest/index",
 			"style": {
-				"navigationBarTitleText": "社区新闻"
+				"navigationBarTitleText": "测试评估"
+				// "background": "#efefef"
 			}
 		}, {
 			"path": "pages/LivingExpenses/LivingExpenses",

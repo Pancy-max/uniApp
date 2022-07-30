@@ -132,19 +132,24 @@
 								}
 								natUrl  = "/pages/login/bindtel"
 								// #endif
-								that.request({
-									url: '/v1/token/wechat_check_tel',
-									method: 'post',
-									data: getData
-								}).then(res => {
-									that.$refs.loading.hideLoading()
-									if (res.data.have_tel) {
-										that.weChat(res.data.tel)
-									} else {
-										uni.navigateTo({
-											url: natUrl
-										})
-									}
+								// TODO: 登录信息
+								// that.request({
+								// 	url: '/v1/token/wechat_check_tel',
+								// 	method: 'post',
+								// 	data: getData
+								// }).then(res => {
+								// 	that.$refs.loading.hideLoading()
+								// 	if (res.data.have_tel) {
+								// 		that.weChat(res.data.tel)
+								// 	} else {
+								// 		uni.navigateTo({
+								// 			url: natUrl
+								// 		})
+								// 	}
+								// })
+								// 跳到到微信登录
+								uni.navigateTo({
+									url: natUrl
 								})
 								// #endif
 							}
