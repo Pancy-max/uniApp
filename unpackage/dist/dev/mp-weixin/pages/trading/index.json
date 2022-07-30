@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "我的交易",
+  "usingComponents": {
+    "uni-load-more": "/components/uni-load-more/uni-load-more",
+    "swiper-tab-head": "/components/common/swiper_tab_head",
+    "garage-sale": "/pages/trading/GarageSale"
+  }
+}

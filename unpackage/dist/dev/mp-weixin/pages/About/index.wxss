@@ -1,0 +1,33 @@
+.ab_top {
+  margin-top: 14rpx;
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+  padding-bottom: 38rpx;
+  box-sizing: border-box;
+  font-size: 40rpx;
+  color: #333333;
+  border-bottom: 2rpx solid #E6E6E6;
+  font-weight: 900;
+}
+.ab_bottom {
+  height: 116rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+  border-bottom: 2rpx solid #E6E6E6;
+  font-size: 30rpx;
+  color: #262626;
+}
+.ab_bottom image {
+  margin-right: 10rpx;
+  height: 24rpx;
+  width: 24rpx;
+}
+.ab_bottom .version {
+  margin-right: 32rpx;
+  font-size: 26rpx;
+  color: #B3B3B3;
+}
+

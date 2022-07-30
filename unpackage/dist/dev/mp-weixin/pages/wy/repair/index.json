@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "报修管理",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "tabs": "/components/tabs/tabs"
+  }
+}

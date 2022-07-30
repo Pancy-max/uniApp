@@ -1,0 +1,114 @@
+<template>
+	<view class="news_list">
+		<view class="list_box" v-for="(item, index) in list" :key="index" @tap="noticeDetail(item.id, item.views)" v-if="item.status == 1">
+			<image style="width: 200rpx; height: 140rpx; border-radius: 6rpx;" :src="item.photo" mode="scaleToFill" lazy-load v-if="item.photo != ''" />
+			<image style="width: 200rpx; height: 140rpx; border-radius: 6rpx; z-index: 999;" src="../../static/common/noImg.png" v-if="item.photo == ''" mode="scaleToFill" lazy-load></image>
+			<view class="box_detail">
+				<view class="title">{{ item.title }}</view>
+				<view v-if="item.desc" class="desc">{{item.desc}}</view>
+				<view class="detail">
+					<!-- <image src="../../static/images/index/btn_07_time.png" style="width: 36rpx; height: 36rpx;margin-left: -10rpx;" mode="scaleToFill" /> -->
+					<!-- <view class="detail_text">{{ item.create_time | timeStamp }}</view> -->
+					<!-- <image src="../../static/images/index/btn_06_view.png" style="width: 36rpx; height: 36rpx; margin-left: 34rpx; margin-right: 5rpx;" mode="scaleToFill" />
+					<view class="detail_text">{{ item.views }}</view> -->
+					<view v-if="item.yearRange" class="detail_source">适合{{ item.yearRange[0] }}~{{ item.yearRange[1] }}岁儿童</view>
+					<button class="test_button">立即测评</button>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import { timeStamp } from '../../utils/time.js'
+	export default {
+		props: {
+			list: {
+				type: Array,
+				default: []
+			}
+		},
+		filters:{
+			timeStamp
+		},
+		methods:{
+			noticeDetail(id, allViews){
+				this.$emit('noticeDetail', id)
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	.news_list {
+		width: 95%;
+		margin: 0 auto;
+		margin-top: 34rpx;
+	}
+	.list_box {
+		display: flex;
+		border-bottom: 1px solid #e6e6e6;
+		padding-bottom: 30rpx;
+		margin-bottom: 30rpx;
+		.box_detail {
+			margin-left: 36rpx;
+			.title {
+				width: 472rpx;
+				height: 40rpx;
+				font-size: 30rpx;
+				color: #323232;
+				line-height: 40rpx;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient:vertical;
+				overflow: hidden;
+				word-break:break-all;
+				font-weight: bold;
+			}
+			.desc {
+				width: 472rpx;
+				height: 60rpx;
+				font-size: 30rpx;
+				color: #868686;
+				line-height: 30rpx;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient:vertical;
+				overflow: hidden;
+				word-break:break-all;
+			}
+			.detail {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				.detail_text {
+					font-size: 24rpx;
+				}
+			}
+			.detail_source{
+				margin-top: 15rpx;
+				font-size: 22rpx;
+				color: #ffaa00;
+			}
+		}
+	}
+	.list_box:last-child {
+		border-bottom: none;
+	}
+	.test_button {
+		width: 160rpx;
+		height: 48rpx;
+		text-align: center;
+		line-height: 48rpx;
+		border: #b2b2b2 1rpx;
+		background: #ffaa00;
+		color: #fff;
+		font-size: 30rpx;
+		border-radius: 30rpx;
+		margin: 0;
+		padding: 0 10rpx;
+		float: right;
+	}
+</style>

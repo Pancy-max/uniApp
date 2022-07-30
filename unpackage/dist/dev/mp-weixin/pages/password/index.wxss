@@ -1,0 +1,69 @@
+.account {
+  width: 100%;
+}
+.account .font_top {
+  margin-top: 14rpx;
+  margin-left: 30rpx;
+  padding-bottom: 38rpx;
+  box-sizing: border-box;
+  font-size: 44rpx;
+  color: #333333;
+  font-weight: 900;
+  display: flex;
+  justify-content: space-between;
+}
+.dem_message {
+  margin: 0 30rpx;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid #e6e6e6;
+}
+.dem_message .danxuan {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 30rpx;
+  color: #333333;
+}
+.message {
+  margin: 0 30rpx;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid #f13636;
+}
+.message .danxuan {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 30rpx;
+  color: #f13636;
+}
+.fee_rad {
+  display: flex;
+  align-items: center;
+}
+.fee_rad .fee_radio2 {
+  height: 100rpx;
+  line-height: 100rpx;
+}
+.star {
+  color: red;
+}
+.input {
+  text-align: right;
+  padding-right: 30rpx;
+}
+.topRight {
+  margin-right: 30rpx;
+  font-size: 26rpx;
+  color: #28b07c;
+  padding-top: 10rpx;
+  padding-right: 10rpx;
+}
+.placestyle {
+  font-size: 30rpx;
+  color: #b3b3b3;
+}
+

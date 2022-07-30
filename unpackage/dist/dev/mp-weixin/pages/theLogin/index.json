@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "register": "/pages/registered/index",
+    "forget-passwd": "/pages/forgetPasswd/index"
+  }
+}

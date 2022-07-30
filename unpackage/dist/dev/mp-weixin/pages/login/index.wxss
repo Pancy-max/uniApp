@@ -1,0 +1,69 @@
+.lo_icon {
+  margin-bottom: 95rpx;
+  margin-top: 120rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.lo_icon .lo_image {
+  margin-bottom: 22rpx;
+}
+.lo_icon .lo_image image {
+  width: 124rpx;
+  height: 124rpx;
+}
+.lo_icon .lo_text image {
+  width: 196rpx;
+  height: 54rpx;
+}
+.regbutton_login {
+  width: 630rpx;
+  height: 48rpx;
+  text-align: center;
+  line-height: 48rpx;
+  border: #b2b2b2 1rpx;
+  margin: 70rpx auto;
+}
+.lo_font {
+  width: 100%;
+  position: absolute;
+  bottom: 145rpx;
+  font-size: 24rpx;
+  color: #808080;
+  text-align: center;
+}
+.button {
+  background-color: #65bb25;
+  font-size: 32rpx;
+  color: #FFFFFF;
+}
+.regbutton {
+  background-color: #FFFFFF;
+  font-size: 32rpx;
+  color: #4D4D4D;
+}
+.auth-clause {
+  display: flex;
+  align-items: center;
+  font-size: 30rpx;
+  color: #909090;
+  margin-top: 80rpx;
+  margin-left: 50rpx;
+}
+switch.orange[checked] .wx-switch-input,
+checkbox.orange[checked] .wx-checkbox-input,
+radio.orange[checked] .wx-radio-input,
+switch.orange.checked .uni-switch-input,
+checkbox.orange.checked .uni-checkbox-input,
+radio.orange.checked .uni-radio-input {
+  background-color: #686868 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
+}
+.linkxy {
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #0055ff;
+}
+

@@ -1,0 +1,40 @@
+.information.data-v-f36e70f4 {
+  margin: 0 30rpx;
+}
+.information .in_message.data-v-f36e70f4 {
+  height: 100rpx;
+  font-size: 44rpx;
+  font-weight: 700;
+  line-height: 100rpx;
+  border-bottom: 1rpx solid #e6e6e6;
+}
+.information .in_info .in_inf.data-v-f36e70f4 {
+  margin-top: 20rpx;
+  font-size: 35rpx;
+  font-weight: 700;
+}
+.information .in_info .in_item.data-v-f36e70f4 {
+  font-size: 30rpx;
+  margin: 36rpx 0;
+  display: flex;
+  justify-content: space-between;
+}
+.information .in_info .in_item .item_color.data-v-f36e70f4 {
+  color: #808080;
+}
+.in_number.data-v-f36e70f4 {
+  width: 480rpx;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.inform.data-v-f36e70f4 {
+  background-color: #FFFFFF;
+  height: 540rpx;
+}
+.baccolor.data-v-f36e70f4 {
+  height: 300rpx;
+  width: 100%;
+  background-color: #C8C7CC;
+}
+

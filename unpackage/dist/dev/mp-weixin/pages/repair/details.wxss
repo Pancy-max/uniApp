@@ -1,0 +1,75 @@
+.detail {
+  margin: 0 30rpx;
+}
+.detail .in_message {
+  display: flex;
+  justify-content: space-between;
+  height: 100rpx;
+  font-size: 44rpx;
+  font-weight: 700;
+  line-height: 100rpx;
+  border-bottom: 1rpx solid #e6e6e6;
+}
+.detail .in_message #undo {
+  font-size: 30rpx;
+  color: #fbaa1a;
+  font-weight: 300;
+}
+.detail .in_info .in_inf {
+  font-size: 30rpx;
+  font-weight: 700;
+}
+.detail .in_info .in_item {
+  font-size: 28rpx;
+  margin: 20rpx 0;
+  color: #555555;
+  display: flex;
+  justify-content: space-between;
+}
+.detail .in_info .in_item .item_image {
+  color: #57b38d;
+  font-size: 30rpx;
+}
+.detail .in_info .in_item .item_image image {
+  width: 28rpx;
+  height: 28rpx;
+  vertical-align: middle;
+  margin-right: 8rpx;
+}
+.in-di {
+  font-size: 28rpx;
+}
+.in-di .wenzi {
+  margin-top: 26rpx;
+  color: #808080;
+  line-height: 48rpx;
+  font-size: 30rpx;
+}
+.in-di .image {
+  margin-top: 26rpx;
+  display: flex;
+}
+.in-di .image image {
+  height: 140rpx;
+  width: 140rpx;
+}
+.in-di .image .image1 {
+  margin-left: 8rpx;
+}
+.in_details {
+  margin-top: 46rpx;
+}
+.in_details1 {
+  margin-top: 20rpx;
+}
+.item_color {
+  color: #C8C7CC;
+}
+.item_color1 {
+  color: #fbaa1a;
+  font-size: 30rpx;
+}
+.fins {
+  color: #78C2A3;
+}
+

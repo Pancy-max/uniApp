@@ -1,0 +1,1 @@
+<view class="tabs"><view class="tabs_title"><block wx:for="{{tabs}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view class="{{['tabs_item'+(item.isActive?' active':'')]}}" data-index="{{index}}" data-event-opts="{{[['tap',[['change',['$event']]]]]}}" bindtap="__e">{{''+item.value+''}}</view></block></view><view class="tabs_content"><slot></slot></view></view>

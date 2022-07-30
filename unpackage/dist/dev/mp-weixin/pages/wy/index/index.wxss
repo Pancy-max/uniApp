@@ -1,0 +1,251 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+/* 公共颜色 */
+.image_content.data-v-ab2c733e {
+  width: 100%;
+  height: 370rpx;
+}
+.image_content .swiperBox.data-v-ab2c733e {
+  width: 100%;
+  height: 100%;
+}
+.data-v-ab2c733e uni-swiper .uni-swiper-dots-horizontal {
+  bottom: 50rpx;
+}
+.data-v-ab2c733e .uni-swiper-dot {
+  opacity: 0.8;
+  width: 12rpx;
+  height: 12rpx;
+}
+.data-v-ab2c733e .uni-swiper-dot-active {
+  width: 48rpx;
+  height: 12rpx;
+  border-radius: 6rpx;
+}
+.nav_content.data-v-ab2c733e {
+  display: flex;
+  width: 100%;
+  position: absolute;
+  flex-wrap: wrap;
+  margin-top: -10rpx;
+  background-color: #FFFFFF;
+  z-index: 999;
+  justify-content: space-around;
+  border-radius: 20rpx 20rpx 0 0;
+  padding-top: 42rpx;
+}
+.nav_box.data-v-ab2c733e {
+  padding-bottom: 20rpx;
+}
+.nav_text.data-v-ab2c733e {
+  font-size: 32rpx;
+  color: #262626;
+  margin-top: 10rpx;
+  text-align: center;
+}
+.newNotice.data-v-ab2c733e {
+  width: 93%;
+  margin: 0 auto;
+  height: 80rpx;
+  background-color: #f5faf8;
+  border-radius: 8rpx;
+  margin-top: 32%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+.newNotice .newNoticeLeft.data-v-ab2c733e {
+  margin-left: 20rpx;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 26rpx;
+}
+.newNotice .newNoticeLeft .newIcon.data-v-ab2c733e {
+  width: 48rpx;
+  height: 48rpx;
+}
+.newNotice .newNoticeLeft .NewTitle.data-v-ab2c733e {
+  color: #323232;
+  margin-left: 14rpx;
+  margin-right: 20rpx;
+  font-size: 26rpx;
+}
+.newNotice .newNoticeLeft .NewMsg.data-v-ab2c733e {
+  color: #808080;
+  font-size: 26rpx;
+  margin-left: 20rpx;
+}
+.newNotice .newNoticeLeft .New_block.data-v-ab2c733e {
+  width: 1rpx;
+  height: 26rpx;
+  background-color: #808080;
+  border-radius: 1rpx;
+}
+.newNotice .newNoticeRight.data-v-ab2c733e {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 12rpx;
+}
+.newNotice .dian.data-v-ab2c733e {
+  color: red;
+  position: absolute;
+  right: 60rpx;
+  top: 14rpx;
+  z-index: 999;
+}
+.news_content.data-v-ab2c733e {
+  width: 93%;
+  margin: 0 auto;
+  margin-top: 46rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.news_content .title_left.data-v-ab2c733e {
+  display: flex;
+  align-items: center;
+}
+.news_content .title_left .color_block.data-v-ab2c733e {
+  width: 8rpx;
+  height: 30rpx;
+  background-color: #60C49A;
+  border-radius: 4rpx;
+  margin-right: 16rpx;
+}
+.news_content .title_left .text.data-v-ab2c733e {
+  font-size: 32rpx;
+  color: #272727;
+}
+.news_content .title_right.data-v-ab2c733e {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.news_content .title_right .right_text.data-v-ab2c733e {
+  color: #b3b3b3;
+  font-size: 24rpx;
+  margin-right: 7rpx;
+}
+.news_list.data-v-ab2c733e {
+  width: 93%;
+  margin: 0 auto;
+  margin-top: 34rpx;
+}
+.list_box.data-v-ab2c733e {
+  display: flex;
+  border-bottom: 1px solid #e6e6e6;
+  padding-bottom: 30rpx;
+  margin-bottom: 30rpx;
+}
+.list_box .box_detail.data-v-ab2c733e {
+  margin-left: 24rpx;
+}
+.list_box .box_detail .title.data-v-ab2c733e {
+  width: 472rpx;
+  height: 80rpx;
+  font-size: 30rpx;
+  color: #323232;
+  line-height: 40rpx;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.list_box .box_detail .detail.data-v-ab2c733e {
+  display: flex;
+  margin-top: 30rpx;
+  align-items: center;
+}
+.list_box .box_detail .detail .detail_text.data-v-ab2c733e {
+  font-size: 24rpx;
+  color: #b3b3b3;
+  margin-left: 8rpx;
+}
+.popup.data-v-ab2c733e {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 9998;
+}
+.popup-info.data-v-ab2c733e {
+  position: fixed;
+  width: 600rpx;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  border-radius: 12rpx;
+  background-color: #FFFFFF;
+  z-index: 9999;
+  padding: 0 48rpx;
+  padding-top: 60rpx;
+}
+.top.data-v-ab2c733e {
+  color: #262626;
+  font-size: 32rpx;
+}
+.content.data-v-ab2c733e {
+  margin-top: 40rpx;
+  width: 560rpx;
+  color: #808080;
+  font-size: 30rpx;
+  line-height: 46rpx;
+}
+.content .con-center.data-v-ab2c733e {
+  display: inline-block;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.button.data-v-ab2c733e {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 88rpx;
+  padding-bottom: 44rpx;
+}
+.button .cancel.data-v-ab2c733e {
+  color: #262626;
+  font-size: 32rpx;
+}
+.button .update.data-v-ab2c733e {
+  font-size: 32rpx;
+  color: #28b07c;
+}
+.header.data-v-ab2c733e {
+  width: 100%;
+  display: flex;
+  font-size: 16px;
+  margin-top: 130rpx;
+}
+

@@ -1,0 +1,106 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*每个页面公共css */
+/* uni-rich-text img {
+	max-width: 100% !important;
+	} */
+/* .nothingImg {
+		width: 600rpx;
+		height: 400rpx;
+		margin: 0 auto;
+		margin-top: 200rpx;
+	} */
+.nothingImg {
+	width: 600rpx;
+	height: 400rpx;
+	margin: 0 auto;
+	margin-top: 200rpx;
+}
+
+

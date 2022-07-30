@@ -1,0 +1,113 @@
+.G_title.data-v-d0020fd6 {
+  display: flex;
+}
+.G_title .G_image.data-v-d0020fd6 {
+  margin-top: 50rpx;
+  margin-left: 30rpx;
+}
+.G_title .G_image image.data-v-d0020fd6 {
+  height: 78rpx;
+  width: 78rpx;
+}
+.G_title .G_center.data-v-d0020fd6 {
+  margin-top: 34rpx;
+  width: 588rpx;
+  margin-left: 24rpx;
+  padding-bottom: 34rpx;
+  border-bottom: 1rpx solid #e6e6e6;
+}
+.G_title .G_center .cen_title.data-v-d0020fd6 {
+  display: flex;
+  justify-content: space-between;
+}
+.G_title .G_center .cen_title .tlt_left.data-v-d0020fd6 {
+  font-size: 30rpx;
+}
+.G_title .G_center .cen_title .tit_right.data-v-d0020fd6 {
+  color: #B3B3B3;
+}
+.G_title .G_center .cen_content.data-v-d0020fd6 {
+  margin-top: 24rpx;
+  font-size: 30rpx;
+  color: #262626;
+}
+.G_title .G_center .cen_Garagesale.data-v-d0020fd6 {
+  margin-top: 22rpx;
+  color: #b3b3b3;
+  font-size: 24rpx;
+  height: 30rpx;
+}
+.G_title .G_center .cen_Garagesale image.data-v-d0020fd6 {
+  width: 6rpx;
+  height: 6rpx;
+}
+.G_title .G_center .cen_image.data-v-d0020fd6 {
+  margin-top: 22rpx;
+  display: flex;
+}
+.G_title .G_center .cen_image image.data-v-d0020fd6 {
+  width: 142rpx;
+  height: 142rpx;
+}
+.G_title .G_center .cen_image .image.data-v-d0020fd6 {
+  margin-left: 7rpx;
+}
+.G_title .G_center .cen_price.data-v-d0020fd6 {
+  margin-top: 16rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.G_title .G_center .cen_price .pri_left.data-v-d0020fd6 {
+  font-size: 40rpx;
+  color: #474747;
+}
+.G_title .G_center .cen_price .pri_rifht.data-v-d0020fd6 {
+  display: flex;
+  align-items: center;
+  height: 28rpx;
+  font-size: 28rpx;
+  color: #b3b3b3;
+}
+.G_title .G_center .cen_price .pri_rifht image.data-v-d0020fd6 {
+  height: 25rpx;
+  width: 26rpx;
+  margin-right: 2rpx;
+}
+.cen_con.data-v-d0020fd6 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 588rpx;
+}
+.guanbi.data-v-d0020fd6 {
+  color: #60c49a;
+}
+.jiaoyi.data-v-d0020fd6 {
+  color: #f89a1e;
+}
+.checkDetailMsg.data-v-d0020fd6 {
+  font-size: 26rpx;
+  color: #b3b3b3;
+  display: flex;
+  align-items: center;
+  margin-top: 20rpx;
+}
+.tj.data-v-d0020fd6 {
+  text-overflow: -o-ellipsis-lastline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.downIcon.data-v-d0020fd6 {
+  width: 25rpx;
+  height: 30rpx;
+}
+.downIcon image.data-v-d0020fd6 {
+  width: 100%;
+  height: 100%;
+}
+

@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "值班安排",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "uni-datetime-picker": "/components/uni-datetime-picker/uni-datetime-picker",
+    "tki-tree": "/components/tki-tree/tki-tree",
+    "mpvue-picker": "/components/mpvue-picker/mpvuePicker"
+  }
+}

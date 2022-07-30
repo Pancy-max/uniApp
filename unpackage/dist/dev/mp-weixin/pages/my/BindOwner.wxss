@@ -1,0 +1,54 @@
+.information {
+  margin: 0 28rpx;
+}
+.information .in_message {
+  border-bottom: 1rpx solid #e6e6e6;
+  padding-top: 12px;
+  padding-bottom: 38rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.information .in_message .message {
+  font-size: 44rpx;
+  font-weight: 900;
+  color: #333333;
+}
+.information .in_message .zhuxiao {
+  color: #F0AD4E;
+  font-size: 30rpx;
+}
+.information .in_info .in_inf {
+  margin-top: 32rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #333333;
+}
+.information .in_info .in_item {
+  font-size: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 28rpx;
+}
+.information .in_info .in_item .item_color {
+  color: #808080;
+}
+.in_number {
+  width: 480rpx;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.inform {
+  background-color: #FFFFFF;
+  height: 540rpx;
+}
+.baccolor {
+  height: 300rpx;
+  width: 100%;
+  background-color: #C8C7CC;
+}
+.bianhao {
+  margin-bottom: 56rpx;
+}
+
