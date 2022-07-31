@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "画报分享",
+  "usingComponents": {
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "l-painter": "/components/lime-painter/index"
+  }
+}

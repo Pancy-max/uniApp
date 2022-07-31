@@ -29,6 +29,12 @@
 				"navigationBarTitleText": "测试评估"
 				// "background": "#efefef"
 			}
+		}, 
+		{
+			"path": "pages/shard/index",
+			"style": {
+				"navigationBarTitleText": "画报分享"
+			}
 		}, {
 			"path": "pages/LivingExpenses/LivingExpenses",
 			"style": {

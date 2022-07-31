@@ -82,6 +82,13 @@
 		},
 		onShow: function() {},
 		onHide: function() {}
+		// onShareAppMessage: function(res) {
+		// 	return {
+		// 	        title: 'xxx',
+		// 	        imageUrl: '/static/images/index/share_logo.png',
+		// 	        path: '/pages/index/index'
+		// 	}
+		// }
 	}
 </script>
 

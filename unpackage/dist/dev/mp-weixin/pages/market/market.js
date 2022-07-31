@@ -98,7 +98,7 @@ var components
 try {
   components = {
     uniLoadMore: function() {
-      return __webpack_require__.e(/*! import() | components/uni-load-more/uni-load-more */ "components/uni-load-more/uni-load-more").then(__webpack_require__.bind(null, /*! @/components/uni-load-more/uni-load-more.vue */ 108))
+      return __webpack_require__.e(/*! import() | components/uni-load-more/uni-load-more */ "components/uni-load-more/uni-load-more").then(__webpack_require__.bind(null, /*! @/components/uni-load-more/uni-load-more.vue */ 115))
     }
   }
 } catch (e) {
@@ -155,7 +155,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var junk = function junk() {Promise.all(/*! require.ensure | pages/market/juihuo */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/market/juihuo")]).then((function () {return resolve(__webpack_require__(/*! ./juihuo.vue */ 450));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniLoadMore = function uniLoadMore() {__webpack_require__.e(/*! require.ensure | components/uni-load-more/uni-load-more */ "components/uni-load-more/uni-load-more").then((function () {return resolve(__webpack_require__(/*! @/components/uni-load-more/uni-load-more.vue */ 108));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var junk = function junk() {Promise.all(/*! require.ensure | pages/market/juihuo */[__webpack_require__.e("common/vendor"), __webpack_require__.e("pages/market/juihuo")]).then((function () {return resolve(__webpack_require__(/*! ./juihuo.vue */ 458));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniLoadMore = function uniLoadMore() {__webpack_require__.e(/*! require.ensure | components/uni-load-more/uni-load-more */ "components/uni-load-more/uni-load-more").then((function () {return resolve(__webpack_require__(/*! @/components/uni-load-more/uni-load-more.vue */ 115));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 

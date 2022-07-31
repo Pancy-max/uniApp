@@ -109,7 +109,7 @@
 		<view class="fengexian"></view>
 
 		
-		 <view class="my_tabs" @click="feedback">
+		<view class="my_tabs" @click="share">
 			<view class="tabs_left">
 				<image src="../../static/my/icon4.png" mode=""></image>
 			</view>
@@ -120,7 +120,18 @@
 		</view>
 
 		<view class="fengexian"></view>
-
+		
+		<!-- <uni-popup type="bottom" ref="shardPop" background-color="#fff">
+			<view class="poster-img">
+				4444
+			</view>
+		</uni-popup> -->
+<!-- 		<uni-popup ref="shardPop" type="share">
+			<uni-popup-share title="分享到" @select="select"></uni-popup-share>
+		</uni-popup> -->
+		<uni-popup ref="shardPop" type="share" safeArea backgroundColor="#fff">
+			<uni-popup-share @select="selectShareItem"></uni-popup-share>
+		</uni-popup>
 		<!--<view class="my_tabs" @click="About">
 			<view class="tabs_left">
 				<image src="../../static/my/incon5.png" mode=""></image>
@@ -168,11 +179,14 @@
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
+	import uniPopupShare from '@/components/uni-popup/uni-popup-share.vue'
+	
 	export default {
 		components: {
 			uniPopup,
 			uniPopupMessage,
-			uniPopupDialog
+			uniPopupDialog,
+			uniPopupShare
 		},
 		name: 'vue',
 		props: {},
@@ -221,6 +235,20 @@
 			// 移除监听事件  
 			uni.$off('bangding');
 		},
+		// //#ifdef MP-WEIXIN
+		// onShareAppMessage () {
+		// 	return {
+		// 		title: 'title',
+		// 		path: 'xxxx',
+		// 		imageUrl: 'xxxx',
+		// 		content: 'xxx',
+		// 		desc: 'xxx',
+		// 		success: res => {
+		// 			console.info(res)
+		// 		}
+		// 	}
+		// },
+		//#endif
 		methods: {
 			// 转换成员类型
 			changeOwnerType(item) {
@@ -285,6 +313,12 @@
 				}
 
 			},
+			closePopup(){
+				this.$refs.shardPop.close();
+			},
+			openPopup() {
+				this.$refs.shardPop.open();
+			},
 			messages() {
 
 				if (this.userInfo != '') {
@@ -300,13 +334,51 @@
 					url: '../About/index'
 				})
 			},
-			feedback() {
-				if (this.userInfo != '') {
+			// 分享
+			share() {
+				// if (this.userInfo != '') {
+					this.openPopup()
+				// } else {
+				// 	this.gologin();
+				// }
+			},
+			selectShareItem(val) {
+				if (val.item && val.item.name === 'paint') { // 画报分享
 					uni.navigateTo({
-						url: '../feedback/index?' + this.myinfo.community_code
+						url: '../shard/index?code=' + this.myinfo.community_code
 					})
-				} else {
-					this.gologin();
+				} else {// 微信分享
+					var strShareUrl = "https://uniapp.dcloud.io"
+					var strShareTitle = "测评"
+					var strShareSummary = "我正在使用HBuilderX开发uni-app，赶紧跟我一起来体验！"
+					// var strShareImageUrl = "https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/uni@2x.png"
+					// uni.share({
+					// 	provider: 'weixin',
+					// 	scene:'WXSceneSession',
+					// 	type: 0,
+					// 	href: strShareUrl,
+					// 	title: strShareTitle,
+					// 	summary: strShareSummary,
+					// 	success: function(res) {
+					// 		console.log("success:" + JSON.stringify(res));
+					// 	},
+					// 	fail: function(err) {
+					// 		console.log("fail:" + JSON.stringify(err));
+					// 	}
+					// })
+					uni.share({
+						provider: "weixin",
+						title:"uniapp",
+						scene: "WXSceneSession",
+						type: 1,
+						summary: "我正在使用HBuilderX开发uni-app，赶紧跟我一起来体验！",
+						success: function (res) {
+							console.log("success:" + JSON.stringify(res));
+						},
+						fail: function (err) {
+							console.log("fail:" + JSON.stringify(err));
+						}
+					})
 				}
 			},
 			information() {

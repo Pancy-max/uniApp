@@ -5,6 +5,7 @@
     "pages/notice/notice",
     "pages/market/market",
     "pages/doTest/index",
+    "pages/shard/index",
     "pages/LivingExpenses/LivingExpenses",
     "pages/my/index",
     "pages/login/index",

@@ -255,7 +255,15 @@ var _base = __webpack_require__(/*! ./utils/base64.js */ 13);function _interopRe
 
   },
   onShow: function onShow() {},
-  onHide: function onHide() {} };exports.default = _default;
+  onHide: function onHide() {}
+  // onShareAppMessage: function(res) {
+  // 	return {
+  // 	        title: 'xxx',
+  // 	        imageUrl: '/static/images/index/share_logo.png',
+  // 	        path: '/pages/index/index'
+  // 	}
+  // }
+};exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
