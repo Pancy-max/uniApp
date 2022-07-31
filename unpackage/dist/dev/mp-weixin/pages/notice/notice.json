@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "社区新闻",
-  "usingComponents": {
-    "uni-load-more": "/components/uni-load-more/uni-load-more",
-    "swiper-tab-head": "/components/common/swiper_tab_head",
-    "list-item": "/components/index/list_item"
-  }
-}

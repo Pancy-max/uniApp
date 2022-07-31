@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "家庭成员",
-  "usingComponents": {
-    "ber-list": "/components/familyBer/ber_list"
-  }
-}

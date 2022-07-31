@@ -1,6 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "form-text-input": "/components/form-text-input/index"
-  }
-}

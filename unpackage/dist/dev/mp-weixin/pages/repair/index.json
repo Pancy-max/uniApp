@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "我的报修",
-  "usingComponents": {
-    "uni-load-more": "/components/uni-load-more/uni-load-more",
-    "swiper-tab-head": "/components/common/swiper_tab_head",
-    "baoxui": "/pages/repair/baoxou"
-  }
-}

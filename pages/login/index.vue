@@ -3,10 +3,11 @@
 
 		<view class="lo_icon">
 			<view class="lo_image">
-				<image src="../../static/common/icon.png" mode=""></image>
+				放插图
+				<!-- <image src="../../static/common/icon.png" mode=""></image> -->
 			</view>
 			<view class="lo_text">
-				<image src="../../static/common/iconfont.png" mode=""></image>
+				<!-- <image src="../../static/common/iconfont.png" mode=""></image> -->
 			</view>
 		</view>
 

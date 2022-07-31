@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "easy-upload": "/components/easyUpload/easy-upload",
-    "loading": "/components/wyb-loading/wyb-loading"
-  }
-}

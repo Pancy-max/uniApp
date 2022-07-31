@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "人员审核",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "tabs": "/components/tabs/tabs"
-  }
-}

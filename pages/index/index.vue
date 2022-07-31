@@ -361,16 +361,6 @@
 				if (this.isEnd) {
 					return
 				}
-				this.request({
-					url: '/v1/testKindList',
-					method: 'GET',
-					data: {
-						page: this.page,
-						limit: this.limit
-					}
-				}).then((res) => {
-					// this.newslist = res.data.data
-					// TODO: 数据
 					this.newslist = [{
 						classify_id: 6,
 						create_time: 1658835367,
@@ -383,13 +373,35 @@
 						views: 15,
 						yearRange: [1.5, 12]
 					}]
-					if (res.data.data.length <= 0) {
-						this.isEnd = true;
-						this.status = 'noMore'
-					} else {
-						//this.page++
-					}
-				});
+			// 	this.request({
+			// 		url: '/v1/testKindList',
+			// 		method: 'GET',
+			// 		data: {
+			// 			page: this.page,
+			// 			limit: this.limit
+			// 		}
+			// 	}).then((res) => {
+			// 		// this.newslist = res.data.data
+			// 		// TODO: 数据
+			// 		this.newslist = [{
+			// 			classify_id: 6,
+			// 			create_time: 1658835367,
+			// 			id: 59,
+			// 			// photo: "https://wy.yszyun.com/uploads/20220726/84f54a8d818b07a28b71069c52b662d7.jpeg",
+			// 			status: 1,
+			// 			title: "儿童感觉综合测评",
+			// 			desc: 'desc',
+			// 			update_time: 1659154027,
+			// 			views: 15,
+			// 			yearRange: [1.5, 12]
+			// 		}]
+			// 		if (res.data.data.length <= 0) {
+			// 			this.isEnd = true;
+			// 			this.status = 'noMore'
+			// 		} else {
+			// 			//this.page++
+			// 		}
+			// 	});
 			},
 			//首页分类
 			// IndexClass() {

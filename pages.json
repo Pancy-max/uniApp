@@ -31,11 +31,25 @@
 			}
 		}, 
 		{
+
 			"path": "pages/shard/index",
 			"style": {
 				"navigationBarTitleText": "画报分享"
 			}
 		}, {
+
+			"path": "pages/doTest/test",
+			"style": {
+				"navigationBarTitleText": "测试评估"
+			}
+		},
+		{
+			"path": "pages/doTest/testResult",
+			"style": {
+				"navigationBarTitleText": "测试评估结果"
+			}
+		},
+		{
 			"path": "pages/LivingExpenses/LivingExpenses",
 			"style": {
 				"navigationBarTitleText": "生活缴费",
@@ -65,7 +79,7 @@
 		}, {
 			"path": "pages/login/index",
 			"style": {
-				"navigationBarTitleText": "智慧家园"
+				"navigationBarTitleText": "儿童感统"
 			}
 		}, {
 			"path": "pages/registered/index", //注册

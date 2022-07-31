@@ -1,1 +1,0 @@
-<view class="layout-column"><view class="layout-content"><view>{{"标题："+msgInfo.title}}</view><view>{{"内容："+msgInfo.msg}}</view><view>{{"创建时间:"+$root.f0}}</view><view>{{"状态："+(msgInfo.status==0?"隐藏":"显示")}}</view><view>{{"类型："+(msgInfo.type==0?"系统消息":"通知消息")}}</view><view>{{"接收人："+(msgInfo.member_name||"无")}}</view></view></view>

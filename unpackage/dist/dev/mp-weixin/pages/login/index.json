@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "智慧家园",
-  "usingComponents": {
-    "wyb-loading": "/components/wyb-loading/wyb-loading"
-  }
-}

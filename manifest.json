@@ -1,7 +1,7 @@
 {
-    "name" : "智慧家园业主版",
+    "name" : "儿童感统",
     "appid" : "__UNI__4300A8C",
-    "description" : "智慧家园业主版",
+    "description" : "儿童感统",
     "versionName" : "1.5.6",
     "versionCode" : 156,
     "transformPx" : false,
@@ -81,13 +81,15 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "",
+        "appid" : "wx34bdf4921b1148a5",
         "setting" : {
             "urlCheck" : false,
             "es6" : true,
-            "postcss" : false
+            "postcss" : false,
+            "minified" : true
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "lazyCodeLoading" : "requiredComponents"
     },
     "mp-alipay" : {
         "usingComponents" : true

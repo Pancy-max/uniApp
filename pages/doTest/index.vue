@@ -24,6 +24,7 @@
 <script>
 // import {Base64} from '../../utils/base64.js'
 export default {
+  components: {},
   props: {},
   data() {
     return {
@@ -34,8 +35,8 @@ export default {
 			'5555',
 			'6666'
 		],
-		pickerData: []
-	};
+		pickerData: [],
+	}
   },
   computed: {},
   onLoad(e) {
@@ -44,8 +45,8 @@ export default {
   },
   methods: {
 	  goTest(){
-		  uni.switchTab({
-			  url:"./test.vue"
+		  uni.navigateTo({
+		  	url: './test'
 		  })
 	  },
 	  // TODO: 获取测评数据

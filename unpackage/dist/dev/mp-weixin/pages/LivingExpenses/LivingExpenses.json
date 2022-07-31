@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "生活缴费",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "swiper-tab-head": "/components/common/swiper_tab_head",
-    "living-pay": "/components/index/livingPay_item"
-  }
-}
