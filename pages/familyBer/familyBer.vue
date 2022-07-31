@@ -57,15 +57,20 @@
 			},
 			//家庭成员列表
 			getBerList(){
-				this.request({
-					url: '/v1/members',
-					method: 'GET'
-				}).then((res)=>{
-					this.berList = res.data
-					if(res.data.length){
-						this.allBerNum =res.data.length
-					}
-				})
+				// this.request({
+				// 	url: '/v1/childrenList',
+				// 	method: 'GET'
+				// }).then((res)=>{
+				// 	this.berList = res.data
+				// 	if(res.data.length){
+				// 		this.allBerNum =res.data.length
+				// 	}
+				// })
+				this.berList =[{
+					id: 1,
+					name: '名字1'
+				}]
+				this.allBerNum = this.berList.length
 			}
 		}
 	}

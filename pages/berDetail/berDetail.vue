@@ -32,8 +32,8 @@
 				<view class="text_right">{{ msg.tel }}</view>
 			</view>
 		</view>
-		<view class="edit" @tap="edit()" v-if="ownerType == 1">编辑</view>
-		<view class="edit" @tap="edit()" v-if="ownerType !== 1">查看详细</view>
+		<view class="edit" @tap="edit()">编辑</view>
+		<view class="edit" @tap="edit()">查看详细</view>
 	</view>
 </template>
 
@@ -44,32 +44,32 @@
 				msg: {},
 				sex: '',
 				berId: '',
-				ownerType:1
+				// ownerType:1
 			}
 		},
 		onLoad(option) {
 			this.berId=option.id
 			this.berMsg(option.id)
-			this.ownerType = uni.getStorageSync('userInfo').owner_type;
+			// this.ownerType = uni.getStorageSync('userInfo').owner_type;
 		},
 		methods: {
 			//成员信息
 			berMsg(id){
-					this.request({
-						url: '/v1/members/'+id,
-						method: 'GET'
-					}).then((res)=>{
-						if(!res.code === 200){
-							uni.showToast({
-								title: res.desc,
-								icon: 'none',
-								duration:2000
-							})
-						}
-						this.msg = res.data
-						this.msg.gender===0?this.sex='女':this.sex='男'
-					});
-				
+				// TODO： 查看成员信息
+					// this.request({
+					// 	url: '/v1/members/'+id,
+					// 	method: 'GET'
+					// }).then((res)=>{
+					// 	if(!res.code === 200){
+					// 		uni.showToast({
+					// 			title: res.desc,
+					// 			icon: 'none',
+					// 			duration:2000
+					// 		})
+					// 	}
+					// 	this.msg = res.data
+					// 	this.msg.gender===0?this.sex='女':this.sex='男'
+					// });
 			},
 			//删除成员
 			delBar(){

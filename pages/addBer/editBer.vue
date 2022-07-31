@@ -43,7 +43,7 @@
 				<view class="text">身份证号</view>
 				<input type="text" v-model="peopleID" maxlength="18" />
 			</view>
-			<view class="msg" v-if="owner_type != 1">
+			<!-- <view class="msg" v-if="owner_type != 1">
 				<view class="text">成员类型<i style="color: #d93232;">*</i></view>
 				<view class="select">
 					<view class="select_option" :class="{'selected':owner_type === 0}" @tap='selectOtype(0)'>
@@ -57,7 +57,7 @@
 						<view>租户</view>
 					</view>
 				</view>
-			</view>
+			</view> -->
 			<view class="title" style="margin-top: 60rpx;">联系信息</view>
 			<view class="msg">
 				<view class="text">手机号码<i style="color: #d93232;">*</i></view>

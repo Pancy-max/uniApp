@@ -37,7 +37,9 @@
 					url: '/v1/disclaimers/'+id,
 					method: 'get'
 				}).then((res)=>{
-					this.detailsData = res.data.content;
+					// TODO: 查询详细数据
+					// this.detailsData = res.data.content;
+					this.detailsData = '协议数据。。。。'
 					this.loadProgress = 90;
 				});
 			},

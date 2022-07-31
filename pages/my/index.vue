@@ -29,7 +29,7 @@
 								<view class="name1">{{myinfo.name || myinfo.username}}</view>
 								<view class="unbounded">未绑定</view>
 							</view>
-							<view class="r_text2">点击绑定住户信息</view>
+							<view class="r_text2">点击绑定用户信息</view>
 						</view>
 						<navigator class="r_textinfo" hover-class="none" v-else
 							:url='"./BindOwner?code="+JSON.stringify(myinfo)'>
@@ -84,7 +84,7 @@
 
 		<!-- <view class="fengexian"></view> -->
 		
-		<view class="my_tabs" @click="messages">
+		<view class="my_tabs" @click="getMemberList">
 			<view class="tabs_left">
 				<image src="../../static/my/icon3.png" mode=""></image>
 			</view>
@@ -253,15 +253,15 @@
 			// 转换成员类型
 			changeOwnerType(item) {
 				switch (item) {
-					case 1:
-						return "业主"
-						break;
+					// case 1:
+					// 	return "业主"
+					// 	break;
 					case 2:
 						return "家庭成员"
 						break;
-					case 3:
-						return "租户"
-						break;
+					// case 3:
+					// 	return "租户"
+					// 	break;
 					default:
 						break;
 				}
@@ -319,15 +319,14 @@
 			openPopup() {
 				this.$refs.shardPop.open();
 			},
-			messages() {
-
-				if (this.userInfo != '') {
+			getMemberList() {
+				// if (this.userInfo != '') {
 					uni.navigateTo({
-						url: '../myMessage/index'
+						url: '../familyBer/familyBer'
 					})
-				} else {
-					this.gologin();
-				}
+				// } else {
+				// 	this.gologin();
+				// }
 			},
 			About() {
 				uni.navigateTo({
