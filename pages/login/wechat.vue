@@ -13,7 +13,8 @@
 		<view class="content" style="border-top: 1px solid #CCCCCC;">
 			<view>申请获取以下权限</view>
 			<view class="content_text">获得你的公开信息(昵称、头像等)</view>
-			<button type="primary" style="background-color: #65bb25;" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">微信验证登录</button>
+			<button type="primary" style="background-color: #65bb25;" open-type="getUserInfo" @getuserinfo="getUserInfo">微信验证登录</button>
+			
 			<button type="default" @tap="cancel">取消登录</button>
 			<wyb-loading ref="loading" title="登录中..."/>
 		</view>
@@ -36,7 +37,7 @@
 		onLoad() {
 			wx.login({
 			      success: res => {
-			       this.loginRes = res.code
+			        this.loginRes = res.code
 			      }
 			    })
 		},
@@ -44,6 +45,35 @@
 			cancel(){
 				uni.navigateBack({
 					delta:1
+				})
+			},
+			getUserInfo(e) {
+				console.log('getUserInfo', e.detail)
+				const userInfo = e.detail.userInfo
+				const data = {
+					  "avatar": userInfo.avatarUrl,
+					  "gender": userInfo.gender,
+					  "nickName": userInfo.nickName,
+					  "password": "string",
+					  "weixinOpenid": "string",
+					  "mobile": "18826139325"
+				}
+				this.request({
+				  url:'/mini/register',
+				  method:'POST',
+				  data: JSON.stringify(data)
+				}).then((res)=>{
+					that.$refs.loading.hideLoading()
+					  if(res.code === 200){
+						  // that.tel = res.data.tel
+						  // that.weChat()
+					  }else{
+						  uni.showToast({
+							  title:res.desc,
+							  icon:"none"
+						  })
+						  return
+					  }
 				})
 			},
 			weChat(){
@@ -69,11 +99,11 @@
 										 app_key:this.$appKey,
 										 times: 2,
 										 os_type:1,
-										 tel: that.tel
+										 mobile: that.tel
 								}
 								// #endif
 								that.request({
-								  url:'/v1/token/wechat',
+								  url:'/mini/register',
 								  method:'POST',
 								  data:getData
 								}).then((res)=>{
@@ -125,15 +155,15 @@
 				let nonce = Math.random().toString(36).substr(2)
 				let time_stamp = Date.parse(new Date())/1000
 				let getData = {}
-				
+				this.weChat()
 				uni.checkSession({
 					success() {
-						
 					},
 					fail() {
 						wx.login({
 						      success: res => {
-						       that.loginRes = res.code
+							    console.log('wx.login', res)
+						        that.loginRes = res.code
 						      }
 						    })
 					},
@@ -149,7 +179,7 @@
 							 times: 1
 						}
 						that.request({
-						  url:'/v1/token/wechat',
+						  url:'/mini/register',
 						  method:'POST',
 						  data:getData
 						}).then((res)=>{

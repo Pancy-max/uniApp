@@ -36,27 +36,19 @@ export default {
 			'6666'
 		],
 		pickerData: [],
+		topicId: 0
 	}
   },
   computed: {},
   onLoad(e) {
-	  this.pickerdata()
-	  this.code = Object.keys(e)[0]
+	  // this.pickerdata()
+	  this.topicId = +e.id
   },
   methods: {
 	  goTest(){
 		  uni.navigateTo({
-		  	url: './test'
+		  	url: './test?id=' + this.topicId
 		  })
-	  },
-	  // TODO: 获取测评数据
-	  async pickerdata(){
-		  // this.show = true
-		  // let res = await this.request({
-			 //  url:'/v1/feedback_type'
-		  // })
-		  // this.pickerData = res.data
-		  // this.pickerData.unshift('请选择类型')
 	  },
 	  //历史记录
 	  lishiyijang(){

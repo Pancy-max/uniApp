@@ -9,8 +9,8 @@ export default function(obj){
 		
 		// 给vue添加个request方法，通过this.request调用方法
 		vue.prototype.request = async function(params){
-			const { url ,data , method  } = params 
-			let header = {'Content-Type': 'application/x-www-form-urlencoded'}
+			const { url ,data , method, headers  } = params 
+			let header = {'Content-Type': 'application/json; charset=utf-8'}
 			let userInfo = uni.getStorageSync('myinfo');
 			let user_id = '';
 			if(uni.getStorageSync('loginType')){ //wuye 物业登录信息
@@ -37,7 +37,7 @@ export default function(obj){
 			// })
 			const [ err,res ] = await uni.request({
 				url: baseURL + url ,
-				header: header,
+				header: headers || header,
 				data:data,
 				method:method
 			});

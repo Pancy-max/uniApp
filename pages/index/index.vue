@@ -3,7 +3,7 @@
 		<view class="image_content">
 			<swiper :autoplay="true" :interval="5000" :duration="1000" :circular='true' indicator-dots="true" indicator-color="#999999"
 			 indicator-active-color="#e4e4e4" duration="1000" class="swiperBox">
-				<swiper-item v-for="(item) in bannerList" :key='item.id' @click="openLink(item.link)">
+				<swiper-item v-for="(item, index) in bannerList" :key='index' @click="openLink(item.picUrl)">
 					<view class="swiper-item">
 						<image style="width: 100%; height: 370rpx;" :src="item.image" lazy-load mode="scaleToFill"></image>
 					</view>
@@ -33,18 +33,20 @@
 			</view>
 
 		</view> -->
-		<view class="my_tabs">
-			<view class="tabs_left">
-				<text>儿童感统测评</text>
+		<view v-for="(item, index) in evaListInfo" :key="index">
+			<view class="my_tabs">
+				<view class="tabs_left">
+					<text>{{item.title}}</text>
+				</view>
+				<view class="tabs_right">
+					<text>历史测评</text>
+					<image src="../../static/my/btn_01.png" mode=""></image>
+				</view>
 			</view>
-			<view class="tabs_right">
-				<text>历史测评</text>
-				<image src="../../static/my/btn_01.png" mode=""></image>
-			</view>
+			<scroll-view scroll-y="true" style="height: 100%;">
+				<ListItem :list='item.eva_form_list' @doTest='doTest' />
+			</scroll-view>
 		</view>
-		<scroll-view scroll-y="true" style="height: 100%;">
-			<ListItem :list='newslist' @doTest='doTest' />
-		</scroll-view>
 		<!-- 弹出层 -->
 		<view class="" v-if="vers">
 			<view class="popup"></view>
@@ -81,7 +83,7 @@
 				phoneData: [],
 				isupdate: true,
 				bannerList: [], //banner图片
-				newslist: [], //新闻列表
+				evaListInfo: [], //测评列表
 				page: 1,
 				limit: 5,
 				// IndexClassList: [],
@@ -141,12 +143,16 @@
 			getbannerList(){
 				//轮播图
 				this.request({
-					url: '/v1/slides',
+					url: '/mini/getBannerInfo',
 					method: 'get'
 				}).then((res) => {
-					// if(res.data!=''){
-					// 	this.bannerList = res.data
-					// }else{
+					if(res.data!='' && res.data.bannerInfo){
+						this.bannerList = res.data.bannerInfo.map(item => {
+							item.image = item.picUrl
+							item.id = item.ID
+							return item
+						})
+					}else{
 						this.bannerList = [{
 								"id": 1,
 								"cid": 1,
@@ -158,8 +164,7 @@
 								"name": "banner1",
 								// "image": "../../static/images/index/banner2.png",
 						}]
-					// }
-					
+					}	
 				});
 			},
 			gologin() {
@@ -358,50 +363,25 @@
 			},
 			//获取列表
 			getList() {
-				if (this.isEnd) {
-					return
-				}
-					this.newslist = [{
-						classify_id: 6,
-						create_time: 1658835367,
-						id: 59,
-						// photo: "https://wy.yszyun.com/uploads/20220726/84f54a8d818b07a28b71069c52b662d7.jpeg",
-						status: 1,
-						title: "儿童感觉综合测评",
-						desc: 'desc',
-						update_time: 1659154027,
-						views: 15,
-						yearRange: [1.5, 12]
-					}]
-			// 	this.request({
-			// 		url: '/v1/testKindList',
-			// 		method: 'GET',
-			// 		data: {
-			// 			page: this.page,
-			// 			limit: this.limit
-			// 		}
-			// 	}).then((res) => {
-			// 		// this.newslist = res.data.data
-			// 		// TODO: 数据
-			// 		this.newslist = [{
-			// 			classify_id: 6,
-			// 			create_time: 1658835367,
-			// 			id: 59,
-			// 			// photo: "https://wy.yszyun.com/uploads/20220726/84f54a8d818b07a28b71069c52b662d7.jpeg",
-			// 			status: 1,
-			// 			title: "儿童感觉综合测评",
-			// 			desc: 'desc',
-			// 			update_time: 1659154027,
-			// 			views: 15,
-			// 			yearRange: [1.5, 12]
-			// 		}]
-			// 		if (res.data.data.length <= 0) {
-			// 			this.isEnd = true;
-			// 			this.status = 'noMore'
-			// 		} else {
-			// 			//this.page++
-			// 		}
-			// 	});
+				// if (this.isEnd) {
+				// 	return
+				// }
+				this.request({
+					url: '/mini/getEvaListInfo',
+					method: 'POST',
+					data: {
+						// page: this.page,
+						// limit: this.limit
+					}
+				}).then((res) => {
+					this.evaListInfo = res.data && res.data.evaListInfo && res.data.evaListInfo
+					// if (res.data.data.length <= 0) {
+					// 	this.isEnd = true;
+					// 	this.status = 'noMore'
+					// } else {
+						//this.page++
+					// }
+				});
 			},
 			//首页分类
 			// IndexClass() {
