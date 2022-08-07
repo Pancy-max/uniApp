@@ -56,11 +56,9 @@
 </template>
 
 <script>
-	import ListItem from '../../components/index/list_item.vue'
 	import TestListItem from '../../components/test-list-item/index.vue'
 	export default {
 		components: {
-			ListItem,
 			TestListItem
 		},
 		data() {
