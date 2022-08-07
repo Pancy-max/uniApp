@@ -1,5 +1,9 @@
 <template>
 	<view class="answer__content">
+		<view class="time" v-if="count">
+			<image src="../../static/images/index/btn_07_time.png" class="timer-image"></image>
+			{{count}}s
+		</view>
 		<block v-if="newOptList[showQuestionIndex].imageList.length">
 			<view :class="['answer__banner', switchVisible ? 'question--find-out' : 'question--find-in']">
 				<swiper :indicator-dots="true" :autoplay="true">
@@ -45,7 +49,6 @@
 						/>
 					</view>
 				</block>
-				<view class="time" v-if="count">{{count}}</view>
 			</view>
 		</view>
 	</view>
@@ -83,7 +86,8 @@ export default {
 			showQuestionIndex: 0, //当前展示题号
 			isEnd: false, //是否为最后一题
 			switchVisible: false, // 切换状态
-			count: 0
+			count: 0,
+			timer: null
 		}
 	},
 	watch: {
@@ -91,6 +95,7 @@ export default {
 			this.initData()
 		},
 		showQuestionIndex() {
+			clearInterval(this.timer);
 			this.count = this.newOptList[this.showQuestionIndex].countTime || 0;
 			if(this.count) {
 				this.verification();
@@ -118,10 +123,10 @@ export default {
 	},
 	methods: {
 		verification() {
-		  var times = setInterval(() => {
+		  this.timer = setInterval(() => {
 			this.count--;
 			if (this.count <= 0) {
-			  clearInterval(times);
+			  clearInterval(this.timer);
 			  this.nextQuestionBtn();
 			}
 		  }, 1000); 
@@ -424,8 +429,12 @@ view {
 .time {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	font-size: 40rpx;
-	color: red;
+}
+.timer-image {
+	width: 50rpx;
+	height: 50rpx;
 }
 @keyframes findIn-question {
 	from {

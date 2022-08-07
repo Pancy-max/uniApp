@@ -347,21 +347,14 @@
 		"list": [{
 				"pagePath": "pages/index/index",
 				"iconPath": "static/images/index/btn_09_nor.png",
-				"text": "首页",
-				"selectedIconPath": "static/images/index/btn_09_sel.png"
-			},
-			// {
-			// 	"pagePath": "pages/market/market",
-			// 	// "iconPath":"static/images/index/btn_10_nor.png",
-			// 	"iconPath": "static/images/index/btn_10.png",
-			// 	"selectedIconPath": "static/images/index/btn_10_sel.png",
-			// 	"text": "市场"
-			// }, 
+				"text": "首页"
+				// "selectedIconPath": "static/images/index/btn_09_sel.png"
+			}, 
 			{
 				"pagePath": "pages/my/index",
 				"iconPath": "static/images/index/btn_11_nor.png",
-				"text": "个人中心",
-				"selectedIconPath": "static/images/index/btn_11_sel.png"
+				"text": "个人中心"
+				// "selectedIconPath": "static/images/index/btn_11_sel.png"
 			}
 		]
 	},
