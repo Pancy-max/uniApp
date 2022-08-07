@@ -1,6 +1,10 @@
 <template>
 	<view class="content">
-		<check-xi @confrim="confrim" @checkOption="checkOption" :questionList="questionList"></check-xi>
+		<check-xi 
+			@confrim="confrim" 
+			@checkOption="checkOption" 
+			:questionList="questionList">
+		</check-xi>
 	</view>
 </template>
 	
@@ -16,23 +20,14 @@
 	  props: {},
 	  data() {
 		return {
-			topicId: 0,
-			pickerData: [],
-			colorStyle: { // 颜色修改自定义 -- 可选参数
-				nextBac: '#C9784F', //下一题按钮背景色
-				nextCol: '#FFFFFF', //下一题按钮背字体颜色
-				optBac: '#EEB67A', //选项按钮背景色
-				optCol: '#232131', //选项按钮字体颜色
-				optBacActive: '#C9784F', //选项按钮背景色 - 选中
-				optColActive: '#FFFFFF', //选项按钮字体颜色-选中
-			},
+			item: {},
 			questionList:[
 				{
 					id:1, //题目id
 					type:'radio',//单选 checkbox - 多选 ； write - 填空 
-					number:1, //题目序号 - 非必要
 					title:'生物灭绝又叫生物绝种。历史上一共有几次大灭绝？', //题目名称
 					imageList:[],
+					countTime: 5,
 					question_option:[
 						{
 							id:1,//答案id
@@ -47,7 +42,6 @@
 				}, {
 					id:2,
 					type:'checkbox',
-					number:2,
 					title:'生物大灭绝是指大规模的集群灭绝，生物灭绝又叫生物绝种。历史上一共有几次大灭绝？',
 					imageList:[],
 					question_option:[
@@ -62,33 +56,18 @@
 	  },
 	  computed: {},
 	  onLoad(e) {
-		this.topicId = +e.id
-		this.getData().then(res => {
-			console.log('getData', res)
-				this.questionList = res
-			})
+		this.item = getApp().globalData.testItem;
+		this.questionList = [...this._initData(), ...this.questionList];
 	  },
 	  methods: {
-		  _initData(res) {
-			const evaListInfo = res.data && res.data.evaListInfo && res.data.evaListInfo
-			let pickerdata = []
-			if (evaListInfo && evaListInfo.length) {
-			  	for (let item of evaListInfo) {
-			  		for (let v of item.eva_form_list) {
-			  			if (v.ID === this.topicId) {
-			  				pickerdata = v
-			  				break
-			  			}
-			  		}
-			  	}
-			}
-			return pickerdata.evaTopicList.map(item => {
+		  _initData() {
+			return this.item.evaTopicList.map(item => {
 			  	return {
 			  		id: item.ID, // 题目id
 			  		type: questionTypeMap[item.type + ''], // 单选 checkbox - 多选 ； write - 填空 
-			  		// number:1, // 题目序号 - 非必要
 			  		imageList: [],
 			  		title: item.title,
+					countTime: item.countTime,
 			  		question_option: item.evaOptionList.map(v => {
 			  			return {
 			  				content: v.direction,
@@ -99,26 +78,7 @@
 			  		}).sort((a,b) => a.code < b.code ? 1 : -1)
 			  	}
 			  })
-		  },
-		// 获取测评数据
-		getData(){
-			// this.show = true
-			return new Promise((resolve, reject) => {
-				this.request({
-					url: '/mini/getEvaListInfo',
-					method: 'POST',
-					data: {
-						// page: this.page,
-						// limit: this.limit
-					},
-				}).then(res => {
-					resolve(this._initData(res))
-				}).catch(err => {
-					reject(err)
-				})
-			})
-		    // this.pickerData.unshift('请选择类型')
-		},
+		  },	
 		// 提交事件
 		confrim(e){ 
 			console.log('next',e);

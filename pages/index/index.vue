@@ -10,29 +10,8 @@
 				</swiper-item>
 			</swiper>
 		</view>
+		
 		<view class="ten"></view>
-		<!-- 
-		<view class="newNotice" @click="gitNotiuce">
-			<view class="newNoticeLeft">
-				<view class="newIcon">
-					<image src="../../static/images/index/ico_01.png" mode="scaleToFill" style="width: 100%; height: 100%;" />
-				</view>
-				<view class="NewTitle">最新通知</view>
-				<view class="New_block"></view>
-				<view class="NewMsg" v-if="listData.msg">{{listData.msg.substring(0,18)}}</view>
-			</view>
-			<view class="newNoticeRight">
-				<image src="../../static/images/index/btn_12.png" mode="scaleToFill" style="width: 100%; height: 100%;"></image>
-			</view>
-			<view v-if="listData.has_new == 1" class="dian">.</view>
-		</view>
-		<view class="news_content">
-			<view class="title_left">
-				<view class="color_block"></view>
-				<view class="text">最新资讯</view>
-			</view>
-
-		</view> -->
 		<view v-for="(item, index) in evaListInfo" :key="index">
 			<view class="my_tabs">
 				<view class="tabs_left">
@@ -44,7 +23,16 @@
 				</view>
 			</view>
 			<scroll-view scroll-y="true" style="height: 100%;">
-				<ListItem :list='item.eva_form_list' @doTest='doTest' />
+				<view class="testItem" v-for="(_item, _index) in item.eva_form_list" :key="_index">
+					<test-list-item
+						@doTest='doTest(_item)'
+						:index="_index"
+						:title="_item.title" 
+						:subTitle="_item.subtitle" 
+						:needTime="_item.estimateTime"
+						:icon="_item.picUrl"
+					></test-list-item>
+				</view>
 			</scroll-view>
 		</view>
 		<!-- 弹出层 -->
@@ -69,14 +57,15 @@
 
 <script>
 	import ListItem from '../../components/index/list_item.vue'
-	// import uniLoadMore from '../../components/uni-load-more/uni-load-more.vue'
+	import TestListItem from '../../components/test-list-item/index.vue'
 	export default {
 		components: {
 			ListItem,
-			// uniLoadMore
+			TestListItem
 		},
 		data() {
 			return {
+				listTest: [1,2,3,4,5,6,7,7],
 				vers: false,
 				oldversion: '',
 				content: '',
@@ -120,7 +109,7 @@
 		onLoad() {
 			this.getbannerList();
 			// this.getList();
-			// this.IndexClass();
+			// this.IndexClas·s();
 			this._freshing = false;
 			this.gitlist();
 			this.check_update();
@@ -356,9 +345,10 @@
 				})
 			},
 			//点击进入详情
-			doTest(id) {
+			doTest(item) {
+				getApp().globalData.testItem = item;
 				uni.navigateTo({
-					url: '../doTest/index?id=' + id
+					url: '../doTest/index?id=' + item.id
 				})
 			},
 			//获取列表
@@ -585,7 +575,10 @@
 		margin: 0 auto;
 		margin-top: 34rpx;
 	}
-
+	
+	.testItem {
+		margin-bottom: 30rpx;
+	}
 	.list_box {
 		display: flex;
 		border-bottom: 1px solid #e6e6e6;

@@ -7,10 +7,6 @@
 				<view class="title">{{ item.title }}</view>
 				<view v-if="item.subtitle" class="desc">{{item.subtitle}}</view>
 				<view class="detail">
-					<!-- <image src="../../static/images/index/btn_07_time.png" style="width: 36rpx; height: 36rpx;margin-left: -10rpx;" mode="scaleToFill" /> -->
-					<!-- <view class="detail_text">{{ item.create_time | timeStamp }}</view> -->
-					<!-- <image src="../../static/images/index/btn_06_view.png" style="width: 36rpx; height: 36rpx; margin-left: 34rpx; margin-right: 5rpx;" mode="scaleToFill" />
-					<view class="detail_text">{{ item.views }}</view> -->
 					<view v-if="item.content" class="detail_source">{{item.content}}</view>
 					<button class="test_button" @click="doTest(item.ID)">立即测评</button>
 				</view>

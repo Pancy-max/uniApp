@@ -1,67 +1,48 @@
 <template>
  <view class="test-wrapper">
-	<view>
-		<view class="test_content">
-			<view class="title">
-				本次将对以下内容进行测评：
-			</view>
-			<view class="list_box" >
-				<view class="list_item" v-for="(item, index) in list" :key="index">
-					{{item}}
-				</view>
-			</view>
-			<view class="tips">
-				测评约为5分钟，请您准备充足的时间
-			</view>
-		</view>
-		<view class="tabbar">
-			<button @click="goTest" class="go_test">进入测评</button>
-		</view>
+	 <view class="title-wrapper">
+		 <view class="imageWrapper">
+		 	<image 
+		 		src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsaas1.oss-cn-beijing.aliyuncs.com%2Fuploads%2Fimage%2F2019%2F11%2F20%2Fb6820f40f5e2e96257f5e5359c65f6b5.png&refer=http%3A%2F%2Fsaas1.oss-cn-beijing.aliyuncs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662444400&t=ab6410c9d431918de67c3d3a7309414a"
+		 		class="image"
+		 	/>
+		 </view>
+		 <view class="title">{{item.title}}</view>
+		 <view class="subtitle">{{item.subtitle}}</view>
+		 <view class="desc">共{{item.evaTopicList.length}}道题目 | 预计作答{{item.estimateTime/60}}分钟</view>
+	 </view>
+	 
+	 <view class="title-wrapper tt-wrapper">
+		 <view class="content-desc">测评简介</view>
+		 <view class="content">{{item.content}}</view>
+	 </view>
+
+	<view class="tabbar">
+		<button @click="goTest" class="go_test">进入测评</button>
+	</view>
 	</view>
  </view>
 </template>
 
 <script>
-// import {Base64} from '../../utils/base64.js'
+
 export default {
   components: {},
   props: {},
   data() {
     return {
-		list: [
-			'111',
-			'222',
-			'4444',
-			'5555',
-			'6666'
-		],
-		pickerData: [],
-		topicId: 0
+		item: {}
 	}
   },
-  computed: {},
-  onLoad(e) {
-	  // this.pickerdata()
-	  this.topicId = +e.id
+  mounted() {
+	  this.item = getApp().globalData.testItem
   },
+  computed: {},
   methods: {
 	  goTest(){
 		  uni.navigateTo({
-		  	url: './test?id=' + this.topicId
+		  	url: './test?id=' + this.item.ID
 		  })
-	  },
-	  //历史记录
-	  lishiyijang(){
-		  uni.navigateTo({
-		    url:"../yijang/index"
-		  });
-	  },
-	  textfocus(e){
-		  this.linenumber= e.detail.cursor
-		  this.lineValue = e.detail.value
-	  },
-	  selectType(n){
-	  	this.anonymity = n
 	  },
   },
 };
@@ -69,36 +50,59 @@ export default {
 
 <style lang="less" scoped>
 	.test-wrapper {
-		// background: #9e9e9e14;
+		height: 100vh;
+		background: #9e9e9e14;
 		padding: 40rpx;
-	}
-	.test_content {
-		background: #fff;
-		border-radius: 30rpx;
-		padding: 30rpx;
-		margin-bottom: 30rpx;
-		.title {
-			color: #333;
-		}
-		.list_box {
-			padding: 30rpx;
-			.list_item {
-				margin: 40rpx;
-				font-size: 30rpx;
+		
+		.title-wrapper {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			background: #fff;
+			border: #fff;
+			border-radius: 40rpx;
+			padding: 40rpx 0;
+			.imageWrapper {
+				.image {
+					width: 150rpx;
+					height: 100rpx;
+				}
 			}
-
+			.title{
+				font-size: 50rpx;
+				font-weight: 500;
+			}
+			.subtitle{
+				font-size: 30rpx;
+				font-weight: 500;
+			}
+			.desc{
+				margin-top: 40rpx;
+				font-size: 25rpx;
+			}
 		}
-		.tips {
-			color: #766f6f;
-			font-size: 28rpx;
-			text-align: center;
+		.tt-wrapper {
+			margin-top: 50rpx;
+			justify-content: baseline;
+			align-items: baseline;
+			padding: 40rpx 20rpx;
+			.content-desc {
+				font-size: 30rpx;
+				font-weight: 600;
+			}
+			.content {
+				font-size: 30rpx;
+				margin-top: 20rpx;
+			}
 		}
 	}
-	.go_test {
-		color: #fff;
-		font-size: 30rpx;
-		border-radius: 40rpx;
-		background: #ffaa00;
-		width: 100%;
+	.tabbar {
+		position: absolute;
+		width: 90%;
+		bottom: 100rpx;
+		.go_test {
+			background-color: #ffff00bd;
+		}
 	}
 </style>

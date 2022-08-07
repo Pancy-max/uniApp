@@ -88,17 +88,17 @@ export default {
 		
 	  },
 	  async mymessage(){
-		  let res = await this.request({
-			  url:'/v1/msgs'
-		  })
-		  if(res.code ===200){
-			  this.myMessage = res.data
-			  const vm = this 
-			  this.myMessage.forEach(function(res){
-				  vm.$set(res,"isSelected",false)
-			  })
-		  }else{
-		  }
+		  // let res = await this.request({
+			 //  url:'/v1/msgs'
+		  // })
+		  // if(res.code ===200){
+			 //  this.myMessage = res.data
+			 //  const vm = this 
+			 //  this.myMessage.forEach(function(res){
+				//   vm.$set(res,"isSelected",false)
+			 //  })
+		  // }else{
+		  // }
 	  },
 	  clickshouqi1(index){
 		 

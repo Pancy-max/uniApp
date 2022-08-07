@@ -16,7 +16,7 @@
 			<view class="question_title">
 				<view class="title__number">{{ newOptList[showQuestionIndex].number || showQuestionIndex + 1 }}.</view>
 				<view>
-					（{{ getQuestionType(newOptList[showQuestionIndex].type) }})
+					<!-- （{{ getQuestionType(newOptList[showQuestionIndex].type) }}) -->
 					{{ newOptList[showQuestionIndex].title }}
 				</view>
 			</view>
@@ -45,12 +45,9 @@
 						/>
 					</view>
 				</block>
+				<view class="time" v-if="count">{{count}}</view>
 			</view>
 		</view>
-
-<!-- 		<view class="answer__next__btn" :style="nextStyle" @tap.stop="nextQuestionBtn">
-			{{ isEnd ? '提  交' : '下 一 题' }}
-		</view> -->
 	</view>
 </template>
 
@@ -76,7 +73,7 @@ export default {
 			colorMap: {
 				nextBac: '#C9784F',
 				nextCol: '#FFFFFF',
-				optBac: '#EEB67A',
+				optBac: '#607d8b85',
 				optCol: '#232131',
 				optBacActive: '#C9784F',
 				optColActive: '#FFFFFF'
@@ -85,12 +82,19 @@ export default {
 			newOptList: [], //初始化数据
 			showQuestionIndex: 0, //当前展示题号
 			isEnd: false, //是否为最后一题
-			switchVisible: false // 切换状态
+			switchVisible: false, // 切换状态
+			count: 0
 		}
 	},
 	watch: {
 		questionList() {
 			this.initData()
+		},
+		showQuestionIndex() {
+			this.count = this.newOptList[this.showQuestionIndex].countTime || 0;
+			if(this.count) {
+				this.verification();
+			}
 		}
 	},
 	computed: {
@@ -106,9 +110,22 @@ export default {
 	},
 	mounted() {
 		this.initData()
-		this.colorMap = this.deepMerge(this.colorMap, this.colorStyle)
+		this.colorMap = this.deepMerge(this.colorMap, this.colorStyle);
+		this.count = this.newOptList[this.showQuestionIndex].countTime || 0;
+		if(this.count) {
+			this.verification();
+		}
 	},
 	methods: {
+		verification() {
+		  var times = setInterval(() => {
+			this.count--;
+			if (this.count <= 0) {
+			  clearInterval(times);
+			  this.nextQuestionBtn();
+			}
+		  }, 1000); 
+		},
 		initData() {
 			if (Array.isArray(this.questionList)) {
 				this.newOptList = this.deepClone(this.questionList)
@@ -198,7 +215,7 @@ export default {
 						item.active = false
 					}
 				})
-			} else if (newOpt[this.showQuestionIndex].type == 'checkbox') {
+			} else if (newOpt[this.showQuestionIndex].type == 'checkbox') { 
 				checkOpt.map((item, i) => {
 					if (item.id == _id) {
 						item.active = !item.active
@@ -209,12 +226,12 @@ export default {
 		},
 		//下一题
 		nextQuestionBtn(e) {
-			if (!this.checkTest()) {
-				return wx.showToast({
-					title: this.warningTips,
-					icon: 'none'
-				})
-			}
+			// if (!this.checkTest()) {
+			// 	return wx.showToast({
+			// 		title: this.warningTips,
+			// 		icon: 'none'
+			// 	})
+			// }
 			//构建返回数据
 			let opt = {
 				current_id: this.showQuestionIndex,
@@ -403,6 +420,12 @@ view {
 }
 .question--find-in {
 	animation: findIn-question 0.3s;
+}
+.time {
+	display: flex;
+	justify-content: center;
+	font-size: 40rpx;
+	color: red;
 }
 @keyframes findIn-question {
 	from {

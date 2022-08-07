@@ -4,6 +4,9 @@
 		Base64
 	} from './utils/base64.js'
 	export default {
+		globalData: {  
+			testItem: {}  
+		},
 		onLaunch: function() {
 			let that = this
 			uni.getStorage({
