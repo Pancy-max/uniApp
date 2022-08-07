@@ -8,8 +8,8 @@ App.mpType = 'app'
 import request from 'utils/request.js'
 var server_url = 'http://101.43.171.152:9527';
 Vue.prototype.$websiteUrl = server_url;
-Vue.prototype.$appKey = 123456789;
-Vue.prototype.$app_secret = 'abcdef';
+Vue.prototype.$appKey = 'wx5124bf2af0ada67a';
+Vue.prototype.$app_secret = 'ac3429fe6b72e99674361bdde40d5dcb';
 var plugin = request({
 	baseURL: server_url
 })

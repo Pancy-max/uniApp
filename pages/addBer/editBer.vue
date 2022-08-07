@@ -43,35 +43,12 @@
 				<view class="text">身份证号</view>
 				<input type="text" v-model="peopleID" maxlength="18" />
 			</view>
-			<!-- <view class="msg" v-if="owner_type != 1">
-				<view class="text">成员类型<i style="color: #d93232;">*</i></view>
-				<view class="select">
-					<view class="select_option" :class="{'selected':owner_type === 0}" @tap='selectOtype(0)'>
-						<image src="../../static/images/familyBer/btn_02_sel.png" mode="aspectFill" style="width: 48rpx; height: 48rpx; margin-right: 8rpx;" v-if="owner_type === 0"/>
-						<image src="../../static/images/familyBer/btn_03_nor.png" mode="aspectFill" style="width: 48rpx; height: 48rpx; margin-right: 8rpx;" v-else/>
-						<view>家庭成员</view>
-					</view>
-					<view class="select_option" :class="{'selected':owner_type === 1}" @tap='selectOtype(1)'>
-						<image src="../../static/images/familyBer/btn_02_sel.png" mode="aspectFill" style="width: 48rpx; height: 48rpx; margin: 0 8rpx 0 52rpx;" v-if="owner_type === 1"/>
-						<image src="../../static/images/familyBer/btn_03_nor.png" mode="aspectFill" style="width: 48rpx; height: 48rpx; margin: 0 8rpx 0 52rpx;" v-else/>
-						<view>租户</view>
-					</view>
-				</view>
-			</view> -->
 			<view class="title" style="margin-top: 60rpx;">联系信息</view>
 			<view class="msg">
 				<view class="text">手机号码<i style="color: #d93232;">*</i></view>
 				<input type="text" v-model="phone" maxlength="11" />
 			</view>
-			<!-- <view class="msg">
-				<view class="text">验证码<i style="color: #d93232;">*</i></view>
-				<view style="display: flex; align-items: center;">
-					<input type="text" v-model="code" @focus="code=''" @blur="code==''?code='请输入验证码':''"
-						adjust-position />
-					<view class="code" @tap='getCode' v-if="!resend">获取验证码</view>
-					<view class="resend" v-if="resend">重新获取({{ countdown }})</view>
-				</view>
-			</view> -->
+
 		</view>
 		<view class="btn" @tap="save()">保存</view>
 	</view>
@@ -123,64 +100,12 @@
 				});
 			}
 			},
-			selectOtype(n) {
-				this.owner_type = n
-				if(n === 2){
-					this.otype = '家庭成员'
-				}else{
-					this.otype = '租户'
-				}
-			},
 			selectSex(n) {
 				this.sex = n
 				if (n === 1) {
 					this.gender = 1
 				} else {
 					this.gender = 0
-				}
-			},
-			getCode() {
-				const c_mobile = /^1(3|4|5|6|7|8|9)\d{9}$/; //判断手机号码正则
-				if (!c_mobile.test(this.phone)) {
-					uni.showToast({
-						title: '请输入正确手机号码',
-						icon: 'none',
-						duration: 2000
-					})
-				} else {
-					this.resend1 = false
-				}
-
-				if (!this.resend1) {
-					this.request({
-						url: '/v1/sms',
-						method: 'GET',
-						data: {
-							phones: this.phone
-						}
-					}).then((res) => {
-						if (res.code != 202) {
-							uni.showToast({
-								title: res.desc,
-								icon: 'none',
-								duration: 2000
-							})
-							this.resend = false
-						} else if (res.code === 202) {
-							this.countdown = 60;
-							this.resend = true;
-							this.clear = setInterval(this.countDown, 1000);
-						}
-					})
-				}
-			},
-			// 倒计时
-			countDown() {
-				if (!this.countdown) {
-					this.resend = false;
-					clearInterval(this.clear);
-				} else {
-					--this.countdown;
 				}
 			},
 			bindDateChange: function(e) {

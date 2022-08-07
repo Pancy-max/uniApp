@@ -1,6 +1,6 @@
 <template>
 	<view class='my'>
-		<view class="background_image">
+		<view class="my_header">
 			<image src="../../static/my/bg_01.png" mode="" class="image_background"></image>
 			<view class="title" @click="login()" v-if="userInfo ===''">
 				<view class="t_left">
@@ -57,36 +57,10 @@
 				</view>
 			</view>
 		</view>
-
-		<!-- <view class="my_banner">
-			<view class="" @click="trading">
-				<image src="../../static/my/btn_17.png" mode=""></image>
-			</view>
-			<view class="" @click="repair">
-				<image src="../../static/my/btn_18.png" mode=""></image>
-			</view>
-		</view> -->
-
-		<!-- <view class="test">
-			<text>我的操作</text>
-		</view> -->
-
-		<!--列表 -->
-		<!-- <view class="my_tabs" @click="information">
-			<view class="tabs_left">
-				<image src="../../static/my/icon1.png" mode=""></image>
-			</view>
-			<view class="tabs_right">
-				<text>物业信息</text>
-				<image src="../../static/my/btn_01.png" mode=""></image>
-			</view>
-		</view> -->
-
-		<!-- <view class="fengexian"></view> -->
 		
 		<view class="my_tabs" @click="getMemberList">
 			<view class="tabs_left">
-				<image src="../../static/my/icon3.png" mode=""></image>
+				<image src="../../static/my/btn_13_off.png" mode=""></image>
 			</view>
 			<view class="tabs_right">
 				<text>宝宝信息</text>
@@ -132,27 +106,6 @@
 		<uni-popup ref="shardPop" type="share" safeArea backgroundColor="#fff">
 			<uni-popup-share @select="selectShareItem"></uni-popup-share>
 		</uni-popup>
-		<!--<view class="my_tabs" @click="About">
-			<view class="tabs_left">
-				<image src="../../static/my/incon5.png" mode=""></image>
-			</view>
-			<view class="tabs_right">
-				<text>关于</text>
-				<image src="../../static/my/btn_01.png" mode=""></image>
-			</view>
-		</view>
-
-		<view class="fengexian"></view>
-		<view class="my_tabs" @click="wylogin">
-			<view class="tabs_left">
-				<image src="../../static/my/icon1.png" mode=""></image>
-			</view>
-			<view class="tabs_right">
-				<text>物业管理登录</text>
-				<image src="../../static/my/btn_01.png" mode=""></image>
-			</view>
-		</view>
-		<view class="fengexian"></view> -->
 		<view class="my_tabs" v-if="userInfo !=''" @click="logOut">
 			<view class="tabs_left">
 				<image src="../../static/my/icon5.png" mode=""></image>
@@ -528,6 +481,11 @@
 </script>
 
 <style lang="less">
+	.my {
+		padding: 20rpx;
+		background-color: #f1f1f1;
+		height: calc(100vh - 40rpx);
+	}
 	.background_image {
 		position: relative;
 		margin-top: 40rpx;

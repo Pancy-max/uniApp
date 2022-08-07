@@ -1,6 +1,6 @@
 {
     "name" : "儿童感统",
-    "appid" : "__UNI__4300A8C",
+    "appid" : "__UNI__5A611ED",
     "description" : "儿童感统",
     "versionName" : "1.5.6",
     "versionCode" : 156,
@@ -60,7 +60,13 @@
             "ios" : {},
             /* SDK配置 */
             "sdkConfigs" : {
-                "oauth" : {},
+                "oauth" : {
+                    "weixin" : {
+                        "appid" : "wx5124bf2af0ada67a",
+                        "appsecret" : "ac3429fe6b72e99674361bdde40d5dcb",
+                        "UniversalLinks" : ""
+                    }
+                },
                 "ad" : {},
                 "payment" : {},
                 "push" : {
@@ -81,7 +87,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx34bdf4921b1148a5",
+        "appid" : "wx5124bf2af0ada67a",
         "setting" : {
             "urlCheck" : false,
             "es6" : true,
@@ -89,7 +95,12 @@
             "minified" : true
         },
         "usingComponents" : true,
-        "lazyCodeLoading" : "requiredComponents"
+        "lazyCodeLoading" : "requiredComponents",
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : ""
+            }
+        }
     },
     "mp-alipay" : {
         "usingComponents" : true

@@ -2,10 +2,10 @@
 	<view>
 		<view class="head">
 			<view class="head_box">
-				<view class="head_left">
+				<!-- <view class="head_left">
 					<image src="../../static/images/familyBer/ico_01.png" mode="scaleToFill" style="width: 28rpx; height: 28rpx; margin-right: 14rpx;" />
 					<view class="ber_num">家庭成员数：{{ allBerNum }}</view>
-				</view>
+				</view> -->
 				<view class="head_right" @tap='addBer' v-if="ownerType == 1">
 					<image src="../../static/images/familyBer/btn_01.png" mode="scaleToFill" style="width: 24rpx; height: 24rpx; margin-right: 10rpx;" />
 					<view class="ber_new">新建</view>
@@ -29,13 +29,11 @@
 		data() {
 			return {
 				berList: [], //家庭成员列表
-				allBerNum: 0 ,//家庭成员总数
-				ownerType:1
+				// allBerNum: 0 ,//家庭成员总数
 			}
 		},
 		onLoad() {
 				this.getBerList();
-				this.ownerType = uni.getStorageSync('userInfo').owner_type;
 		},
 		onNavigationBarButtonTap(e) {
 			if(e.index === 0) {
@@ -57,20 +55,12 @@
 			},
 			//家庭成员列表
 			getBerList(){
-				// this.request({
-				// 	url: '/v1/childrenList',
-				// 	method: 'GET'
-				// }).then((res)=>{
-				// 	this.berList = res.data
-				// 	if(res.data.length){
-				// 		this.allBerNum =res.data.length
-				// 	}
-				// })
-				this.berList =[{
-					id: 1,
-					name: '名字1'
-				}]
-				this.allBerNum = this.berList.length
+				this.request({
+					url: '/mini/getChildInfo',
+					method: 'GET'
+				}).then((res)=>{
+					this.berList = res.data.userInfo
+				})
 			}
 		}
 	}

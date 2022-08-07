@@ -13,7 +13,8 @@
 		<view class="content" style="border-top: 1px solid #CCCCCC;">
 			<view>申请获取以下权限</view>
 			<view class="content_text">获得你的公开信息(昵称、头像等)</view>
-			<button type="primary" style="background-color: #65bb25;" open-type="getUserInfo" @getuserinfo="getUserInfo">微信验证登录</button>
+			<!-- <button type="primary" style="background-color: #65bb25;" open-type="getUserInfo" @getuserinfo="getUserInfo">微信验证登录</button> -->
+			<button type="primary" style="background-color: #65bb25;" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">微信验证登录</button>
 			
 			<button type="default" @tap="cancel">取消登录</button>
 			<wyb-loading ref="loading" title="登录中..."/>
@@ -23,21 +24,50 @@
 
 <script>
 	import md5 from '../../common/md5.js'
+	import WXBizDataCrypt from "@/common/WXBizDataCrypt.js";        //请以你的实际地址为准
+
 	import wybLoading from '@/components/wyb-loading/wyb-loading.vue'
 	export default {
 		data(){
 			return {
 				tel: '',
-				loginRes: ''
+				loginRes: '',
+				wxKeys: {
+					openid: '',       // openid 用户唯一标识
+					unionid: ',',    // unionid 开放平台唯一标识  
+					session_key: ''  // session_key  会话密钥  
+				}
 			}
 		},
 		components:{
 			wybLoading
 		},
 		onLoad() {
+			const that = this
 			wx.login({
 			      success: res => {
+					//1.微信登录成功后拿到code
 			        this.loginRes = res.code
+					// 2.用code 换取 session 和 openid/unionid
+					uni.request({
+						url: 'https://api.weixin.qq.com/sns/jscode2session',  
+						method:'GET',
+						header: {
+						  'content-type': 'application/x-www-form-urlencoded'
+						},
+						data: {  
+							appid: this.$appKey,        //你的小程序的APPID  
+							secret: this.$app_secret,       //你的小程序的secret,  
+							js_code: res.code,            //wx.login 登录成功后的code 
+							grant_type: 'authorization_code'
+						},
+						success: (cts) => {
+							// 换取成功后 暂存这些数据 留作后续操作  
+							this.wxKeys.openid=cts.data.openid     //openid 用户唯一标识  
+							// this.wxKeys.unionid=cts.data.unionid     //unionid 开放平台唯一标识  
+							this.wxKeys.session_key=cts.data.session_key     //session_key  会话密钥  
+						}  
+					});
 			      }
 			    })
 		},
@@ -47,16 +77,31 @@
 					delta:1
 				})
 			},
-			getUserInfo(e) {
+			getWxUserInfo(e) {
+				const that = this
+				wx.getUserInfo({
+				  success: function(res) {
+					that.getUserInfo(e, res.userInfo)
+				  }
+				})
+			},
+			
+			
+			getUserInfo(e, userInfo) {
+				const that = this
 				console.log('getUserInfo', e.detail)
-				const userInfo = e.detail.userInfo
+				// 获取敏感信息
+				let pc = new WXBizDataCrypt(this.$appKey, this.wxKeys.session_key);
+				const evcrytedInfo = pc.decryptData(e.detail.encryptedData, e.detail.iv); 
+				console.log('evcrytedInfo', evcrytedInfo)
 				const data = {
 					  "avatar": userInfo.avatarUrl,
 					  "gender": userInfo.gender,
 					  "nickName": userInfo.nickName,
 					  "password": "string",
-					  "weixinOpenid": "string",
-					  "mobile": "18826139325"
+					  "weixinOpenid": this.wxKeys.openid,
+					  "mobile": evcrytedInfo.countryCode + evcrytedInfo.phoneNumber,
+					  "userName": userInfo.nickName
 				}
 				this.request({
 				  url:'/mini/register',
@@ -64,15 +109,53 @@
 				  data: JSON.stringify(data)
 				}).then((res)=>{
 					that.$refs.loading.hideLoading()
-					  if(res.code === 200){
+					if (res.code === 200) {
 						  // that.tel = res.data.tel
 						  // that.weChat()
+					} else if (res.code === 7 && res.msg.includes('已注册')) {
+						this.userLogin(res)
+					} else {
+						uni.showToast({
+							title: res.desc,
+							icon:"none"
+						})
+						return
+					}
+				})
+			},
+			
+			userLogin() {
+				that.request({
+				  url:'/mini/login',
+				  method:'POST',
+				  data:getData
+				}).then((res)=>{
+					that.$refs.loading.showLoading() 
+					  if(res.code === 200){
+						  uni.setStorage({
+							 key: 'myinfo',
+							 data: res.data,
+							 success() {
+							 }
+						  })
+						  uni.switchTab({
+							 url:'../index/index'
+						  })
+					  }else if(res.code == 400){
+						  uni.showModal({
+						  	title:res.desc,
+							showCancel:false,
+							success() {
+								uni.switchTab({
+									url:'../index/index'
+								})
+							}
+						  })
 					  }else{
 						  uni.showToast({
 							  title:res.desc,
 							  icon:"none"
 						  })
-						  return
 					  }
 				})
 			},
@@ -140,7 +223,7 @@
 					}
 				})
 			},
-			async getPhoneNumber(e){
+			getPhoneNumber(e){
 				console.log('e',e)
 				let that = this
 				that.$refs.loading.showLoading() 
@@ -152,10 +235,10 @@
 					that.$refs.loading.hideLoading() 
 				    return;
 				}
+				
 				let nonce = Math.random().toString(36).substr(2)
 				let time_stamp = Date.parse(new Date())/1000
 				let getData = {}
-				this.weChat()
 				uni.checkSession({
 					success() {
 					},
@@ -168,33 +251,10 @@
 						    })
 					},
 					complete() {
-						getData={
-							 code:that.loginRes,
-							 encryptedData:e.detail.encryptedData,
-							 iv:e.detail.iv,
-							 time_stamp:time_stamp,
-							 nonce:nonce,
-							 signature:md5(`app_key=`+that.$appKey+`&app_secret=`+that.$app_secret+`&nonce=`+nonce+`&time_stamp=`+time_stamp),
-							 app_key:that.$appKey,
-							 times: 1
-						}
-						that.request({
-						  url:'/mini/register',
-						  method:'POST',
-						  data:getData
-						}).then((res)=>{
-							that.$refs.loading.hideLoading()
-							  if(res.code === 200){
-								  that.tel = res.data.tel
-								  that.weChat()
-							  }else{
-								  uni.showToast({
-									  title:res.desc,
-									  icon:"none"
-								  })
-								  return
-							  }
-						})
+						// 获取用户信息
+						that.$refs.loading.hideLoading()
+						// that.getUserInfo(e)
+						that.getWxUserInfo(e)
 					}
 				})
 				
