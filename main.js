@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import App from './App'
-import UniIcons from './uni_modules/uni-icons/components/uni-icons/uni-icons.vue'
+import MyIcon from './uni_modules/uni-icons/components/uni-icons/my-icon.vue' 
 
 Vue.config.productionTip = false
-
-Vue.component('UniIcons', UniIcons);
+Vue.component('MyIcon', MyIcon);
 
 App.mpType = 'app'
 
