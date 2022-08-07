@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import App from './App'
+import UniIcons from './uni_modules/uni-icons/components/uni-icons/uni-icons.vue'
 
 Vue.config.productionTip = false
+
+Vue.component('UniIcons', UniIcons);
 
 App.mpType = 'app'
 
@@ -13,7 +16,7 @@ Vue.prototype.$app_secret = 'ac3429fe6b72e99674361bdde40d5dcb';
 var plugin = request({
 	baseURL: server_url
 })
-// ´ò¿ªÏêÇéÒ³
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³
 Vue.prototype.onDetails = function(id, title) {to(`/pages/article/details?id=${id}&title=${title}`)}
 const to = (url, animationType = 'pop-in', animationDuration = 300) => {
 	uni.navigateTo({
