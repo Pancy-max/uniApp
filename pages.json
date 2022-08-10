@@ -340,21 +340,28 @@
 	"tabBar": {
 		"fontSize": "12px",
 		"color": "#a6a6a6",
-		"selectedColor": "#28b07c",
+		"selectedColor": "#000",
 		"borderStyle": "black",
 		"iconWidth": "24px",
 		"spacing": "2px",
 		"list": [{
 				"pagePath": "pages/index/index",
 				"iconPath": "static/images/index/btn_09_nor.png",
-				"text": "首页"
-				// "selectedIconPath": "static/images/index/btn_09_sel.png"
-			}, 
+				"text": "首页",
+				"selectedIconPath": "static/images/index/btn_09_nor.png"
+				// "iconfont": {
+				// 	"text": "e662",// 字库 Unicode 码
+				// 	"selectedText": "e663", // 选中后字库 Unicode 码
+				// 	"fontSize": "12", // 字体图标字号(px)
+				// 	"color": "#ccc", // 字体图标颜色
+				// 	"selectedColor": "000" // 字体图标选中颜色
+				// }
+			},
 			{
 				"pagePath": "pages/my/index",
 				"iconPath": "static/images/index/btn_11_nor.png",
-				"text": "个人中心"
-				// "selectedIconPath": "static/images/index/btn_11_sel.png"
+				"text": "个人中心",
+				"selectedIconPath": "static/images/index/btn_11_nor.png"
 			}
 		]
 	},

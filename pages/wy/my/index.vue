@@ -26,8 +26,8 @@
 					<view class="r_left">
 						<navigator class="r_textinfo" hover-class="none">
 							<view class="r_textinfo1">
-								<view class="name1">{{userInfo.client.username }}</view>
-								<view class="r_text2">{{ userInfo.client.nickname}}</view>
+								<view class="name1">{{userInfo.user.user_name }}</view>
+								<view class="r_text2">{{ userInfo.user.nickname}}</view>
 							</view>
 						</navigator>
 					</view>
@@ -170,8 +170,6 @@
 				this.$refs.popup2.close()
 			},
 			async confirm() {
-				let access_token = this.userInfo.access_token
-				let user_id = this.userInfo.client.user_id
 				this.userInfo = ''
 				this.$logout();
 			},
@@ -199,7 +197,7 @@
 						confirmColor: "#262626",
 						success(res) {
 							if (res.confirm) {
-
+							
 							} else if (res.cancel) {
 								uni.navigateTo({
 									url: '../login/index'
@@ -276,14 +274,11 @@
 				const value = uni.getStorageSync('myinfo')
 				console.log("myinfo value:"+JSON.stringify(value))
 				if (value) {
-					if (value.client.username == '') {
+					if (!value || !value.user) {
 						uni.removeStorage('myinfo');
 					} else {
 						this.userInfo = value
-						this.avatar = value.client.avatar
-						if (!this.avatar.startsWith('http')) {
-							this.avatar = this.$websiteUrl + this.avatar
-						}
+						this.avatar = value.user.avatar
 					}
 				}
 			}

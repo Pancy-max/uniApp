@@ -12,42 +12,37 @@
 			uni.getStorage({
 				key: 'myinfo',
 				success: function(res) {
-					let access_token = res.data.access_token;
-					let user_id = res.data.client.user_id;
-					let app_key = res.data.client.app_key;
+					const user = res.data && res.data.user
+					if (!user) {
+						return
+					}
+					let token = res.data.token;
+					let uuid = res.data.user.uuid;
+					const open_id = res.data.user.weixinOpenid
 					let header = {
-						'Content-Type': 'application/x-www-form-urlencoded',
-						'authentication': 'USERID ' + Base64.encode(app_key + ':' + access_token +
-							':' + user_id)
+						'x-token': res.data.token,
+						'authentication': 'USERID ' + Base64.encode(open_id + ':' + token +':' + uuid)
 					}
 					//当前时间
-					var timestamp = new Date().getTime();
-					timestamp = Math.round(new Date().getTime() / 1000).toString();
-					// token有效期
-					let expires_time = res.data.expires_time
-					let refresh_expires_time = res.data.refresh_expires_time
+					const timestamp = Math.round(new Date().getTime() / 1000).toString();
+					// 刷新token有效期
+					let expires_time = res.data.expiresAt / 1000
 					if (expires_time - parseInt(timestamp) < 43200) {
-						let refresh_token = res.data.refresh_token
-						let nonce = Math.random().toString(36).substr(2)
-						let time_stamp = Date.parse(new Date()) / 1000
+					console.log('difftime', expires_time - parseInt(timestamp))
+					//TODO:改时间
 						uni.request({
-							url: that.$websiteUrl + '/v1/token/refresh',
-							method: 'POST',
-							header: header,
-							data: {
-								signature: md5('app_key=' + this.$appKey + '&app_secret=' + this
-									.$app_secret + '&nonce=' + nonce + '&time_stamp=' +
-									time_stamp + '&refresh_token=' + refresh_token),
-								nonce: nonce,
-								time_stamp: time_stamp,
-								app_key: this.$appKey,
-								refresh_token: refresh_token
-							}
+							url: that.$websiteUrl + '/mini/refresh',
+							method: 'GET',
+							header: header
 						}).then((accessToken) => {
 							if (accessToken[1].statusCode === 200) {
 								uni.setStorage({
 									key: 'myinfo',
-									data: accessToken[1].data.data,
+									data: {
+										...res.data,
+										token: accessToken[1].data.token,
+										expiresAt: accessToken[1].data.expiresAt
+									},
 									success: function() {
 										uni.reLaunch({
 											url: 'pages/index/index'
@@ -58,15 +53,14 @@
 							}
 						})
 					}
-					if (refresh_expires_time - parseInt(timestamp) < 43200) {
+					// 
+					if (expires_time - parseInt(timestamp) < 60) {
 						uni.showToast({
 							title: '登录已过期',
 							icon: none
 						})
 						this.$logout();
 					}
-
-
 
 				}
 			});

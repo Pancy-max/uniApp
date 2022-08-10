@@ -1,8 +1,7 @@
 <template>
 	<view class='my'>
 		<view class="my_header">
-			<image src="../../static/my/bg_01.png" mode="" class="image_background"></image>
-			<view class="title" @click="login()" v-if="userInfo ===''">
+			<view class="title block-view" @click="login()" v-if="userInfo ===''">
 				<view class="t_left">
 					<image src="../../static/my/default@2x.png" mode=""></image>
 				</view>
@@ -24,43 +23,20 @@
 				</view>
 				<view class="t_right">
 					<view class="r_left">
-						<view class="r_textinfo" v-if='ownerType==3 && ownerBangDing==0' @click="boundUSER">
-							<view class="r_textinfo1">
-								<view class="name1">{{myinfo.name || myinfo.username}}</view>
-								<view class="unbounded">未绑定</view>
-							</view>
-							<view class="r_text2">点击绑定用户信息</view>
+						<view class="r_textinfo1">
+							<view class="name1">{{ myinfo.user && myinfo.user.username }}</view>
 						</view>
-						<navigator class="r_textinfo" hover-class="none" v-else
-							:url='"./BindOwner?code="+JSON.stringify(myinfo)'>
-							<view class="r_textinfo1">
-								<view class="name1">{{myinfo.name || myinfo.username}}</view>
-								<view>
-									<view class="binding">{{changeOwnerType(ownerType)}}</view>
-								</view>
-							</view>
-							<view class="r_text2">{{ myinfo.house_name}}</view>
-						</navigator>
-
+						<view class="r_text2">用户等级：{{ myinfo.user && myinfo.user.userLevel }}</view>
 					</view>
-					<navigator class="r_right" hover-class="none" v-if='ownerType==1'
-						:url='"./BindOwner?code="+JSON.stringify(myinfo)'>
-						<view class="r_image">
-							<image src="../../static/my/btn_01.png" mode=""></image>
-						</view>
-					</navigator>
-					<navigator class="r_right" hover-class="none" v-else url='./boundUSER'>
-						<view class="r_image">
-							<image src="../../static/my/btn_01.png" mode=""></image>
-						</view>
-					</navigator>
 				</view>
 			</view>
 		</view>
 		
+		<view class="block-view">
+			
 		<view class="my_tabs" @click="getMemberList">
 			<view class="tabs_left">
-				<image src="../../static/my/btn_13_off.png" mode=""></image>
+				<image src="../../static/images/familyBer/ico_01.png" mode=""></image>
 			</view>
 			<view class="tabs_right">
 				<text>宝宝信息</text>
@@ -72,7 +48,7 @@
 
 		<view class="my_tabs" @click="gatpop">
 			<view class="tabs_left">
-				<image src="../../static/my/icon2.png" mode=""></image>
+				<image src="../../static/common/btn_08.png" mode=""></image>
 			</view>
 			<view class="tabs_right">
 				<text>我的测评</text>
@@ -85,20 +61,22 @@
 		
 		<view class="my_tabs" @click="share">
 			<view class="tabs_left">
-				<image src="../../static/my/icon4.png" mode=""></image>
+				<my-icon type="redo-filled" size="30" />
 			</view>
 			<view class="tabs_right">
 				<text>分享给朋友</text>
 				<image src="../../static/my/btn_01.png" mode=""></image>
 			</view>
 		</view>
+		
+
 
 		<view class="fengexian"></view>
-		
+		</view>
 		<!-- <uni-popup type="bottom" ref="shardPop" background-color="#fff">
 			<view class="poster-img">
 				4444
-			</view>
+			</view> 
 		</uni-popup> -->
 <!-- 		<uni-popup ref="shardPop" type="share">
 			<uni-popup-share title="分享到" @select="select"></uni-popup-share>
@@ -133,13 +111,15 @@
 	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 	import uniPopupShare from '@/components/uni-popup/uni-popup-share.vue'
+	import uniIcons from '@/components/uni-icons/uni-icons.vue'
 	
 	export default {
 		components: {
 			uniPopup,
 			uniPopupMessage,
 			uniPopupDialog,
-			uniPopupShare
+			uniPopupShare,
+			uniIcons
 		},
 		name: 'vue',
 		props: {},
@@ -147,7 +127,6 @@
 			return {
 				userInfo: '', // 个人信息
 				myinfo: '',
-				yeZhu: "业主",
 				vers: false,
 				H5Status: true,
 				avatar: '',
@@ -159,30 +138,16 @@
 		onShow() {
 			this.getInfo()
 			// 监听事件
-			uni.$on('login', (MYinfo) => {
-				this.yeZhu = '未登录';
-			})
+			// uni.$on('login', (MYinfo) => {
+				
+			// })
 			// console.log(this.userInfo)
 
 		},
 		onLoad() {
-			uni.removeStorageSync('loginType')
 			// #ifdef H5
 			this.H5Status = false
 			// #endif
-			var that = this
-			this.ownerType = uni.getStorageSync('userInfo').owner_type;
-			if (uni.getStorageSync('userInfo').house_code === '' || uni.getStorageSync('userInfo').house_code === null) {
-				this.ownerBangDing = 0
-			} else {
-				this.ownerBangDing = 1
-			}
-			uni.getStorage({
-				key: 'loginWay',
-				success: function(res) {
-					that.Way = res.data
-				}
-			});
 		},
 		onUnload() {
 			// 移除监听事件  
@@ -226,10 +191,9 @@
 				this.$refs.popup2.close()
 			},
 			async confirm() {
-				let access_token = this.userInfo.access_token
-				let user_id = this.userInfo.client.user_id
-				this.userInfo = ''
-				this.$logout();
+				console.log('点击退出登录')
+				const callback = function() {this.userInfo = ''}
+				this.$logout(callback);
 			},
 			gologin() {
 				if (uni.getSystemInfoSync().platform == 'ios') {
@@ -334,45 +298,19 @@
 				}
 			},
 			information() {
-				if (this.userInfo != '' && this.ownerBangDing === 1) {
-					uni.navigateTo({
-						url: '../information/index?code=' + this.myinfo.community_code
-					})
-				} else if (this.ownerBangDing === 0) {
-					uni.navigateTo({
-						url: './boundUSER'
-					})
+				if (this.userInfo != '') {
+					// uni.navigateTo({
+					// 	url: '../information/index?code=' + this.myinfo.community_code
+					// })
 				} else {
 					this.gologin();
 				}
 			},
 			myMessage() {
 				if (this.userInfo != '') {
-					uni.navigateTo({
-						url: '../myMessage/index'
-					})
-				} else {
-					this.gologin();
-				}
-			},
-			yijiang() {
-				if (this.userInfo != '') {
-					uni.navigateTo({
-						url: '../yijang/index'
-					})
-				} else {
-					this.gologin();
-				}
-			},
-			repair() {
-				if (this.userInfo != '' && this.ownerBangDing === 1) {
-					uni.navigateTo({
-						url: '../repair/index?' + this.myinfo,
-					})
-				} else if (this.ownerBangDing === 0) {
-					uni.navigateTo({
-						url: './boundUSER'
-					})
+					// uni.navigateTo({
+					// 	url: '../myMessage/index'
+					// })
 				} else {
 					this.gologin();
 				}
@@ -386,54 +324,33 @@
 					this.gologin();
 				}
 			},
-			//跳转页面
-			boundUSER() {
-				//在起始页面跳转到test.vue页面并传递参数
-				uni.navigateTo({
-					url: './boundUSER'
-				});
-			},
 			//显示个人信息
 			async showinfo() {
-				let access_token = this.userInfo.access_token
-				let user_id = this.userInfo.client.user_id
-				let app_key = this.userInfo.client.app_key;
-				let data = await this.request({
-					url: '/v1/members/' + this.userInfo.client.user_id,
-					method: 'GET',
-					header: {
-						'content-type': 'application/json',
-						'authentication': 'USERID ' + Base64.encode(app_key + ':' + access_token + ':' +
-							user_id),
-						'token': access_token
-					}
-				})
-				if (data.code === 200) {
-					this.myinfo = data.data;
-					this.ownerType = data.data.owner_type;
-					if (data.data.house_code === '' || data.data.house_code === null) {
-						this.ownerBangDing = 0
-					}else{
-						this.ownerBangDing =1
-					}
-					uni.setStorageSync('userInfo', data.data)
-					uni.setStorageSync('ownerBangDing', this.ownerBangDing)
-				} else if (data.code == 400) {
-					uni.showToast({
-						title: '登录已过期',
-						icon: "none"
-					})
-					uni.removeStorage('myinfo');
-					uni.removeStorage('userInfo');
-					uni.navigateTo({
-						url: '../login/index'
-					})
-				} else {
-					uni.showModal({
-						title: data.desc,
-						icon: "none"
-					})
-				}
+				console.log('showinfo', this.userInfo)
+				this.myinfo = this.userInfo
+				// const access_token = this.userInfo.token
+				
+				// const user_id = this.userInfo.user.uuid
+				// const app_key = this.$app_key;
+				// if (data.code === 0) {
+				// 	this.myinfo = data.data;
+				// 	uni.setStorageSync('userInfo', data.data)
+				// } else if (data.code == 400) {
+				// 	uni.showToast({
+				// 		title: '登录已过期',
+				// 		icon: "none"
+				// 	})
+				// 	uni.removeStorage('myinfo');
+				// 	uni.removeStorage('userInfo');
+				// 	uni.navigateTo({
+				// 		url: '../login/index'
+				// 	})
+				// } else {
+				// 	uni.showModal({
+				// 		title: data.desc,
+				// 		icon: "none"
+				// 	})
+				// }
 
 			},
 
@@ -458,51 +375,44 @@
 			getInfo() {
 				let value = uni.getStorageSync('myinfo');
 				if (value) {
-					if (value.client.username == '') {
+					if (!value || !value.user) {
 						uni.removeStorage('myinfo');
 					} else {
 						this.userInfo = value
-						this.avatar = value.client.avatar
-						if (!this.avatar.startsWith('http')) {
-							this.avatar = this.$websiteUrl + this.avatar
-						}
+						this.avatar = value.user.avatar
 						this.showinfo();
 					}
 				}
-			},
-			wylogin() {
-				uni.setStorageSync('loginType','wuye');
-				uni.navigateTo({
-					url: '/pages/wy/index/index'
-				})
-			},
+			}
 		},
 	};
 </script>
 
 <style lang="less">
 	.my {
-		padding: 20rpx;
+		padding: 30rpx;
 		background-color: #f1f1f1;
 		height: calc(100vh - 40rpx);
+		.block-view {
+			background: #fff;
+			border-radius: 40rpx;
+			margin-bottom: 30rpx;
+			padding: 10rpx;
+		}
+		.my_header {
+			margin-top: 40rpx;
+		}
 	}
-	.background_image {
+	.btn_13_off {
 		position: relative;
 		margin-top: 40rpx;
-
-		.image_background {
-			position: absolute;
-			z-index: -999;
-			width: 100%;
-			height: 140rpx;
-		}
 	}
 
 	.title {
-		margin-left: 36rpx;
 		display: flex;
 		margin-top: 124rpx;
 		height: 140rpx;
+		padding: 10rpx 0;
 
 		.t_left {
 			margin-right: 40rpx;
@@ -512,9 +422,10 @@
 			text-align: center;
 
 			image {
-				height: 140rpx;
-				width: 128rpx;
+				height: 120rpx;
+				width: 120rpx;
 				border-radius: 12rpx;
+				margin-top: 10rpx;
 			}
 		}
 
@@ -583,10 +494,11 @@
 			margin: 34rpx 0;
 			margin-left: 40rpx;
 			margin-right: 36rpx;
-
+			color: #999999;
 			image {
 				width: 48rpx;
 				height: 48rpx;
+				margin-top: 8rpx;
 			}
 		}
 
@@ -598,7 +510,7 @@
 
 			text {
 				margin: 44rpx 0;
-				font-size: 28rpx;
+				font-size: 34rpx;
 				color: #262626;
 			}
 

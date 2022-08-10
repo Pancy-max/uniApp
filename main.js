@@ -5,6 +5,9 @@ import MyIcon from './uni_modules/uni-icons/components/uni-icons/my-icon.vue'
 Vue.config.productionTip = false
 Vue.component('MyIcon', MyIcon);
 
+Vue.config.productionTip = false
+
+
 App.mpType = 'app'
 
 import request from 'utils/request.js'
@@ -31,6 +34,9 @@ const to = (url, animationType = 'pop-in', animationDuration = 300) => {
 
 Vue.prototype.$save_client = function(uid) {
 	var that = this;
+	// #ifdef APP-PLUS
+	var appid = plus.runtime.appid;
+	console.log('应用的 appid 为：' + appid);
 	var inf = plus.push.getClientInfo();
 	var version = plus.runtime.version;
 	let phone_model = ''
@@ -50,12 +56,17 @@ Vue.prototype.$save_client = function(uid) {
 		data: datas,
 		method: 'post',
 	}).then((res) => {})
+	// #endif
 };
-Vue.prototype.$logout = function() {
+Vue.prototype.$logout = function (fn) {
 	this.request({
-		url: '/v1/token/logout',
-		method: 'get',
-	}).then((res) => {})
+		url: '/mini/logout',
+		method: 'GET'
+	}).then((res) => {
+		fn && fn()
+	}).catch(e => {
+		console.error(e)
+	})
 
 	uni.clearStorageSync()
 	// #ifdef APP-PLUS

@@ -30,12 +30,12 @@
 			return {
 				bottomData: [{
 						text: '微信好友',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
+						icon: '../../static/common/wechatfriend.png',
 						name: 'wx'
 					},
 					{
 						text: '画报分享',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-8.png',
+						icon: '../../static/common/share.jpeg',
 						name: 'paint'
 					}
 					// {

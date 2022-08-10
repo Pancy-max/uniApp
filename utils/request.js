@@ -13,23 +13,12 @@ export default function(obj){
 			let header = {'Content-Type': 'application/json; charset=utf-8'}
 			let userInfo = uni.getStorageSync('myinfo');
 			let user_id = '';
-			if(uni.getStorageSync('loginType')){ //wuye 物业登录信息
-				userInfo = uni.getStorageSync('wymyinfo');
-				if(userInfo){
-					user_id= userInfo.client.id;
-				}
-				
-			}
-			if (userInfo) {
-				let access_token = userInfo.access_token;
-				let app_key = userInfo.client.app_key;
-				if(user_id==''){
-					user_id = userInfo.client.user_id;
-				}
-				header = {
-					'Content-Type': 'application/x-www-form-urlencoded',
-					'authentication': 'USERID '+ Base64.encode(app_key+':'+access_token+':'+user_id)
-				}
+			if (userInfo && userInfo.user) {
+				let token = userInfo.token;
+				let openid = userInfo.user.weixinOpenid;
+				user_id = userInfo.user.uuid;
+				header.authentication = 'USERID '+ Base64.encode(openid+':'+token+':'+user_id)
+				header['x-token'] = userInfo.token
 			}
 			
 			// uni.showLoading({
@@ -41,24 +30,12 @@ export default function(obj){
 				data:data,
 				method:method
 			});
-			if (res.code === 408||res.data.code===408) {
+			if (res.data && res.data.code === 7 && (!url.includes('login') && !url.includes('register'))){
 				uni.showToast({
-					title: '登录信息已过期，请重新登录！',
+					title: res.data.msg,
 					icon: "none"
 				})
-				setTimeout(() => {
-					this.userInfo = ''
-					uni.clearStorageSync()
-					uni.reLaunch({
-						url: '/pages/login/index'
-					})
-				}, 1000)
-			} else if (res.code === 400||res.data.code===400) {
-				uni.showToast({
-					title: res.data.desc,
-					icon: "none"
-				})
-				if(res.data.desc=='您未登录'){
+				if(res.data.msg.includes('未登录')){
 					setTimeout(() => {
 						uni.clearStorageSync()
 						uni.reLaunch({
@@ -68,7 +45,7 @@ export default function(obj){
 				}
 				this.userInfo = ''
 				return 
-			}else {
+			} else {
 				return res.data;	
 			}
 		}
