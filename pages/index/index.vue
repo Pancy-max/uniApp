@@ -109,7 +109,7 @@
 			// this.getList();
 			// this.IndexClas·s();
 			this._freshing = false;
-			this.gitlist();
+			// this.gitlist();
 			this.check_update();
 		},
 		onReachBottom() { //上拉触底函数
@@ -121,7 +121,7 @@
 				this.getbannerList();
 				// this.IndexClass();
 				this._freshing = false;
-				this.gitlist();
+				// this.gitlist();
 				this.check_update();
 				setTimeout(function() {
 					uni.stopPullDownRefresh();
