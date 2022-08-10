@@ -96,11 +96,7 @@
         },
         "usingComponents" : true,
         "lazyCodeLoading" : "requiredComponents",
-        "permission" : {
-            "scope.userLocation" : {
-                "desc" : ""
-            }
-        }
+        "permission" : {}
     },
     "mp-alipay" : {
         "usingComponents" : true

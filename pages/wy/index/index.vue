@@ -36,13 +36,11 @@
 </template>
 
 <script>
-	import ListItem from '../../../components/index/list_item.vue'
 	import uniLoadMore from '../../../components/uni-load-more/uni-load-more.vue'
 	import tkiTree from "../../../components/tki-tree/tki-tree.vue";
 	import QueryAuth from '@/mixins/QueryAuth.js'
 	export default {
 		components: {
-			ListItem,
 			uniLoadMore,
 			tkiTree
 		},
