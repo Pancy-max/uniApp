@@ -46,7 +46,7 @@
 		
 		<view class="fengexian"></view>
 
-		<view class="my_tabs" @click="gatpop">
+		<view class="my_tabs" @click="myTest">
 			<view class="tabs_left">
 				<image src="../../static/common/btn_08.png" mode=""></image>
 			</view>
@@ -153,19 +153,23 @@
 			// 移除监听事件  
 			uni.$off('bangding');
 		},
-		// //#ifdef MP-WEIXIN
-		// onShareAppMessage () {
-		// 	return {
-		// 		title: 'title',
-		// 		path: 'xxxx',
-		// 		imageUrl: 'xxxx',
-		// 		content: 'xxx',
-		// 		desc: 'xxx',
-		// 		success: res => {
-		// 			console.info(res)
-		// 		}
-		// 	}
-		// },
+		//#ifdef MP-WEIXIN
+		onShareAppMessage (res) {
+			if (res.from === 'button') {
+				// 来自页面内转发按钮
+				console.log('点击分享')
+			}
+			return {
+				title: '',
+				// path: '/pages/index/index',
+				imageUrl: '/static/common/logo.png',
+				// content: 'xxx',
+				// desc: 'xxx'
+				success: e => {
+					console.log('分享成功', e)
+				}
+			}
+		},
 		//#endif
 		methods: {
 			// 转换成员类型
@@ -237,64 +241,49 @@
 				this.$refs.shardPop.open();
 			},
 			getMemberList() {
-				// if (this.userInfo != '') {
+				if (this.userInfo != '') {
 					uni.navigateTo({
 						url: '../familyBer/familyBer'
 					})
-				// } else {
-				// 	this.gologin();
-				// }
+				} else {
+					this.gologin();
+				}
 			},
-			About() {
-				uni.navigateTo({
-					url: '../About/index'
-				})
-			},
+			// About() {
+			// 	uni.navigateTo({
+			// 		url: '../About/index'
+			// 	})
+			// },
 			// 分享
 			share() {
-				// if (this.userInfo != '') {
+				if (this.userInfo != '') {
 					this.openPopup()
-				// } else {
-				// 	this.gologin();
-				// }
+				} else {
+					this.gologin();
+				}
 			},
 			selectShareItem(val) {
 				if (val.item && val.item.name === 'paint') { // 画报分享
 					uni.navigateTo({
 						url: '../shard/index?code=' + this.myinfo.community_code
 					})
-				} else {// 微信分享
-					var strShareUrl = "https://uniapp.dcloud.io"
-					var strShareTitle = "测评"
-					var strShareSummary = "我正在使用HBuilderX开发uni-app，赶紧跟我一起来体验！"
-					// var strShareImageUrl = "https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/uni@2x.png"
+				} else {// 微信分享, h5
+					// var strShareUrl = "https://uniapp.dcloud.io"
+					// var strShareTitle = "测评"
+					// var strShareSummary = "我正在使用HBuilderX开发uni-app，赶紧跟我一起来体验！"
 					// uni.share({
-					// 	provider: 'weixin',
-					// 	scene:'WXSceneSession',
-					// 	type: 0,
-					// 	href: strShareUrl,
-					// 	title: strShareTitle,
-					// 	summary: strShareSummary,
-					// 	success: function(res) {
-					// 		console.log("success:" + JSON.stringify(res));
+					// 	provider: "weixin",
+					// 	title:"uniapp",
+					// 	scene: "WXSceneSession",
+					// 	type: 1,
+					// 	summary: "我正在使用HBuilderX开发uni-app，赶紧跟我一起来体验！",
+					// 	success: function (res) {
+					// 		console.log("uni-shard-success:" + JSON.stringify(res));
 					// 	},
-					// 	fail: function(err) {
-					// 		console.log("fail:" + JSON.stringify(err));
+					// 	fail: function (err) {
+					// 		console.log("uni-shard-fail:" + JSON.stringify(err));
 					// 	}
 					// })
-					uni.share({
-						provider: "weixin",
-						title:"uniapp",
-						scene: "WXSceneSession",
-						type: 1,
-						summary: "我正在使用HBuilderX开发uni-app，赶紧跟我一起来体验！",
-						success: function (res) {
-							console.log("success:" + JSON.stringify(res));
-						},
-						fail: function (err) {
-							console.log("fail:" + JSON.stringify(err));
-						}
-					})
 				}
 			},
 			information() {
@@ -306,24 +295,24 @@
 					this.gologin();
 				}
 			},
-			myMessage() {
-				if (this.userInfo != '') {
-					// uni.navigateTo({
-					// 	url: '../myMessage/index'
-					// })
-				} else {
-					this.gologin();
-				}
-			},
-			trading() {
-				if (this.userInfo != '') {
-					uni.navigateTo({
-						url: '../trading/index'
-					})
-				} else {
-					this.gologin();
-				}
-			},
+			// myMessage() {
+			// 	if (this.userInfo != '') {
+			// 		// uni.navigateTo({
+			// 		// 	url: '../myMessage/index'
+			// 		// })
+			// 	} else {
+			// 		this.gologin();
+			// 	}
+			// },
+			// trading() {
+			// 	if (this.userInfo != '') {
+			// 		uni.navigateTo({
+			// 			url: '../trading/index'
+			// 		})
+			// 	} else {
+			// 		this.gologin();
+			// 	}
+			// },
 			//显示个人信息
 			async showinfo() {
 				console.log('showinfo', this.userInfo)
@@ -361,10 +350,10 @@
 				});
 			},
 			//账号管理
-			gatpop() {
+			myTest() {
 				if (this.userInfo != '') {
 					uni.navigateTo({
-						url: '../accountManagement/index'
+						url: '../doTest/list.vue'
 					});
 				} else {
 					this.gologin();

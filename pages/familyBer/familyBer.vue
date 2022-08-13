@@ -7,8 +7,7 @@
 					<view class="ber_num">家庭成员数：{{ allBerNum }}</view>
 				</view> -->
 				<view class="head_right" @tap='addBer'>
-					<image src="../../static/images/familyBer/btn_01.png" mode="scaleToFill" style="width: 24rpx; height: 24rpx; margin-right: 10rpx;" />
-					<view class="ber_new">新建</view>
+					<view class="ber_new">+ 新建</view>
 				</view>
 			</view>
 		</view>
@@ -89,7 +88,7 @@
 				align-items: center;
 				.ber_new {
 					font-size: 28rpx;
-					color: #3a90e1;
+					color: #000;
 				}
 			}
 		}

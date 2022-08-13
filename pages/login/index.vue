@@ -3,11 +3,7 @@
 
 		<view class="lo_icon">
 			<view class="lo_image">
-				放插图
-				<!-- <image src="../../static/common/icon.png" mode=""></image> -->
-			</view>
-			<view class="lo_text">
-				<!-- <image src="../../static/common/iconfont.png" mode=""></image> -->
+				<image src="../../static/common/logo.png" mode=""></image>
 			</view>
 		</view>
 
@@ -29,7 +25,7 @@
 		</view>
 
 		<view class="lo_font">
-			xxx有限公司技术支持
+			风和兴有限公司技术支持
 		</view>
 		<wyb-loading ref="loading" title="登录中..." />
 	</view>
@@ -148,6 +144,7 @@
 								// 		})
 								// 	}
 								// })
+								this.$refs.loading.hideLoading()
 								// 跳到到微信登录
 								uni.navigateTo({
 									url: natUrl

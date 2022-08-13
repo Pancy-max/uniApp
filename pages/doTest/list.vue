@@ -1,6 +1,7 @@
 <template>
  <view class="test-wrapper">
-	 <view class="title-wrapper">
+	我的测评列表
+	<!-- <view class="title-wrapper">
 		 <view class="imageWrapper">
 		 	<image 
 		 		src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsaas1.oss-cn-beijing.aliyuncs.com%2Fuploads%2Fimage%2F2019%2F11%2F20%2Fb6820f40f5e2e96257f5e5359c65f6b5.png&refer=http%3A%2F%2Fsaas1.oss-cn-beijing.aliyuncs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662444400&t=ab6410c9d431918de67c3d3a7309414a"
@@ -20,7 +21,7 @@
 	<view class="tabbar" v-show="showEnter">
 		<button @click="goTest" class="go_test">进入测评</button>
 	</view>
-	</view>
+	</view> -->
  </view>
 </template>
 
