@@ -62,8 +62,8 @@
             "sdkConfigs" : {
                 "oauth" : {
                     "weixin" : {
-                        "appid" : "wx5124bf2af0ada67a",
-                        "appsecret" : "ac3429fe6b72e99674361bdde40d5dcb",
+                        "appid" : "wxf4320d4ac27c17ce",
+                        "appsecret" : "20d73a6f9e3c316300ceea59420241d3",
                         "UniversalLinks" : ""
                     }
                 },
@@ -87,11 +87,11 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx5124bf2af0ada67a",
+        "appid" : "wxf4320d4ac27c17ce",
         "setting" : {
             "urlCheck" : false,
             "es6" : true,
-            "postcss" : false,
+            "postcss" : true,
             "minified" : true
         },
         "usingComponents" : true,

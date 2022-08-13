@@ -156,71 +156,30 @@
 		"style": {
 		  "navigationBarTitleText": "授权登录"
 		}
-	  },
-	  {
-		"path": "pages/wy/index/index",
-		"style": {
-		  "navigationStyle": "custom",
-		  "enablePullDownRefresh": true
-		}
-	  },
-	  {
-		"path": "pages/wy/login/index",
-		"style": {
-		  "navigationBarTitleText": "登录"
-		}
-	  },
-	  {
-		"path": "pages/wy/my/index",
-		"style": {
-		  "navigationStyle": "custom",
-		  "app-plus": {
-			"titleNView": "false",
-			"subNVues": [
-			  {
-				"id": "tuichu", // 唯一标识
-				"path": "pages/wy/my/subNVue/tuichu", // 页面路径
-				"type": "popup",
-				"style": {
-				  "mask": "rgba(0,0,0,0.5)",
-				  "width": "100%",
-				  // "top":"40%",
-				  "height": "100%",
-				  "background": "transparent"
-				}
-			  }
-			]
-		  }
-		}
-	  },
-	  {
-		"path": "pages/wy/msg/index",
-		"style": {
-		  "navigationStyle": "custom",
-		  "enablePullDownRefresh": true,
-		  "disableScroll": false
-		}
-	  },
-	  {
-		"path": "pages/wy/msg/msgInfo",
-		"style": {
-		  "navigationBarTitleText": "消息详情",
-		  "enablePullDownRefresh": false
-		}
-	  },
-	  {
-		"path": "pages/wy/msg/addMessage",
-		"style": {
-		  "navigationStyle": "custom",
-		  "enablePullDownRefresh": false
-		}
-	  },
-	  {
-		"path": "pages/article/details",
-		"style": {
-		  "navigationBarTitleText": "详情"
-		}
 	  }
+	 //  {
+		// "path": "pages/wy/my/index",
+		// "style": {
+		//   "navigationStyle": "custom",
+		//   "app-plus": {
+		// 	"titleNView": "false",
+		// 	"subNVues": [
+		// 	  {
+		// 		"id": "tuichu", // 唯一标识
+		// 		"path": "pages/wy/my/subNVue/tuichu", // 页面路径
+		// 		"type": "popup",
+		// 		"style": {
+		// 		  "mask": "rgba(0,0,0,0.5)",
+		// 		  "width": "100%",
+		// 		  // "top":"40%",
+		// 		  "height": "100%",
+		// 		  "background": "transparent"
+		// 		}
+		// 	  }
+		// 	]
+		//   }
+		// }
+	 //  },
 	],
 	"globalStyle": {
 	  "navigationBarTextStyle": "black",

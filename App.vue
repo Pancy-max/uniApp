@@ -5,11 +5,12 @@
 	} from './utils/base64.js'
 	export default {
 		globalData: {  
-			testItem: {}  
+			testItem: {},
+			testResult: {}
 		},
 		onLaunch: function() {
 			let that = this
-			uni.getStorage({
+			uni.getStorageSync({
 				key: 'myinfo',
 				success: function(res) {
 					const user = res.data && res.data.user
@@ -62,6 +63,9 @@
 						this.$logout();
 					}
 
+				},
+				error: function(e) {
+					console.log(e)
 				}
 			});
 			// #ifdef APP-PLUS  

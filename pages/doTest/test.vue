@@ -11,9 +11,9 @@
 <script>
 	import checkXi from '@/components/xi-check/xi-check.vue';
 	const questionTypeMap = {
-		'0': 'radio',
-		'1': 'checkbox',
-		'2': 'write'
+		'1': 'radio',
+		'2': 'checkbox',
+		'3': 'write'
 	}
 	export default {
 	  components: { checkXi },
@@ -57,17 +57,18 @@
 	  computed: {},
 	  onLoad(e) {
 		this.item = getApp().globalData.testItem;
-		this.questionList = [...this._initData(), ...this.questionList];
+		this.questionList = [...this._initData()];
 	  },
 	  methods: {
 		  _initData() {
 			return this.item.evaTopicList.map(item => {
 			  	return {
-			  		id: item.ID, // 题目id
+			  		id: item.id, // 题目id
 			  		type: questionTypeMap[item.type + ''], // 单选 checkbox - 多选 ； write - 填空 
 			  		imageList: [],
 			  		title: item.title,
 					countTime: item.countTime,
+					code: item.code,
 			  		question_option: item.evaOptionList.map(v => {
 			  			return {
 			  				content: v.direction,
@@ -75,17 +76,62 @@
 			  				id: v.ID,
 			  				active: 0 // 选中状态
 			  			}
-			  		}).sort((a,b) => a.code < b.code ? 1 : -1)
+			  		}).sort((a,b) => a.sortOrder < b.sortOrder ? 1 : -1)
 			  	}
-			  })
+			}).slice(0, 5)
 		  },	
 		// 提交事件
 		confrim(e){ 
 			console.log('next',e);
 			// 根据数据，发送给后台，返回测评结果
+			const userInfo = uni.getStorageSync('myinfo');
+			const that = this
+			if (!userInfo) {
+				console.log('没有用户信息')
+			}
+			debugger
+			// getApp().globalData.testResult = e.checkRes;
+			const testData = {
+				// "amount": 0,
+				//   "childId": 0,
+				//   "costTime": 0,
+				//   "endTime": "string",
+				  "hasFinished": true,
+				  // "ispay": true
+				  "mcode": "string",
+				  "result": e.checkRes.check_res.map(item => {
+					const keyRes = item.keyRes[0] // 目前都是单选
+					return {
+						"direction": keyRes.content,
+						"ocode": keyRes.name,
+						// "score": 0,
+						"tcode": item.code,
+						"title": item.title
+					}
+				  }),
+				  // "source": "string",
+				  // "startTime": "string",
+				  "userUuid": userInfo.user.uuid,
+				  "username": userInfo.user.username
+			}
+			this.request({
+				url: '/mini/submitEvaResult',
+				method: 'POST',
+				data: testData
+			}).then((res) => {
+				if(res.data!='' && res.data){
+					// this.bannerList = res.data.bannerInfo.map(item => {
+					// 	item.image = item.picUrl
+					// 	item.id = item.ID
+					// 	return item
+					// })
+				}else{
+				}
+			})
 			uni.redirectTo({
 				url: './testResult'
 			})
+			
 		},
 		// 答案选择 change 事件
 		checkOption(e){

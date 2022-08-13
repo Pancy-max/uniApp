@@ -17,7 +17,7 @@
 		 <view class="content">{{item.content}}</view>
 	 </view>
 
-	<view class="tabbar">
+	<view class="tabbar" v-show="showEnter">
 		<button @click="goTest" class="go_test">进入测评</button>
 	</view>
 	</view>
@@ -31,14 +31,42 @@ export default {
   props: {},
   data() {
     return {
-		item: {}
+		item: {},
+		showEnter: false
 	}
+  },
+  onLoad() {
+	  this.checkLogin()
   },
   mounted() {
 	  this.item = getApp().globalData.testItem
   },
   computed: {},
   methods: {
+	  checkLogin() {
+	  	let userInfo = uni.getStorageSync('myinfo');
+		const that = this
+	  	if (!userInfo) {
+			uni.showModal({
+				title: '提示信息',
+				content: '请先登录',
+				cancelText: '去登录',
+				confirmText: '取消',
+				confirmColor: "#262626",
+				success(res) {
+					if (res.confirm) {
+						that.showEnter = true
+					} else if (res.cancel) {
+						uni.navigateTo({
+							url: '../login/index'
+						})
+					}
+				}
+			})
+	  	} else {
+			this.showEnter = true
+		}
+	  },
 	  goTest(){
 		  uni.navigateTo({
 		  	url: './test?id=' + this.item.ID

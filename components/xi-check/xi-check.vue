@@ -308,7 +308,8 @@ export default {
 					type: item.type,
 					number: item.number,
 					title: item.title,
-					keyRes: key_res
+					keyRes: key_res,
+					code: item.code
 				})
 			})
 			opt.checkRes = {

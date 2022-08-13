@@ -13,8 +13,8 @@ App.mpType = 'app'
 import request from 'utils/request.js'
 var server_url = 'http://101.43.171.152:9527';
 Vue.prototype.$websiteUrl = server_url;
-Vue.prototype.$appKey = 'wx5124bf2af0ada67a';
-Vue.prototype.$app_secret = 'ac3429fe6b72e99674361bdde40d5dcb';
+Vue.prototype.$appKey = 'wxf4320d4ac27c17ce';
+Vue.prototype.$app_secret = '20d73a6f9e3c316300ceea59420241d3';
 var plugin = request({
 	baseURL: server_url
 })

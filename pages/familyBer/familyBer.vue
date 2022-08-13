@@ -6,7 +6,7 @@
 					<image src="../../static/images/familyBer/ico_01.png" mode="scaleToFill" style="width: 28rpx; height: 28rpx; margin-right: 14rpx;" />
 					<view class="ber_num">家庭成员数：{{ allBerNum }}</view>
 				</view> -->
-				<view class="head_right" @tap='addBer' v-if="ownerType == 1">
+				<view class="head_right" @tap='addBer'>
 					<image src="../../static/images/familyBer/btn_01.png" mode="scaleToFill" style="width: 24rpx; height: 24rpx; margin-right: 10rpx;" />
 					<view class="ber_new">新建</view>
 				</view>

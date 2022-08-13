@@ -12,29 +12,35 @@
 		</view>
 		
 		<view class="ten"></view>
-		<view v-for="(item, index) in evaListInfo" :key="index">
-			<view class="my_tabs">
-				<view class="tabs_left">
-					<text>{{item.title}}</text>
+		<scroll-view scroll-y="true" style="height: 100%;" >
+		
+			<view v-for="(item, index) in evaListInfo" :key="index">
+				<view class="my_tabs">
+					<view class="tabs_left">
+						<text>{{item.title}}</text>
+					</view>
+					<view class="tabs_right">
+						<text>历史测评</text>
+						<image src="../../static/my/btn_01.png" mode=""></image>
+					</view>
 				</view>
-				<view class="tabs_right">
-					<text>历史测评</text>
-					<image src="../../static/my/btn_01.png" mode=""></image>
-				</view>
-			</view>
-			<scroll-view scroll-y="true" style="height: 100%;">
-				<view class="testItem" v-for="(_item, _index) in item.eva_form_list" :key="_index">
+				<template v-if="item.eva_form_list && item.eva_form_list.length > 0">
+					<view class="testItem" v-for="(_item, _index) in item.eva_form_list" :key="_index">
 					<test-list-item
-						@doTest='doTest(_item)'
-						:index="_index"
-						:title="_item.title" 
-						:subTitle="_item.subtitle" 
-						:needTime="_item.estimateTime"
-						:icon="_item.picUrl"
+					@doTest='doTest(_item)'
+					:index="_index"
+					:title="_item.title" 
+					:subTitle="_item.subtitle" 
+					:needTime="_item.estimateTime"
+					:icon="_item.picUrl"
 					></test-list-item>
-				</view>
-			</scroll-view>
-		</view>
+					</view>
+				</template>
+				<template v-else>
+					<div class="text-center">暂无数据</div>
+				</template>
+			</view>
+		</scroll-view>
 		<!-- 弹出层 -->
 		<view class="" v-if="vers">
 			<view class="popup"></view>
@@ -63,7 +69,7 @@
 		},
 		data() {
 			return {
-				listTest: [1,2,3,4,5,6,7,7],
+				// listTest: [1,2,3,4,5,6,7,7],
 				vers: false,
 				oldversion: '',
 				content: '',
@@ -106,27 +112,29 @@
 		},
 		onLoad() {
 			this.getbannerList();
-			// this.getList();
+			this.getList();
 			// this.IndexClas·s();
 			this._freshing = false;
 			// this.gitlist();
-			this.check_update();
+			// this.check_update();
 		},
 		onReachBottom() { //上拉触底函数
 			this.status = 'more'; //设置sataus是更多
 			this.getList(); //加载的数据
 		},
+		onPullDownRefresh() {
+			this.getbannerList();
+			this.getList()
+			// this.IndexClass();
+			this._freshing = false;
+			console.log('refreshList')
+			// this.gitlist();
+			// this.check_update();
+			setTimeout(function() {
+				uni.stopPullDownRefresh();
+			}, 1000);
+		},
 		methods: {
-			onPullDownRefresh() {
-				this.getbannerList();
-				// this.IndexClass();
-				this._freshing = false;
-				// this.gitlist();
-				this.check_update();
-				setTimeout(function() {
-					uni.stopPullDownRefresh();
-				}, 1000);
-			},
 			getbannerList(){
 				//轮播图
 				this.request({
@@ -277,23 +285,16 @@
 				});
 				// #endif
 			},
-			async gitlist() {
-				let res = await this.request({
-					url: '/v1/msgs?handler=has_msg',
-					method: 'GET'
-				})
-				this.listData = res.data
-			},
-			gitNotiuce() {
-				let userInfo = uni.getStorageSync('myinfo');
-				if (!userInfo) {
-				this.gologin();
-				} else {
-					uni.navigateTo({
-						url: '../myMessage/index'
-					})
-				}
-			},
+			// gitNotiuce() {
+			// 	let userInfo = uni.getStorageSync('myinfo');
+			// 	if (!userInfo) {
+			// 	this.gologin();
+			// 	} else {
+			// 		uni.navigateTo({
+			// 			url: '../myMessage/index'
+			// 		})
+			// 	}
+			// },
 			// banner链接
 			openLink(link){
 				if(link==''){
@@ -303,39 +304,6 @@
 			    uni.navigateTo({
 				    url: `/pages/webview/index?path=${p}`
 			    })
-			},
-			openClass(data) {
-				let userInfo = uni.getStorageSync('myinfo');
-				let ownerBangDing = uni.getStorageSync('ownerBangDing');
-				const notice = data.path.indexOf("notice/notice");//社区新闻不需要登录
-				if(data.type === "outsideurl"){
-					let p = encodeURIComponent(data.path)
-					uni.navigateTo({
-						url: `/pages/webview/index?path=${p}`
-					})
-				}else if(data.type==="phone"){
-					uni.makePhoneCall({
-						phoneNumber: data.path,
-						success() {}
-					})	
-				}
-				else if (notice>1) {
-					uni.navigateTo({
-						url: "/"+data.path
-					})
-				}else if(!userInfo ){
-					this.gologin();
-				} else {
-					if (ownerBangDing===1) {
-						uni.navigateTo({
-							url: "/"+data.path
-						})
-					}else {
-						uni.navigateTo({
-							url: '/pages/my/boundUSER'
-						})
-					}
-				}
 			},
 			getMore() {
 				uni.navigateTo({
@@ -414,7 +382,9 @@
 			z-index: 99;
 		}
 	}
-
+	.text-center {
+		text-align: center;
+	}
 	/deep/ uni-swiper .uni-swiper-dots-horizontal {
 		bottom: 50rpx;
 	}
