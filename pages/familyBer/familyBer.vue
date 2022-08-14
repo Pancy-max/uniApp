@@ -43,6 +43,7 @@
 		},
 		methods: {
 			check(id){
+				console.log('berDetail/berDetail?id=', id)
 				uni.navigateTo({
 					url:'../berDetail/berDetail?id='+id
 				})
@@ -59,6 +60,7 @@
 					method: 'GET'
 				}).then((res)=>{
 					this.berList = res.data.userInfo
+					getApp().globalData.childList = this.berList
 				})
 			}
 		}

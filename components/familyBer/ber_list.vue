@@ -1,14 +1,14 @@
 <template>
 	<view>
 		<view class="mer_list" v-for="(item, index) in berList" :key='item.id'>
-			<image src="../../static/images/familyBer/ico_02_03.png" mode="scaleToFill" style="width: 78rpx; height: 78rpx; margin-right: 32rpx;" />
+			<image src="../../static/images/familyBer/ico_01.png" mode="scaleToFill" style="width: 78rpx; height: 78rpx; margin-right: 32rpx;" />
 			<view class="mer_content">
 				<view class="ber_text">
 					<view class="ber_name">{{ item.nickname }}</view>
 					<view class="ber_num">成员编号: {{ item.userUuid }}</view>
 				</view>
-				<view class="ber_check" @tap='check(item.userUuid)'>
-					<view>查看信息</view>
+				<view class="ber_check" @tap="check(index)">
+					<view>查看</view>
 					<image src="../../static/images/pay/btn_01.png" mode="scaleToFill" style="width: 24rpx; height: 24rpx; margin-left: 6rpx;" />
 				</view>
 			</view>
@@ -24,8 +24,8 @@
 			}
 		},
 		methods:{
-			check(id) {
-				this.$emit('check', id)
+			check(index) {
+				this.$emit('check', this.berList[index].userUuid)
 			}
 		}
 	}

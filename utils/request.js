@@ -12,12 +12,10 @@ export default function(obj){
 			const { url ,data , method, headers  } = params 
 			let header = {'Content-Type': 'application/json; charset=utf-8'}
 			let userInfo = uni.getStorageSync('myinfo');
-			let user_id = '';
+			const user =  'miniapp'
+			const passwd = 'fenghexing2022'
+			header.Authorization = 'Basic '+ Base64.encode(user + ':'+ passwd)
 			if (userInfo && userInfo.user) {
-				let token = userInfo.token;
-				let openid = userInfo.user.weixinOpenid;
-				user_id = userInfo.user.uuid;
-				header.authentication = 'USERID '+ Base64.encode(openid+':'+token+':'+user_id)
 				header['x-token'] = userInfo.token
 			}
 			

@@ -39,7 +39,7 @@
 
 				</picker>
 			</view>
-			<view class="msg">
+			<!-- <view class="msg">
 				<view class="text">身份证号</view>
 				<input type="text" v-model="peopleID" maxlength="18" />
 			</view>
@@ -47,7 +47,7 @@
 			<view class="msg">
 				<view class="text">手机号码<i style="color: #d93232;">*</i></view>
 				<input type="text" v-model="phone" maxlength="11" />
-			</view>
+			</view> -->
 
 		</view>
 		<view class="btn" @tap="save()">保存</view>
@@ -94,11 +94,11 @@
 		},
 		methods: {
 			setTitle(){
-			if(this.owner_type!=1){
+			// if(this.owner_type!=1){
 				uni.setNavigationBarTitle({
 				    title: '查看成员信息'
 				});
-			}
+			// }
 			},
 			selectSex(n) {
 				this.sex = n

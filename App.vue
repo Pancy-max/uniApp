@@ -6,7 +6,8 @@
 	export default {
 		globalData: {  
 			testItem: {},
-			testResult: {}
+			testResult: {},
+			childList: []
 		},
 		onLaunch: function() {
 			let that = this

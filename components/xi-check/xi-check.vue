@@ -34,7 +34,7 @@
 							@tap.stop="checkOption"
 							:data-id="item.id"
 						>
-							<view class="question__option__item__number">{{ item.name }} .</view>
+							<view class="question__option__item__number" v-if="item.name">{{ item.name }} .</view>
 							<view>{{ item.content }}</view>
 						</view>
 					</block>
@@ -74,12 +74,12 @@ export default {
 	data() {
 		return {
 			colorMap: {
-				nextBac: '#C9784F',
+				nextBac: '#CCCCCC',
 				nextCol: '#FFFFFF',
-				optBac: '#607d8b85',
-				optCol: '#232131',
-				optBacActive: '#C9784F',
-				optColActive: '#FFFFFF'
+				optBac: '#eee',
+				optCol: '#2b2531',
+				optBacActive: '#ffff00',
+				optColActive: '#000000'
 			},
 			selectKey: ['radio', 'checkbox'],
 			newOptList: [], //初始化数据
@@ -421,7 +421,7 @@ view {
 }
 
 .question--find-out {
-	transform: scale(0) translateX(-100%);
+	transform: translateX(-100%);
 	transition: all 0.3s;
 }
 .question--find-in {

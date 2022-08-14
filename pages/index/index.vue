@@ -19,17 +19,14 @@
 					<view class="tabs_left">
 						<text>{{item.title}}</text>
 					</view>
-					<view class="tabs_right">
-						<text>历史测评</text>
-						<image src="../../static/my/btn_01.png" mode=""></image>
-					</view>
 				</view>
 				<template v-if="item.eva_form_list && item.eva_form_list.length > 0">
 					<view class="testItem" v-for="(_item, _index) in item.eva_form_list" :key="_index">
 					<test-list-item
 					@doTest='doTest(_item)'
 					:index="_index"
-					:title="_item.title" 
+					:title="_item.title"
+					:readCount="_item.readCount"
 					:subTitle="_item.subtitle" 
 					:needTime="_item.estimateTime"
 					:icon="_item.picUrl"

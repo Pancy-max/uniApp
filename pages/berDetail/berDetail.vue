@@ -3,37 +3,37 @@
 		<view class="box">
 			<view class="head">
 				成员信息
-				<view class="ber_del" @tap='delBar()' v-if="msg.owner_type != 1">删除</view>
+				<!-- <view class="ber_del" @tap='delBar()'>删除</view> -->
 			</view>
-			<view class="title">基本信息</view>
+			<!-- <view class="title">基本信息</view> -->
 			<view class="textInput">
 				<view class="text_left">姓名</view>
-				<view class="text_right">{{ msg.name }}</view>
+				<view class="text_right">{{ msg.username }}</view>
 			</view>
 			<view class="textInput">
 				<view class="text_left">性别</view>
 				<view class="text_right">{{ sex }}</view>
 			</view>
-			<view class="textInput">
+			<!-- <view class="textInput">
 				<view class="text_left">年龄</view>
 				<view class="text_right">{{ msg.age }}</view>
-			</view>
-			<view class="textInput">
+			</view> -->
+			<!-- <view class="textInput">
 				<view class="text_left">身份证号</view>
 				<view class="text_right">{{ msg.identity_id }}</view>
-			</view>
+			</view> -->
 			<view class="textInput">
 				<view class="text_left">成员编号</view>
-				<view class="text_right">{{ msg.id }}</view>
+				<view class="text_right">{{ msg.userUuid }}</view>
 			</view>
-			<view class="title" style="margin-top: 68rpx;">联系信息</view>
+			<!-- <view class="title" style="margin-top: 68rpx;">联系信息</view>
 			<view class="textInput" style="padding-bottom: 60rpx;">
 				<view class="text_left">手机号码</view>
 				<view class="text_right">{{ msg.tel }}</view>
-			</view>
+			</view> -->
 		</view>
-		<view class="edit" @tap="edit()">编辑</view>
-		<view class="edit" @tap="edit()">查看详细</view>
+		<!-- <view class="edit" @tap="edit()">编辑</view> -->
+		<!-- <view class="edit" @tap="edit()">查看详细</view> -->
 	</view>
 </template>
 
@@ -44,32 +44,18 @@
 				msg: {},
 				sex: '',
 				berId: '',
-				// ownerType:1
 			}
 		},
 		onLoad(option) {
 			this.berId=option.id
 			this.berMsg(option.id)
-			// this.ownerType = uni.getStorageSync('userInfo').owner_type;
 		},
 		methods: {
 			//成员信息
 			berMsg(id){
-				// TODO： 查看成员信息
-					// this.request({
-					// 	url: '/v1/members/'+id,
-					// 	method: 'GET'
-					// }).then((res)=>{
-					// 	if(!res.code === 200){
-					// 		uni.showToast({
-					// 			title: res.desc,
-					// 			icon: 'none',
-					// 			duration:2000
-					// 		})
-					// 	}
-					// 	this.msg = res.data
-					// 	this.msg.gender===0?this.sex='女':this.sex='男'
-					// });
+				const childList = getApp().globalData.childList
+				this.msg = childList.find(item => item.userUuid === id)
+				this.msg.gender === 1?this.sex='女':this.sex='男'
 			},
 			//删除成员
 			delBar(){

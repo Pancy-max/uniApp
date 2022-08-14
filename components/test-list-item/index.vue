@@ -1,7 +1,10 @@
 <template>
 	<view class="wrapper" :style="{backgroundColor: backColor}" @click="doTest">
 		<view>
-			<view class="title">{{title}}</view>
+			<view class="title">
+				{{title}}
+				<span class="read-count" v-if="readCount">(已测:{{readCount}}人)</span>
+			</view>
 			<view class="subTitle">{{subTitle}}</view>
 			<view class="footTitle">预计耗时{{needTime/60}}分钟</view>
 		</view>
@@ -21,7 +24,8 @@
 			subTitle: {type: String, required: true},
 			iconUrl: {type: String, required: true},
 			needTime: {type: Number, required: true},
-			index: {type: Number, default: -1}
+			index: {type: Number, default: -1},
+			readCount: {type: Number, default: 0},
 		},
 		data() {
 			return {
@@ -36,7 +40,7 @@
 		computed: {
 			backColor() {
 				const length = this.colorList.length;
-				if(this.index !== -1) return this.colorList[this.index % length];
+				// if(this.index !== -1) return this.colorList[this.index % length];
 				const randomIndex = Math.floor(Math.random() * length);
 				return this.colorList[randomIndex];
 			}
@@ -50,23 +54,27 @@
 	justify-content: space-between;
 	width: 80%;
 	margin: auto;
-	height: 200rpx;
+	min-height: 150rpx;
 	border-radius: 20rpx;
 	padding: 20rpx 40rpx;
-	
+	box-shadow: 2rpx 2rpx 0 2rpx rgba(0, 0, 0, 0.2);
 	.title {
 		font-size: 36rpx;
 	}
-	
+	.read-count {
+		font-size: 28rpx;
+		margin-left: 10rpx;
+	}
 	.subTitle {
-		font-size: 20rpx;
+		font-size: 24rpx;
 	}
 	.footTitle {
-		font-size: 20rpx;
-		margin-top: 80rpx;
+		font-size: 22rpx;
+		margin-top: 40rpx;
 	}
 	.imageWrapper {
-		margin-top: 50rpx;
+		display: flex;
+		align-items: center;
 		.image {
 			width: 150rpx;
 			height: 100rpx;

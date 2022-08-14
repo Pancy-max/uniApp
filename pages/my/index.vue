@@ -36,10 +36,10 @@
 			
 		<view class="my_tabs" @click="getMemberList">
 			<view class="tabs_left">
-				<image src="../../static/images/familyBer/ico_01.png" mode=""></image>
+				<my-icon type="staff" size="26" />
 			</view>
 			<view class="tabs_right">
-				<text>宝宝信息</text>
+				<text>儿童信息</text>
 				<image src="../../static/my/btn_01.png" mode=""></image>
 			</view>
 		</view>
@@ -61,7 +61,7 @@
 		
 		<view class="my_tabs" @click="share">
 			<view class="tabs_left">
-				<my-icon type="redo-filled" size="30" />
+				<my-icon type="redo" size="26" />
 			</view>
 			<view class="tabs_right">
 				<text>分享给朋友</text>
@@ -256,11 +256,11 @@
 			// },
 			// 分享
 			share() {
-				if (this.userInfo != '') {
+				// if (this.userInfo != '') {
 					this.openPopup()
-				} else {
-					this.gologin();
-				}
+				// } else {
+				// 	this.gologin();
+				// }
 			},
 			selectShareItem(val) {
 				if (val.item && val.item.name === 'paint') { // 画报分享
@@ -381,7 +381,7 @@
 	.my {
 		padding: 30rpx;
 		background-color: #f1f1f1;
-		height: calc(100vh - 40rpx);
+		height: calc(100vh - 60rpx);
 		.block-view {
 			background: #fff;
 			border-radius: 40rpx;
@@ -399,10 +399,9 @@
 
 	.title {
 		display: flex;
-		margin-top: 124rpx;
+		margin-top: 160rpx;
 		height: 140rpx;
 		padding: 10rpx 0;
-
 		.t_left {
 			margin-right: 40rpx;
 			height: 140rpx;

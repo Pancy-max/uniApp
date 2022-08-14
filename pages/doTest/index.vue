@@ -11,10 +11,11 @@
 		 <view class="subtitle">{{item.subtitle}}</view>
 		 <view class="desc">共{{item.evaTopicList.length}}道题目 | 预计作答{{item.estimateTime/60}}分钟</view>
 	 </view>
-	 
-	 <view class="tt-wrapper">
-		 <view class="content-desc">测评简介</view>
-		 <view class="content">{{item.content}}</view>
+	 <view class="tt-wrapper-box">
+	 	<view class="tt-wrapper">
+	 			 <view class="content-desc">测评简介</view>
+	 			 <view class="content">{{item.content}}</view>
+	 	</view>
 	 </view>
 
 	<view class="tabbar" v-show="showEnter">
@@ -81,6 +82,9 @@ export default {
 		height: calc(100vh - 80rpx);
 		background: #9e9e9e14;
 		padding: 40rpx;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
 		
 		.title-wrapper {
 			display: flex;
@@ -100,23 +104,31 @@ export default {
 			.title{
 				font-size: 50rpx;
 				font-weight: 500;
+				margin: 20rpx 0;
 			}
 			.subtitle{
 				font-size: 30rpx;
 				font-weight: 500;
+				padding: 0 20rpx;
 			}
 			.desc{
 				margin-top: 40rpx;
 				font-size: 25rpx;
 			}
 		}
+		.tt-wrapper-box {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			overflow: auto;
+		}
 		.tt-wrapper {
-			margin-top: 50rpx;
+			margin-top: 5vh;
+			margin-bottom: 5vh;
 			justify-content: baseline;
 			align-items: baseline;
 			padding: 40rpx 20rpx;
 			overflow: auto;
-			max-height: 45vh;
 			background: #fff;
 			border: #fff;
 			border-radius: 40rpx;
@@ -127,13 +139,14 @@ export default {
 			.content {
 				font-size: 30rpx;
 				margin-top: 20rpx;
+				max-height: 40vh;
 			}
 		}
 	}
 	.tabbar {
-		position: absolute;
-		width: 90%;
-		bottom: 100rpx;
+		// position: absolute;
+		// width: 90%;
+		// bottom: 5vh;
 		.go_test {
 			background-color: #ffff00bd;
 		}

@@ -64,15 +64,17 @@
 			return this.item.evaTopicList.map(item => {
 			  	return {
 			  		id: item.id, // 题目id
-			  		type: questionTypeMap[item.type + ''], // 单选 checkbox - 多选 ； write - 填空 
+					type: 'radio',
+			  		// type: questionTypeMap[item.type + ''], // radio 单选 checkbox - 多选 ； write - 填空 
 			  		imageList: [],
 			  		title: item.title,
 					countTime: item.countTime,
 					code: item.code,
-			  		question_option: item.evaOptionList.map(v => {
+			  		question_option: item.evaOptionList.map((v, i) => {
 			  			return {
 			  				content: v.direction,
-			  				name: v.code,
+			  				name: '',
+							code: v.code,
 			  				id: v.ID,
 			  				active: 0 // 选中状态
 			  			}
@@ -89,7 +91,6 @@
 			if (!userInfo) {
 				console.log('没有用户信息')
 			}
-			debugger
 			// getApp().globalData.testResult = e.checkRes;
 			const testData = {
 				// "amount": 0,
@@ -103,15 +104,15 @@
 					const keyRes = item.keyRes[0] // 目前都是单选
 					return {
 						"direction": keyRes.content,
-						"ocode": keyRes.name,
+						"ocode": keyRes.code,
 						// "score": 0,
 						"tcode": item.code,
 						"title": item.title
 					}
 				  }),
-				  // "source": "string",
+				  "source": "string",
 				  // "startTime": "string",
-				  "userUuid": userInfo.user.uuid,
+				  // "userUuid": userInfo.user.uuid,
 				  "username": userInfo.user.username
 			}
 			this.request({
