@@ -127,6 +127,7 @@
 	  {
 		"path": "pages/About/index",
 		"style": {
+			"navigationBarTitleText": "关于",
 		  "app-plus": {
 			// "titleNView":"false",
 			"subNVues": [
@@ -156,6 +157,12 @@
 		"style": {
 		  "navigationBarTitleText": "授权登录"
 		}
+	  },
+	  {
+	  		"path": "pages/help/index",
+	  		"style": {
+	  		  "navigationBarTitleText": "联系客服"
+	  		}
 	  }
 	 //  {
 		// "path": "pages/wy/my/index",

@@ -31,56 +31,68 @@
 				</view>
 			</view>
 		</view>
-		
+
 		<view class="block-view">
-			
-		<view class="my_tabs" @click="getMemberList">
-			<view class="tabs_left">
-				<my-icon type="staff" size="26" />
+
+			<view class="my_tabs" @click="getMemberList">
+				<view class="tabs_left">
+					<my-icon type="staff" size="26" />
+				</view>
+				<view class="tabs_right">
+					<text>儿童信息</text>
+					<image src="../../static/my/btn_01.png" mode=""></image>
+				</view>
 			</view>
-			<view class="tabs_right">
-				<text>儿童信息</text>
-				<image src="../../static/my/btn_01.png" mode=""></image>
+
+			<view class="fengexian"></view>
+
+			<view class="my_tabs" @click="myTest">
+				<view class="tabs_left">
+					<image src="../../static/common/btn_08.png" mode=""></image>
+				</view>
+				<view class="tabs_right">
+					<text>我的测评</text>
+					<image src="../../static/my/btn_01.png" mode=""></image>
+				</view>
 			</view>
+
+			<view class="fengexian"></view>
+
+
+			<view class="my_tabs" @click="share">
+				<view class="tabs_left">
+					<my-icon type="redo" size="26" />
+				</view>
+				<view class="tabs_right">
+					<text>分享给朋友</text>
+					<image src="../../static/my/btn_01.png" mode=""></image>
+				</view>
+			</view>
+			<view class="fengexian"></view>
+
+			<view class="my_tabs" @click="help">
+				<view class="tabs_left">
+					<my-icon type="chatboxes" size="26" />
+				</view>
+				<view class="tabs_right">
+					<text>联系客服</text>
+					<image src="../../static/my/btn_01.png" mode=""></image>
+				</view>
+			</view>
+			<view class="fengexian"></view>
+
+			<view class="my_tabs" @click="about">
+				<view class="tabs_left">
+					<my-icon type="info" size="26" />
+				</view>
+				<view class="tabs_right">
+					<text>关于我们</text>
+					<image src="../../static/my/btn_01.png" mode=""></image>
+				</view>
+			</view>
+			<view class="fengexian"></view>
 		</view>
-		
-		<view class="fengexian"></view>
 
-		<view class="my_tabs" @click="myTest">
-			<view class="tabs_left">
-				<image src="../../static/common/btn_08.png" mode=""></image>
-			</view>
-			<view class="tabs_right">
-				<text>我的测评</text>
-				<image src="../../static/my/btn_01.png" mode=""></image>
-			</view>
-		</view>
-
-		<view class="fengexian"></view>
-
-		
-		<view class="my_tabs" @click="share">
-			<view class="tabs_left">
-				<my-icon type="redo" size="26" />
-			</view>
-			<view class="tabs_right">
-				<text>分享给朋友</text>
-				<image src="../../static/my/btn_01.png" mode=""></image>
-			</view>
-		</view>
-		
-
-
-		<view class="fengexian"></view>
-		</view>
-		<!-- <uni-popup type="bottom" ref="shardPop" background-color="#fff">
-			<view class="poster-img">
-				4444
-			</view> 
-		</uni-popup> -->
-<!-- 		<uni-popup ref="shardPop" type="share">
-			<uni-popup-share title="分享到" @select="select"></uni-popup-share>
-		</uni-popup> -->
 		<uni-popup ref="shardPop" type="share" safeArea backgroundColor="#fff">
 			<uni-popup-share @select="selectShareItem"></uni-popup-share>
 		</uni-popup>
@@ -112,7 +124,7 @@
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 	import uniPopupShare from '@/components/uni-popup/uni-popup-share.vue'
 	import uniIcons from '@/components/uni-icons/uni-icons.vue'
-	
+
 	export default {
 		components: {
 			uniPopup,
@@ -139,7 +151,7 @@
 			this.getInfo()
 			// 监听事件
 			// uni.$on('login', (MYinfo) => {
-				
+
 			// })
 			// console.log(this.userInfo)
 
@@ -154,7 +166,7 @@
 			uni.$off('bangding');
 		},
 		//#ifdef MP-WEIXIN
-		onShareAppMessage (res) {
+		onShareAppMessage(res) {
 			if (res.from === 'button') {
 				// 来自页面内转发按钮
 				console.log('点击分享')
@@ -181,9 +193,9 @@
 					case 2:
 						return "家庭成员"
 						break;
-					// case 3:
-					// 	return "租户"
-					// 	break;
+						// case 3:
+						// 	return "租户"
+						// 	break;
 					default:
 						break;
 				}
@@ -196,7 +208,9 @@
 			},
 			async confirm() {
 				console.log('点击退出登录')
-				const callback = function() {this.userInfo = ''}
+				const callback = function() {
+					this.userInfo = ''
+				}
 				this.$logout(callback);
 			},
 			gologin() {
@@ -234,7 +248,7 @@
 				}
 
 			},
-			closePopup(){
+			closePopup() {
 				this.$refs.shardPop.close();
 			},
 			openPopup() {
@@ -249,15 +263,20 @@
 					this.gologin();
 				}
 			},
-			// About() {
-			// 	uni.navigateTo({
-			// 		url: '../About/index'
-			// 	})
-			// },
+			help() {
+				uni.navigateTo({
+					url: '../help/index'
+				})
+			},
+			about() {
+				uni.navigateTo({
+					url: '../About/index'
+				})
+			},
 			// 分享
 			share() {
 				// if (this.userInfo != '') {
-					this.openPopup()
+				this.openPopup()
 				// } else {
 				// 	this.gologin();
 				// }
@@ -267,7 +286,7 @@
 					uni.navigateTo({
 						url: '../shard/index?code=' + this.myinfo.community_code
 					})
-				} else {// 微信分享, h5
+				} else { // 微信分享, h5
 					// var strShareUrl = "https://uniapp.dcloud.io"
 					// var strShareTitle = "测评"
 					// var strShareSummary = "我正在使用HBuilderX开发uni-app，赶紧跟我一起来体验！"
@@ -318,7 +337,7 @@
 				console.log('showinfo', this.userInfo)
 				this.myinfo = this.userInfo
 				// const access_token = this.userInfo.token
-				
+
 				// const user_id = this.userInfo.user.uuid
 				// const app_key = this.$app_key;
 				// if (data.code === 0) {
@@ -382,16 +401,19 @@
 		padding: 30rpx;
 		background-color: #f1f1f1;
 		height: calc(100vh - 60rpx);
+
 		.block-view {
 			background: #fff;
 			border-radius: 40rpx;
 			margin-bottom: 30rpx;
 			padding: 10rpx;
 		}
+
 		.my_header {
 			margin-top: 40rpx;
 		}
 	}
+
 	.btn_13_off {
 		position: relative;
 		margin-top: 40rpx;
@@ -402,6 +424,7 @@
 		margin-top: 160rpx;
 		height: 140rpx;
 		padding: 10rpx 0;
+
 		.t_left {
 			margin-right: 40rpx;
 			height: 140rpx;
@@ -483,6 +506,7 @@
 			margin-left: 40rpx;
 			margin-right: 36rpx;
 			color: #999999;
+
 			image {
 				width: 48rpx;
 				height: 48rpx;
