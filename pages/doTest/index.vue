@@ -56,7 +56,7 @@ export default {
 				confirmColor: "#262626",
 				success(res) {
 					if (res.confirm) {
-						that.showEnter = true
+						// that.showEnter = true
 					} else if (res.cancel) {
 						uni.navigateTo({
 							url: '../login/index'

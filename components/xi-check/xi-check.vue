@@ -121,6 +121,17 @@ export default {
 			this.verification();
 		}
 	},
+	beforeDestroy() {
+		console.log('beforeDestroy', '非正常退出')
+		const opt = {
+			current_id: this.showQuestionIndex,
+			// isEnd: this.isEnd
+		}
+		this.formatKey(opt)
+	},
+	onHide() {
+		console.log('==============onHide')
+	},
 	methods: {
 		verification() {
 		  this.timer = setInterval(() => {
