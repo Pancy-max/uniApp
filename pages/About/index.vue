@@ -6,8 +6,7 @@
 			</view>
 		</view>
 		<view class="block-view">
-			<view class="my_tabs" @click="getMemberList">
-
+			<view class="my_tabs" @tap="getContent('userAggrement')">
 				<view class="tabs_right">
 					<text>用户协议</text>
 					<image src="../../static/my/btn_01.png" mode=""></image>
@@ -15,13 +14,19 @@
 			</view>
 			<view class="fengexian"></view>
 
-			<view class="my_tabs" @click="myTest">
+			<view class="my_tabs" @tap="getContent('privacyAggrement')">
 				<view class="tabs_right">
 					<text>隐私协议</text>
 					<image src="../../static/my/btn_01.png" mode=""></image>
 				</view>
 			</view>
 			<view class="fengexian"></view>
+			<view class="my_tabs" @tap="getContent('childrenAggrement')">
+				<view class="tabs_right">
+					<text>儿童个人信息保护规则</text>
+					<image src="../../static/my/btn_01.png" mode=""></image>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -29,10 +34,34 @@
 	export default {
 		data() {
 			return {
-
+				// aboutUsInfo: {
+					
+				// }
 			}
 		},
-		methods: {}
+		onLoad() {
+			this.getAboutUs()
+		},
+		methods: {
+			getAboutUs() {
+				this.request({
+					url: '/mini/getAboutUs',
+					method: 'GET'
+				}).then(res => {
+					// this.aboutUsInfo = res.data.aboutUs
+					getApp().globalData.aboutUsInfo = res.data.aboutUs 
+				}).catch(e => {
+					console.error(e)
+					// this.aboutUsInfo = {};
+				})
+			},
+			getContent(key) {
+				uni.navigateTo({
+					url: './text?id=' + key
+				})
+			}
+		},
+
 	}
 </script>
 <style lang="less" scoped>
@@ -57,7 +86,7 @@
 		}
 		.lo_text{
 			image{
-				width: 196rpx;
+				 width: 196rpx;
 				height: 54rpx;
 			}
 		}

@@ -8,7 +8,7 @@
 			<!-- <view class="title">基本信息</view> -->
 			<view class="textInput">
 				<view class="text_left">姓名</view>
-				<view class="text_right">{{ msg.username }}</view>
+				<view class="text_right">{{ msg.nickname }}</view>
 			</view>
 			<view class="textInput">
 				<view class="text_left">性别</view>

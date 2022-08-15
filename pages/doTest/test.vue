@@ -33,6 +33,7 @@
 				costTime: 0,
 				result: []
 			},
+			userInfo: {},
 			questionList:[
 				{
 					id:1, // 题目id
@@ -68,21 +69,38 @@
 	  },
 	  computed: {},
 	  onLoad(e) {
+		this.childId = getApp().globalData.childId
 		this.item = getApp().globalData.testItem;
+		this.mcode = this.item.code
+		this.amount = this.item.price
+		this.totalLength = this.item.evaTopicList && this.item.evaTopicList.length
+		console.log('childId', this.childId)
+		console.log('type', this.item.type)
+		const userInfo = uni.getStorageSync('myinfo');
+		if (!userInfo) {
+			console.log('没有用户信息')
+		} else {
+			this.userInfo = userInfo
+		}
 		this.getUserProcess() // 获取用户做题进度
 	  },
 	  methods: {
 		  getUserProcess() {
 			this.request({
 			  	url: '/mini/getUserEvaInfo',
-			  	method: 'POST'
+			  	method: 'POST',
+				data: {
+					mcode: this.mcode,
+					username: this.userInfo.user.username
+				}
 			}).then(res => {
+				console.log('获取历史做题信息', res.data)
 				const lastInfo = res.data.userEvaInfo
 				const {costTime, startTime, result} = lastInfo
 				this.lastInfo.costTime = costTime
 				this.lastInfo.startTime = startTime
-				this.lastInfo.result = result
-				const length = result && result.length
+				this.lastInfo.result = result || []
+				const length = this.lastInfo.result.length
 				console.log('上一次已做题目数', length)
 				this.questionList = [...this._initData(length)]
 				
@@ -92,21 +110,21 @@
 			})
 		  },
 		  _initData(length) {
-			this.mcode = this.item.code
-			this.amount = this.item.price
-			this.totalLength = this.item.evaTopicList && this.item.evaTopicList.length
 			return this.item.evaTopicList.slice(length).map((item, idx) => {
 			  	return {
 			  		id: item.id, // 题目id
 					type: 'radio',
 					number: idx + 1 + length,
 			  		// type: questionTypeMap[item.type + ''], // radio 单选 checkbox - 多选 ； write - 填空 
-			  		imageList: [],
+			  		imageList: item.type === 2 && item.picUrl && item.picUrl.split(',') || [],
+					desc: item.type === 3 && item.picUrl,
+					subtitle: item.subtitle,
 			  		title: item.title,
 					countTime: item.countTime,
 					code: item.code,
 			  		question_option: item.evaOptionList.map((v, i) => {
 			  			return {
+							picUrl: v.picUrl,
 			  				content: v.direction,
 			  				name: '',
 							code: v.code,
@@ -125,17 +143,13 @@
 			}
 			const endTime = Date.now();
 			// 根据数据，发送给后台，返回测评结果
-			const userInfo = uni.getStorageSync('myinfo');
 			const that = this
-			if (!userInfo) {
-				console.log('没有用户信息')
-			}
 			// current_id -当前已做题目数
 			const checkRes = e.checkRes.check_res.slice(0, e.current_id)
 			const hasFinished = this.totalLength === checkRes.length + this.lastInfo.result.length
 			const testData = {
 				  result: [...this.lastInfo.result, ...checkRes.map(item => {
-					const keyRes = item.keyRes[0] // 目前都是单选
+					const keyRes = item.keyRes[0] || {}// 目前都是单选
 					return {
 						"direction": keyRes.content,
 						"ocode": keyRes.code,
@@ -144,9 +158,10 @@
 						"title": item.title
 					}
 				  })],
+				  childId: this.item.type === 1 ? this.childId : undefined, // 1-儿童 2-成人
 				  source: "string",
 				  // "userUuid": userInfo.user.uuid,
-				  username: userInfo.user.username,
+				  username: this.userInfo.user.username,
 				  endTime: timeSecond(endTime),
 				  startTime: this.lastInfo.startTime || timeSecond(this.startTime),
 				  costTime: endTime - this.startTime + this.lastInfo.costTime,

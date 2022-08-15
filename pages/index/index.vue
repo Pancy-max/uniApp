@@ -24,7 +24,7 @@
 					<view class="testItem" v-for="(_item, _index) in item.eva_form_list" :key="_index">
 					<test-list-item
 					@doTest='doTest(_item)'
-					:index="_index"
+					:index="(index + 1) * (_index + 1)"
 					:title="_item.title"
 					:readCount="_item.readCount"
 					:subTitle="_item.subtitle" 
@@ -38,6 +38,20 @@
 				</template>
 			</view>
 		</scroll-view>
+		<uni-popup ref="childPopup" type="bottom"  background-color="#fff">
+			<view class="pop-child">
+				<view class="title-tip">请选中进行测评的成员</view>
+				<view class="my_tabs child-box" @click="selectChild(i)" v-for="(item, i) in berList" :key="i">
+					<view class="tabs_left">
+						<my-icon type="person" size="26" />
+					</view>
+					<view class="tabs_right">
+						<text class="nick-name">{{item.nickname}}</text>
+						<text>生日：{{item.birthday}}</text>
+					</view>
+				</view>
+			</view>			
+		</uni-popup>
 		<!-- 弹出层 -->
 		<view class="" v-if="vers">
 			<view class="popup"></view>
@@ -70,7 +84,7 @@
 				vers: false,
 				oldversion: '',
 				content: '',
-				phoneData: [],
+				berList: [],
 				isupdate: true,
 				bannerList: [], //banner图片
 				evaListInfo: [], //测评列表
@@ -310,8 +324,29 @@
 			//点击进入详情
 			doTest(item) {
 				getApp().globalData.testItem = item;
+				if (item.type === 1) { // 儿童
+					this.$refs.childPopup.open()
+					this.getBerList()
+				} else {
+					getApp().globalData.childId = null
+					uni.navigateTo({
+						url: '../doTest/index'
+					})
+				}
+			},
+			getBerList(){
+				this.request({
+					url: '/mini/getChildInfo',
+					method: 'GET'
+				}).then((res)=>{
+					this.berList = res.data.userInfo
+				})
+			},
+			selectChild(idx) {
+				this.$refs.childPopup.close()
+				getApp().globalData.childId = this.berList[idx].ID
 				uni.navigateTo({
-					url: '../doTest/index?id=' + item.id
+					url: '../doTest/index'
 				})
 			},
 			//获取列表
@@ -370,6 +405,17 @@
 	}
 </script>
 <style lang="scss" scoped>
+	.pop-child {
+		background: #fff;
+		width: 100%;
+		padding-bottom: 50rpx;
+		.title-tip {
+			padding: 30rpx 0;
+			font-size: 36rpx;
+			line-height: 60rpx;
+			text-align: center;
+		}
+	}
 	.image_content {
 		width: 100%;
 		height: 370rpx;
@@ -648,31 +694,52 @@
 		border-radius: 20rpx 20rpx 0 0;
 		margin-top: -10rpx;
 	}
+	.my_tabs.child-box {
+		border: 1px solid #ccc;
+		border-radius: 30rpx;
+		margin-top: 40rpx;
+		margin-left: 20rpx;
+		margin-right: 20rpx;
+		box-shadow: 1rpx 1rpx 0 2rpx rgba(0, 0, 0, 0.15);
+	}
 	.my_tabs {
 		display: flex;
 		margin: 0 20rpx;
 		box-sizing: border-box;
-		align-items: center;
-		justify-content: space-between;
+		background-color: #fff;
+		
 		.tabs_left {
 			margin: 34rpx 0;
+			margin-left: 40rpx;
 			margin-right: 36rpx;
-			font-weight: bold;
-			font-size: 30rpx;
+			color: #333;
+	
+			image {
+				width: 48rpx;
+				height: 48rpx;
+				margin-top: 8rpx;
+			}
 		}
 	
 		.tabs_right {
+			flex: 1;
 			display: flex;
-			margin: 0 20rpx;
-			box-sizing: border-box;
-			align-items: center;
+			justify-content: start;
+			flex-direction: column;
+	
 			text {
-				font-size: 30rpx;
+				margin: 10rpx 0;
+				font-size: 32rpx;
 				color: #262626;
+				.nick-name {
+					color: #000;
+					font-weight: bold;
+					font-size: 38rpx;
+				}
 			}
 	
 			image {
-				margin-left: 18rpx;
+				margin-right: 38rpx;
 				width: 30rpx;
 				height: 30rpx;
 			}

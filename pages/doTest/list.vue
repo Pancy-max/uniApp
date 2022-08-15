@@ -1,26 +1,27 @@
 <template>
  <view class="test-wrapper">
-	我的测评列表
-	<!-- <view class="title-wrapper">
-		 <view class="imageWrapper">
-		 	<image 
-		 		src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsaas1.oss-cn-beijing.aliyuncs.com%2Fuploads%2Fimage%2F2019%2F11%2F20%2Fb6820f40f5e2e96257f5e5359c65f6b5.png&refer=http%3A%2F%2Fsaas1.oss-cn-beijing.aliyuncs.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1662444400&t=ab6410c9d431918de67c3d3a7309414a"
-		 		class="image"
-		 	/>
-		 </view>
-		 <view class="title">{{item.title}}</view>
-		 <view class="subtitle">{{item.subtitle}}</view>
-		 <view class="desc">共{{item.evaTopicList.length}}道题目 | 预计作答{{item.estimateTime/60}}分钟</view>
-	 </view>
+	<view class="block-view">
+	
+		<view class="my_tabs" @click="getDetail" v-for="(item, index) in testList" :key="index">
+			<view class="tabs_left">
+				<my-icon type="vip" size="30" />
+			</view>
+			<view class="tabs_right">
+				<text>测试题目</text>
+				<image src="../../static/my/btn_01.png" mode=""></image>
+			</view>
+		</view>
+	
+		<view class="fengexian"></view>
+	</view>
 	 
-	 <view class="tt-wrapper">
+	 <!-- <view class="tt-wrapper">
 		 <view class="content-desc">测评简介</view>
 		 <view class="content">{{item.content}}</view>
 	 </view>
 
 	<view class="tabbar" v-show="showEnter">
 		<button @click="goTest" class="go_test">进入测评</button>
-	</view>
 	</view> -->
  </view>
 </template>
@@ -31,42 +32,33 @@ export default {
   components: {},
   props: {},
   data() {
-    return {
-		item: {},
-		showEnter: false
-	}
+  	return {
+  		testList: [{
+			title: ''
+		}, {
+			
+		}], //家庭成员列表
+  	}
   },
   onLoad() {
-	  this.checkLogin()
+  	this.getTestList();
   },
-  mounted() {
-	  this.item = getApp().globalData.testItem
+  onShow() {
+  	this.getTestList();
   },
   computed: {},
   methods: {
-	  checkLogin() {
-	  	let userInfo = uni.getStorageSync('myinfo');
-		const that = this
-	  	if (!userInfo) {
-			uni.showModal({
-				title: '提示信息',
-				content: '请先登录',
-				cancelText: '去登录',
-				confirmText: '取消',
-				confirmColor: "#262626",
-				success(res) {
-					if (res.confirm) {
-						that.showEnter = true
-					} else if (res.cancel) {
-						uni.navigateTo({
-							url: '../login/index'
-						})
-					}
-				}
-			})
-	  	} else {
-			this.showEnter = true
-		}
+	  getTestList() {
+		this.request({
+			url: '/mini/getUserEvaInfo',
+			method: 'POST'
+		}).then(res => {
+			// const lastInfo = res.data.userEvaInfo
+			// this.testList = []
+		}).catch(e => {
+			console.error(e)
+			this.testList = [];
+		})
 	  },
 	  goTest(){
 		  uni.navigateTo({
@@ -82,54 +74,6 @@ export default {
 		height: calc(100vh - 80rpx);
 		background: #9e9e9e14;
 		padding: 40rpx;
-		
-		.title-wrapper {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-			background: #fff;
-			border: #fff;
-			border-radius: 40rpx;
-			padding: 40rpx 0;
-			.imageWrapper {
-				.image {
-					width: 150rpx;
-					height: 100rpx;
-				}
-			}
-			.title{
-				font-size: 50rpx;
-				font-weight: 500;
-			}
-			.subtitle{
-				font-size: 30rpx;
-				font-weight: 500;
-			}
-			.desc{
-				margin-top: 40rpx;
-				font-size: 25rpx;
-			}
-		}
-		.tt-wrapper {
-			margin-top: 50rpx;
-			justify-content: baseline;
-			align-items: baseline;
-			padding: 40rpx 20rpx;
-			overflow: auto;
-			max-height: 45vh;
-			background: #fff;
-			border: #fff;
-			border-radius: 40rpx;
-			.content-desc {
-				font-size: 30rpx;
-				font-weight: 600;
-			}
-			.content {
-				font-size: 30rpx;
-				margin-top: 20rpx;
-			}
-		}
 	}
 	.tabbar {
 		position: absolute;
@@ -137,6 +81,50 @@ export default {
 		bottom: 100rpx;
 		.go_test {
 			background-color: #ffff00bd;
+		}
+	}
+	.block-view {
+		background: #fff;
+		border-radius: 40rpx;
+		margin-bottom: 30rpx;
+		padding: 10rpx;
+	}
+	
+	.my_tabs {
+		display: flex;
+		margin: 0 20rpx;
+		box-sizing: border-box;
+	
+		.tabs_left {
+			margin: 34rpx 0;
+			margin-left: 40rpx;
+			margin-right: 36rpx;
+			color: #999999;
+	
+			image {
+				width: 48rpx;
+				height: 48rpx;
+				margin-top: 8rpx;
+			}
+		}
+	
+		.tabs_right {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+	
+			text {
+				margin: 44rpx 0;
+				font-size: 34rpx;
+				color: #262626;
+			}
+	
+			image {
+				margin-right: 38rpx;
+				width: 30rpx;
+				height: 30rpx;
+			}
 		}
 	}
 </style>

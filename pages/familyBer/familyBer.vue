@@ -32,7 +32,11 @@
 			}
 		},
 		onLoad() {
-				this.getBerList();
+			this.getBerList();
+		},
+		onShow() {
+			// this.IndexClass();
+			this.getBerList();
 		},
 		onNavigationBarButtonTap(e) {
 			if(e.index === 0) {

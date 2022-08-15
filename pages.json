@@ -33,6 +33,12 @@
 		}
 	  },
 	  {
+	  	"path": "pages/doTest/list",
+	  	"style": {
+	  		"navigationBarTitleText": "我的测评"
+	  	}
+	  },
+	  {
 		"path": "pages/my/index",
 		"style": {
 		  "navigationStyle": "custom",
@@ -145,6 +151,9 @@
 			]
 		  }
 		}
+	  },
+	  {
+	  		"path": "pages/About/text"
 	  },
 	  {
 		"path": "pages/addBer/editBer",

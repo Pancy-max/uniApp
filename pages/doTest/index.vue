@@ -33,11 +33,13 @@ export default {
   data() {
     return {
 		item: {},
-		showEnter: false
+		showEnter: false,
+		// childId: null
 	}
   },
-  onLoad() {
-	  this.checkLogin()
+  onLoad(option) {
+  	// this.childId=option.childId
+	this.checkLogin()
   },
   mounted() {
 	  this.item = getApp().globalData.testItem
@@ -70,7 +72,7 @@ export default {
 	  },
 	  goTest(){
 		  uni.navigateTo({
-		  	url: './test?id=' + this.item.ID
+		  	url: './test'
 		  })
 	  },
   },

@@ -141,7 +141,7 @@
 						})
 					}
 					let response = res.data
-					_this.name = response.name
+					_this.name = response.nickname
 					_this.peopleID = response.identity_id
 					_this.phone = response.tel
 					_this.sex = response.gender

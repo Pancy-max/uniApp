@@ -4,15 +4,6 @@
 			<image src="../../static/images/index/btn_07_time.png" class="timer-image"></image>
 			{{count}}s
 		</view>
-		<block v-if="newOptList[showQuestionIndex].imageList.length">
-			<view :class="['answer__banner', switchVisible ? 'question--find-out' : 'question--find-in']">
-				<swiper :indicator-dots="true" :autoplay="true">
-					<block v-for="(item, index) in newOptList[showQuestionIndex].imageList" :key="index">
-						<swiper-item><image :src="item" mode="aspectFill"></image></swiper-item>
-					</block>
-				</swiper>
-			</view>
-		</block>
 		<view
 			:class="['answer__question', switchVisible ? 'question--find-out' : 'question--find-in']"
 			v-if="newOptList.length"
@@ -24,7 +15,21 @@
 					{{ newOptList[showQuestionIndex].title }}
 				</view>
 			</view>
-
+			<block v-if="newOptList[showQuestionIndex].imageList.length">
+				<view :class="['answer__banner', switchVisible ? 'question--find-out' : 'question--find-in']">
+					<swiper :indicator-dots="true" :autoplay="true">
+						<block v-for="(item, index) in newOptList[showQuestionIndex].imageList" :key="index">
+							<swiper-item><image :src="item" mode="aspectFill"></image></swiper-item>
+						</block>
+					</swiper>
+				</view>
+			</block>
+			<view class="question_subtitle"  v-if="newOptList[showQuestionIndex].desc">
+				{{ newOptList[showQuestionIndex].desc }}
+			</view>
+			<view class="question_subtitle" v-if="newOptList[showQuestionIndex].subtitle">
+				{{ newOptList[showQuestionIndex].subtitle }}
+			</view>
 			<view class="question__option">
 				<block v-if="selectKey.includes(newOptList[showQuestionIndex].type)">
 					<block v-for="(item, index) in newOptList[showQuestionIndex].question_option" :key="index">
@@ -35,7 +40,10 @@
 							:data-id="item.id"
 						>
 							<view class="question__option__item__number" v-if="item.name">{{ item.name }} .</view>
-							<view>{{ item.content }}</view>
+							<view v-if="item.content">{{ item.content }}</view>
+							<view v-if="item.picUrl">
+								<image :src="item.picUrl" mode="aspectFill"></image>
+							</view>
 						</view>
 					</block>
 				</block>

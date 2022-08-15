@@ -5,9 +5,11 @@
 	} from './utils/base64.js'
 	export default {
 		globalData: {  
-			testItem: {},
-			testResult: {},
-			childList: []
+			testItem: {}, // 当前测试题目
+			testResult: {}, // 当前测试结果
+			childList: [],
+			childId: null, // 当前测试的儿童id
+			aboutUsInfo: {} // 关于我们协议相关信息
 		},
 		onLaunch: function() {
 			let that = this

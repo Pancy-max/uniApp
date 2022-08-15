@@ -109,7 +109,6 @@
 			<uni-popup-dialog mode="base" message="成功消息" :duration="2000" :before-close="true" @close="close"
 				@confirm="confirm" content="确定要退出当前账号吗" title="退出账号" msgColor="msgColor"></uni-popup-dialog>
 		</uni-popup>
-		<view class="fengexian" v-if="userInfo !='' "></view>
 
 	</view>
 
@@ -372,7 +371,7 @@
 			myTest() {
 				if (this.userInfo != '') {
 					uni.navigateTo({
-						url: '../doTest/list.vue'
+						url: '../doTest/list'
 					});
 				} else {
 					this.gologin();

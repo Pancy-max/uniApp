@@ -40,7 +40,7 @@
 		computed: {
 			backColor() {
 				const length = this.colorList.length;
-				// if(this.index !== -1) return this.colorList[this.index % length];
+				if(this.index !== -1) return this.colorList[this.index % length];
 				const randomIndex = Math.floor(Math.random() * length);
 				return this.colorList[randomIndex];
 			}
@@ -54,7 +54,8 @@
 	justify-content: space-between;
 	width: 80%;
 	margin: auto;
-	min-height: 150rpx;
+	overflow: hidden;
+	height: 170rpx;
 	border-radius: 20rpx;
 	padding: 20rpx 40rpx;
 	box-shadow: 2rpx 2rpx 0 2rpx rgba(0, 0, 0, 0.2);
@@ -67,6 +68,12 @@
 	}
 	.subTitle {
 		font-size: 24rpx;
+		overflow: hidden;
+		width: 54vw;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
 	}
 	.footTitle {
 		font-size: 22rpx;
