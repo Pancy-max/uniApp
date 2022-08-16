@@ -112,8 +112,9 @@
 		  _initData(length) {
 			return this.item.evaTopicList.slice(length).map((item, idx) => {
 			  	return {
-			  		id: item.id, // 题目id
+			  		id: item.ID, // 题目id
 					type: 'radio',
+					childId: this.item.type === 1 ? this.childId : undefined, // 1-儿童 2-成人
 					number: idx + 1 + length,
 			  		// type: questionTypeMap[item.type + ''], // radio 单选 checkbox - 多选 ； write - 填空 
 			  		imageList: item.type === 2 && item.picUrl && item.picUrl.split(',') || [],
@@ -127,6 +128,7 @@
 							picUrl: v.picUrl,
 			  				content: v.direction,
 			  				name: '',
+							score: v.score,
 							code: v.code,
 			  				id: v.ID,
 			  				active: 0 // 选中状态
@@ -153,7 +155,7 @@
 					return {
 						"direction": keyRes.content,
 						"ocode": keyRes.code,
-						// "score": 0,
+						"score": keyRes.score,
 						"tcode": item.code,
 						"title": item.title
 					}

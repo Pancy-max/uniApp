@@ -49,9 +49,13 @@ export default {
   computed: {},
   methods: {
 	  getTestList() {
+		let value = uni.getStorageSync('myinfo');
 		this.request({
 			url: '/mini/getUserEvaInfo',
-			method: 'POST'
+			method: 'POST', 
+			data: {
+				username: value.user.username
+			}
 		}).then(res => {
 			// const lastInfo = res.data.userEvaInfo
 			// this.testList = []

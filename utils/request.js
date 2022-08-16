@@ -29,10 +29,11 @@ export default function(obj){
 				method:method
 			});
 			if (res.data && res.data.code === 7 && (!url.includes('login') && !url.includes('register'))){
-				uni.showToast({
-					title: res.data.msg,
-					icon: "none"
-				})
+				// uni.showToast({
+				// 	title: res.data.msg,
+				// 	icon: "none"
+				// })
+				console.error('请求' + url + '失败: ', res.data.msg)
 				if(res.data.msg.includes('未登录')){
 					setTimeout(() => {
 						uni.clearStorageSync()
