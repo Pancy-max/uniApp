@@ -35,35 +35,7 @@
 			},
 			userInfo: {},
 			questionList:[
-				{
-					id:1, // 题目id
-					type:'radio', //单选 checkbox - 多选 ； write - 填空 
-					title:'生物灭绝又叫生物绝种。历史上一共有几次大灭绝？', //题目名称
-					imageList:[],
-					countTime: 5,
-					question_option:[
-						{
-							id:1,//答案id
-							name:'A',//答案选项名
-							content:'一次',//答案内容
-							active:0//选中状态
-						},
-						{id:2,name:'B',content:'二次',active:0},
-						{id:3,name:'C',content:'三次',active:0},
-						{id:4,name:'D',content:'四次',active:0},
-						]//选项集
-				}, {
-					id:2,
-					type:'checkbox',
-					title:'生物大灭绝是指大规模的集群灭绝，生物灭绝又叫生物绝种。历史上一共有几次大灭绝？',
-					imageList:[],
-					question_option:[
-						{id:1,name:'A',content:'一次',active:0},
-						{id:2,name:'B',content:'二次',active:0},
-						{id:3,name:'C',content:'三次',active:0},
-						{id:4,name:'D',content:'四次',active:0},
-					]
-				}
+				
 			]
 		}
 	  },

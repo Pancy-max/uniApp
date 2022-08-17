@@ -124,7 +124,7 @@ export default {
 	mounted() {
 		this.initData()
 		this.colorMap = this.deepMerge(this.colorMap, this.colorStyle);
-		this.count = this.newOptList[this.showQuestionIndex].countTime || 0;
+		this.count = this.newOptList[this.showQuestionIndex]?.countTime || 0;
 		if(this.count) {
 			this.verification();
 		}
