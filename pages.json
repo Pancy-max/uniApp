@@ -80,9 +80,9 @@
 		}
 	  },
 	  {
-		"path": "pages/trading/index",
+		"path": "pages/allOrder/index",
 		"style": {
-		  "navigationBarTitleText": "我的交易"
+		  "navigationBarTitleText": "订单"
 		}
 	  },
 	  {

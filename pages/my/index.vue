@@ -59,11 +59,7 @@
 				<view class="nav-box">
 					<text class="nav-title">我的商店</text>
 					<view class="nav-items">
-						<view class="nav-item">
-							<image src="../../static/common/btn_08.png" mode=""></image>
-							<text>购物袋</text>
-						</view>
-						<view class="nav-item">
+						<view class="nav-item" @click="myTrading">
 							<image src="../../static/common/btn_08.png" mode=""></image>
 							<text>订单</text>
 						</view>
@@ -440,7 +436,15 @@
 				} else {
 					this.gologin();
 				}
-
+			},
+			myTrading() {
+				if (this.userInfo != '') {
+					uni.navigateTo({
+						url: '../allOrder/index'
+					});
+				} else {
+					this.gologin();
+				}				
 			},
 			//登录获取自己信息
 			getInfo() {
