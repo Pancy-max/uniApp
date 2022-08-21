@@ -323,6 +323,9 @@
 			},
 			//点击进入详情
 			doTest(item) {
+				item.evaTopicList.sort((a, b) => {
+					return a.sortOrder > b.sortOrder ? 1 : (a.sortOrder === b.sortOrder ? 0 : -1)
+				})
 				getApp().globalData.testItem = item;
 				if (item.type === 1) { // 儿童
 					this.$refs.childPopup.open()
@@ -344,6 +347,15 @@
 			},
 			selectChild(idx) {
 				this.$refs.childPopup.close()
+				const childAge = getApp().globalData.testItem.childAge
+				if (this.berList[idx].birthday > childAge) {
+					uni.showToast({
+						title: '儿童出生日期必须大于' + childAge + ',请重新选择！',
+						icon: 'none',
+						duration: 2000
+					})
+					return
+				}
 				getApp().globalData.childId = this.berList[idx].ID
 				uni.navigateTo({
 					url: '../doTest/index'
@@ -362,7 +374,11 @@
 						// limit: this.limit
 					}
 				}).then((res) => {
-					this.evaListInfo = res.data && res.data.evaListInfo && res.data.evaListInfo
+					const evaListInfo = res.data && res.data.evaListInfo
+					evaListInfo.sort((a, b) => {
+						return a.sortOrder > b.sortOrder ? 1 : -1
+					})
+					this.evaListInfo = evaListInfo
 					// if (res.data.data.length <= 0) {
 					// 	this.isEnd = true;
 					// 	this.status = 'noMore'

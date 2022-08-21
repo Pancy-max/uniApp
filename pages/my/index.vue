@@ -33,65 +33,120 @@
 		</view>
 
 		<view class="block-view">
-
-			<view class="my_tabs" @click="getMemberList">
-				<view class="tabs_left">
-					<my-icon type="staff" size="26" />
-				</view>
-				<view class="tabs_right">
-					<text>儿童信息</text>
-					<image src="../../static/my/btn_01.png" mode=""></image>
-				</view>
-			</view>
-
-			<view class="fengexian"></view>
-
-			<view class="my_tabs" @click="myTest">
-				<view class="tabs_left">
-					<image src="../../static/common/btn_08.png" mode=""></image>
-				</view>
-				<view class="tabs_right">
-					<text>我的测评</text>
-					<image src="../../static/my/btn_01.png" mode=""></image>
+			<view class="content-wrapper">
+				<view class="nav-box">
+					<text class="nav-title">儿童信息</text>
+					<view class="nav-items">
+						<view class="nav-item" @tap="getMemberList">
+							<my-icon type="staff" size="26" />
+							<text>儿童信息</text>
+						</view>
+					</view>	
 				</view>
 			</view>
-
-			<view class="fengexian"></view>
-
-
-			<view class="my_tabs" @click="share">
-				<view class="tabs_left">
-					<my-icon type="redo" size="26" />
-				</view>
-				<view class="tabs_right">
-					<text>分享给朋友</text>
-					<image src="../../static/my/btn_01.png" mode=""></image>
+			<view class="content-wrapper">
+				<view class="nav-box">
+					<text class="nav-title">我的测评</text>
+					<view class="nav-items">
+						<view class="nav-item" @click="myTest">
+							<image src="../../static/common/btn_08.png" mode=""></image>
+							<text>测评报告</text>
+						</view>
+					</view>	
 				</view>
 			</view>
-			<view class="fengexian"></view>
-
-			<view class="my_tabs" @click="help">
-				<view class="tabs_left">
-					<my-icon type="chatboxes" size="26" />
-				</view>
-				<view class="tabs_right">
-					<text>联系客服</text>
-					<image src="../../static/my/btn_01.png" mode=""></image>
-				</view>
-			</view>
-			<view class="fengexian"></view>
-
-			<view class="my_tabs" @click="about">
-				<view class="tabs_left">
-					<my-icon type="info" size="26" />
-				</view>
-				<view class="tabs_right">
-					<text>关于我们</text>
-					<image src="../../static/my/btn_01.png" mode=""></image>
+			<view class="content-wrapper">
+				<view class="nav-box">
+					<text class="nav-title">我的商店</text>
+					<view class="nav-items">
+						<view class="nav-item">
+							<image src="../../static/common/btn_08.png" mode=""></image>
+							<text>购物袋</text>
+						</view>
+						<view class="nav-item">
+							<image src="../../static/common/btn_08.png" mode=""></image>
+							<text>订单</text>
+						</view>
+					</view>
 				</view>
 			</view>
-			<view class="fengexian"></view>
-		</view>
+			<view class="content-wrapper">
+				<view class="nav-box">
+					<text class="nav-title">我的服务</text>
+					<view class="nav-items">
+						<view class="nav-item" @tap="share">
+							<my-icon type="redo" size="26" />
+							<text>小程序码</text>
+						</view>
+						<view class="nav-item" @tap="help">
+							<my-icon type="chatboxes" size="26" />
+							<text>联系客服</text>
+						</view>
+						<view class="nav-item" @tap="about">
+							<my-icon type="info" size="26" />
+							<text>关于我们</text>
+						</view>
+					</view>
+				</view>
+			</view>
+				<!-- <view class="my_tabs" @click="getMemberList">
+					<view class="tabs_left">
+						<my-icon type="staff" size="26" />
+					</view>
+					<view class="tabs_right">
+						<text>儿童信息</text>
+						<image src="../../static/my/btn_01.png" mode=""></image>
+					</view>
+				</view>
+
+				<view class="fengexian"></view> -->
+
+				<!-- <view class="my_tabs" @click="myTest">
+					<view class="tabs_left">
+						<image src="../../static/common/btn_08.png" mode=""></image>
+					</view>
+					<view class="tabs_right">
+						<text>我的测评</text>
+						<image src="../../static/my/btn_01.png" mode=""></image>
+					</view>
+				</view>
+
+				<view class="fengexian"></view> -->
+
+
+				<!-- <view class="my_tabs" @click="share">
+					<view class="tabs_left">
+						<my-icon type="redo" size="26" />
+					</view>
+					<view class="tabs_right">
+						<text>分享给朋友</text>
+						<image src="../../static/my/btn_01.png" mode=""></image>
+					</view>
+				</view>
+				<view class="fengexian"></view>
+
+				<view class="my_tabs" @click="help">
+					<view class="tabs_left">
+						<my-icon type="chatboxes" size="26" />
+					</view>
+					<view class="tabs_right">
+						<text>联系客服</text>
+						<image src="../../static/my/btn_01.png" mode=""></image>
+					</view>
+				</view> -->
+				<!-- <view class="fengexian"></view>
+
+				<view class="my_tabs" @click="about">
+					<view class="tabs_left">
+						<my-icon type="info" size="26" />
+					</view>
+					<view class="tabs_right">
+						<text>关于我们</text>
+						<image src="../../static/my/btn_01.png" mode=""></image>
+					</view>
+				</view>
+				<view class="fengexian"></view> -->
+			</view>
 
 		<uni-popup ref="shardPop" type="share" safeArea backgroundColor="#fff">
 			<uni-popup-share @select="selectShareItem"></uni-popup-share>
@@ -397,19 +452,48 @@
 
 <style lang="less">
 	.my {
-		padding: 30rpx;
-		background-color: #f1f1f1;
-		height: calc(100vh - 60rpx);
-
+		// padding: 30rpx;
+		height: calc(100vh);
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
 		.block-view {
-			background: #fff;
-			border-radius: 40rpx;
-			margin-bottom: 30rpx;
-			padding: 10rpx;
+			background: #f0f0f0;
+			// border-radius: 40rpx;
+			// margin-bottom: 30rpx;
+			padding: 20rpx;
+			flex: 1;
+			overflow: auto;
+			.content-wrapper {
+				.nav-box {
+					border-radius: 20rpx;
+					padding: 20rpx;
+					margin-bottom: 20rpx;
+					background: #fff;
+					.nav-title {
+						color: #000;
+						font-size: 32rpx;
+					}
+					.nav-items {
+						display: flex;
+					}
+					.nav-item {
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						margin: 50rpx 30rpx 10rpx 0rpx;
+						font-size: 26rpx;
+						image {
+							width: 50rpx;
+							height: 50rpx;
+						}
+					}
+				}
+			}
 		}
 
 		.my_header {
-			margin-top: 40rpx;
+			margin: 40rpx 30rpx;
 		}
 	}
 
@@ -420,7 +504,7 @@
 
 	.title {
 		display: flex;
-		margin-top: 160rpx;
+		margin-top: 60rpx;
 		height: 140rpx;
 		padding: 10rpx 0;
 

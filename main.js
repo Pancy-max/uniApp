@@ -11,7 +11,7 @@ Vue.config.productionTip = false
 App.mpType = 'app'
 
 import request from 'utils/request.js'
-var server_url = 'http://101.43.171.152:9527';
+var server_url = 'https://server.ifragranto.com/api';
 Vue.prototype.$websiteUrl = server_url;
 Vue.prototype.$appKey = 'wxf4320d4ac27c17ce';
 Vue.prototype.$app_secret = '20d73a6f9e3c316300ceea59420241d3';

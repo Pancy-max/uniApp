@@ -54,7 +54,8 @@ export default {
 			url: '/mini/getUserEvaInfo',
 			method: 'POST', 
 			data: {
-				username: value.user.username
+				username: value.user.username,
+				isAll: true
 			}
 		}).then(res => {
 			// const lastInfo = res.data.userEvaInfo

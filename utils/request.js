@@ -43,7 +43,7 @@ export default function(obj){
 					}, 1000)
 				}
 				this.userInfo = ''
-				return 
+				return res.data
 			} else {
 				return res.data;	
 			}

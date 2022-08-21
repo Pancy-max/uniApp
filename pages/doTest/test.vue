@@ -59,23 +59,35 @@
 	  methods: {
 		  getUserProcess() {
 			this.request({
-			  	url: '/mini/getUserEvaInfo',
+			  	url: '/mini/getUserEvaProgress',
 			  	method: 'POST',
 				data: {
 					mcode: this.mcode,
-					username: this.userInfo.user.username
+					username: this.userInfo.user.username,
+					childId: this.item.type === 1 ? this.childId : 0, // 1-儿童 2-成人
+					isAll: false
 				}
 			}).then(res => {
 				console.log('获取历史做题信息', res.data)
-				const lastInfo = res.data.userEvaInfo
-				const {costTime, startTime, result} = lastInfo
-				this.lastInfo.costTime = costTime
-				this.lastInfo.startTime = startTime
-				this.lastInfo.result = result || []
+				const lastInfo = res.data.userEvaProgress
+				if (lastInfo) {
+					const {costTime, startTime, result} = lastInfo
+					this.lastInfo.costTime = costTime
+					this.lastInfo.startTime = startTime
+					this.lastInfo.result = result || []
+				}
 				const length = this.lastInfo.result.length
 				console.log('上一次已做题目数', length)
-				this.questionList = [...this._initData(length)]
-				
+				// 如果全部做完
+				if (length === this.item.evaTopicList.length) {
+					uni.redirectTo({
+						url: './testResult'
+					})
+				} else if (length < this.item.evaTopicList.length) {
+					this.questionList = [...this._initData(length)]
+				} else {
+					console.error('获取进度错误，已做题目数大于总题目数')
+				}		
 			}).catch(e => {
 				console.error(e)
 				this.questionList = [...this._initData(0)];
@@ -86,7 +98,6 @@
 			  	return {
 			  		id: item.ID, // 题目id
 					type: 'radio',
-					childId: this.item.type === 1 ? this.childId : undefined, // 1-儿童 2-成人
 					number: idx + 1 + length,
 			  		// type: questionTypeMap[item.type + ''], // radio 单选 checkbox - 多选 ； write - 填空 
 			  		imageList: item.type === 2 && item.picUrl && item.picUrl.split(',') || [],
@@ -118,8 +129,10 @@
 			const endTime = Date.now();
 			// 根据数据，发送给后台，返回测评结果
 			const that = this
-			// current_id -当前已做题目数
-			const checkRes = e.checkRes.check_res.slice(0, e.current_id)
+			// current_id -当前索引
+			console.log('当前索引', e.current_id)
+			// 已做题目 = 当前索引（从零开始） + 1 - 1（当前没做）
+			const checkRes = e.isEnd ? e.checkRes.check_res : e.checkRes.check_res.slice(0, e.current_id)
 			const hasFinished = this.totalLength === checkRes.length + this.lastInfo.result.length
 			const testData = {
 				  result: [...this.lastInfo.result, ...checkRes.map(item => {
@@ -132,7 +145,7 @@
 						"title": item.title
 					}
 				  })],
-				  childId: this.item.type === 1 ? this.childId : undefined, // 1-儿童 2-成人
+				  childId: this.item.type === 1 ? this.childId : 0, // 1-儿童 2-成人
 				  source: "string",
 				  // "userUuid": userInfo.user.uuid,
 				  username: this.userInfo.user.username,
@@ -142,7 +155,7 @@
 				  mcode: this.mcode,
 				  amount: this.amount,
 				  hasFinished,
-				  ispay: false,
+				  // ispay: false,
 			}
 			this.request({
 				url: '/mini/submitEvaResult',
@@ -151,11 +164,7 @@
 			}).then((res) => {
 				this.isSummitFlag = true
 				if(res.data!='' && res.data){
-					// this.bannerList = res.data.bannerInfo.map(item => {
-					// 	item.image = item.picUrl
-					// 	item.id = item.ID
-					// 	return item
-					// })
+					console.log('提交测评成功')
 				}else{
 				}
 			})

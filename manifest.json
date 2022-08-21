@@ -24,7 +24,8 @@
         "modules" : {
             "OAuth" : {},
             "Payment" : {},
-            "Push" : {}
+            "Push" : {},
+            "Share" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -68,9 +69,21 @@
                     }
                 },
                 "ad" : {},
-                "payment" : {},
+                "payment" : {
+                    "weixin" : {
+                        "__platform__" : [ "ios", "android" ],
+                        "appid" : "wxf4320d4ac27c17ce",
+                        "UniversalLinks" : ""
+                    }
+                },
                 "push" : {
                     "unipush" : {}
+                },
+                "share" : {
+                    "weixin" : {
+                        "appid" : "wxf4320d4ac27c17ce",
+                        "UniversalLinks" : ""
+                    }
                 }
             },
             "icons" : {},
@@ -96,7 +109,10 @@
         },
         "usingComponents" : true,
         "lazyCodeLoading" : "requiredComponents",
-        "permission" : {}
+        "permission" : {},
+        "uniStatistics" : {
+            "enable" : true
+        }
     },
     "mp-alipay" : {
         "usingComponents" : true

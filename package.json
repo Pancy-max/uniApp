@@ -9,6 +9,7 @@
   "author": "yszyun",
   "dependencies": {
     "crypto-js": "^4.1.1",
+    "jsrsasign": "^10.5.27",
     "jweixin-module": "^1.6.0",
     "qrcode.vue": "^3.3.3"
   }
