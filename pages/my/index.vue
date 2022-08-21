@@ -86,6 +86,10 @@
 							<my-icon type="info" size="26" />
 							<text>关于我们</text>
 						</view>
+						<view class="nav-item" @tap="helpCenter">
+							<my-icon type="help" size="26" />
+							<text>帮助中心</text>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -327,6 +331,11 @@
 					url: '../About/index'
 				})
 			},
+			helpCenter() {
+				uni.navigateTo({
+					url: '../help/center'
+				})
+			},
 			// 分享
 			share() {
 				// if (this.userInfo != '') {
@@ -450,7 +459,7 @@
 	};
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 	.my {
 		// padding: 30rpx;
 		height: calc(100vh);

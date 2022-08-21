@@ -18,10 +18,10 @@
 	 	</view>
 	 </view>
 
-	<view class="tabbar" v-show="showEnter">
+	<view class="tabbar" v-if="showEnter">
 		<button @click="goTest" class="go_test">进入测评</button>
 	</view>
-	<view class="pay_btn" v-show="showPay">
+	<view class="pay_btn" v-if="showPay">
 		<view class="price-box">
 			<text class="origin-price">￥{{price}}</text>
 			<text class="sel-price" v-if="selPrice">券后价 ￥{{selPrice}}</text>
@@ -32,8 +32,6 @@
 </template>
 
 <script>
-// import crypto from 'crypto-js'
-import { KEYUTIL, KJUR, hextob64, hextob64u } from 'jsrsasign';
 export default {
   components: {},
   props: {},
@@ -47,6 +45,7 @@ export default {
 		price: null,
 		selPrice: null,
 		goodsSn: null,
+		payTimer: null
 	}
   },
   onLoad(option) {
@@ -134,67 +133,91 @@ export default {
 				openid: this.myInfo.user.weixinOpenid,
 			}
 		})
-		const timeStamp =  Math.floor(Date.now() / 1000) + '';
-		const nonceStr = this._generateNonceStr();
-		const packageStr = "prepay_id=" + res.data.orderID;
-		const originStr = `${this.$appKey}\n${timeStamp}\n${nonceStr}\n${packageStr}\n`;
-		const paySign = this._sha256withRSA(originStr);
+
 		uni.requestPayment({
 			provider: "wxpay",
-			"timeStamp": timeStamp,
-			"nonceStr": nonceStr,
-			"package": packageStr,
+			"timeStamp": res.data.timeStamp,
+			"nonceStr": res.data.nonceStr,
+			"package": res.data.package,
 			"signType": "RSA",
-			"paySign": paySign,
-			success: (e) => {
-				// uni.navigateTo({
-				// 	url: '../LivingExpenses/LivingExpenses'
-				// })
-			},
-			fail: (err) => {
-				console.log('失败', err)
+			"paySign": res.data.paySign,
+			// success: (e) => {
+			// 	uni.showToast({
+			// 		title: "支付成功",
+			// 		icon: 'none',
+			// 		duration: 2000
+			// 	})
+			// 	this.showPay = false
+			// 	this.showEnter = true
+			// 	// 查询支持结果
+			// 	console.log('success', e)
+			// },
+			// fail: (err) => {
+			// 	console.log('失败', err)
+			// 	uni.showToast({
+			// 		title: "支付失败",
+			// 		icon: 'none',
+			// 		duration: 2000
+			// 	})
+			// }
+		})
+		// 三秒后轮询结果
+		// setTimeout(() => {
+			this.payTimer = setInterval(() => {
+			  this.searchPayResult(res.data.outTradeNo)
+			}, 500)
+		// }, 3000)
+	  },
+	  searchPayResult(id) {
+		  console.log('searchPayResult', id)
+		  try{
+		  	this.request({
+		  		url: `/wxpay/getOrderById`,
+				method: 'POST',
+				data: {
+					outTradeNo: id
+				}
+		  	}).then(res => {
+		  		console.log('searchPayResult', res)
+				  if (res.code === 0 && res.data.tradeState === 'PAY') {
+					  uni.showToast({
+							title: "支付成功",
+							icon: 'none',
+							duration: 2000
+						})
+						debugger
+					  clearInterval(this.payTimer)
+					  this.payTimer = null
+				  }
+				  if (!res || res.code === 7 || res.includes('404')) {
+					  uni.showToast({
+							title: "支付失败",
+							icon: 'none',
+							duration: 2000
+						})
+						clearInterval(this.payTimer)
+						this.payTimer = null
+				  }
+		  	}).catch(e => {
+				debugger
+				clearInterval(this.payTimer)
+				this.payTimer = null
 				uni.showToast({
 					title: "支付失败",
 					icon: 'none',
 					duration: 2000
 				})
-			}
-		})
-	  },
-	  // 获取签名
-	  _getRsaSign(originStr) {
-		  const RASkey = 'nonceStr'
-		  var encrypt=new crypto();
-		  encrypt.setPrivateKey(RASkey);
-		  let data =encrypt.encrypt(originStr)
-		  return data;
-	  },
-	  _sha256withRSA(inputString) {
-		  const privateKeyString = ``
-	      const key = KEYUTIL.getKey(privateKeyString);
-	      // 创建 Signature 对象，设置签名编码算法
-	      const signature = new KJUR.crypto.Signature({ alg: 'SHA256withRSA' });
-	      // 初始化
-	      signature.init(key);
-	      // 传入待加密字符串
-	      signature.updateString(inputString);
-	      // 生成密文
-	      const originSign = signature.sign();
-	      // const sign64 = hextob64(originSign);
-	      // console.log('sign base64 =======', sign64);
-	      // const sign64u = hextob64u(originSign);
-	      // console.log('sign base64u=======', sign64u);
-	      return originSign;
-	  },
-	  // 生成随机字符串
-	  _generateNonceStr() {
-	      const str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-	      const arr = new Array(32)
-			for (let i = 0; i < arr.length; i++) {
-				const number = Math.floor(Math.random() * str.length)
-				arr[i] = str[number]
-			}
-		  return arr.join('');
+			})
+		  }catch(e){
+		  	//TODO handle the exception
+			clearInterval(this.payTimer)
+			this.payTimer = null
+			uni.showToast({
+				title: "支付失败",
+				icon: 'none',
+				duration: 2000
+			})
+		  }
 	  }
   },
 };

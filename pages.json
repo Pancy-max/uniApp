@@ -172,6 +172,12 @@
 	  		"style": {
 	  		  "navigationBarTitleText": "联系客服"
 	  		}
+	  },
+	  {
+		  "path": "pages/help/center",
+		  "style": {
+		    "navigationBarTitleText": "帮助中心"
+		  }
 	  }
 	 //  {
 		// "path": "pages/wy/my/index",
