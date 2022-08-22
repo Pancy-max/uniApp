@@ -1,7 +1,7 @@
 <template>
 	<div class="wrapper">
 		<view class="text-wrapper">
-			<view class="text">{{text}}</view>
+			<view class="text" v-html="text"></view>
 		</view>		
 	</div>
 </template>

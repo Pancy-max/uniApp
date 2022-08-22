@@ -133,6 +133,7 @@ export default {
 		console.log('beforeDestroy', '非正常退出')
 		const opt = {
 			current_id: this.showQuestionIndex,
+			isNormal: true
 			// isEnd: this.isEnd
 		}
 		this.formatKey(opt)

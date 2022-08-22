@@ -4,23 +4,26 @@
 			<view class="all_orders_1">
 				<text decode="true" class="all_orders_2">全部订单</text>
 				<view class="orders">
-					<view v-for="(item_orders, index) in list_orders" :key="index" class="item">
+					<view v-for="(item_orders, index) in list_orders" :key="index" class="item order-item">
 						<view class="all_orders_5">
 							<view class="all_orders_7">
-								<image v-on:click="all_orders_8_8_click(item_orders)"  src="/static/all_orders/images/all_orders_8_8.jpg" mode="scaleToFill" border="0"    class="all_orders_8"></image>
-								<text decode="true" class="address_from">{{item_orders.address_from}}</text>
+								<image src="/static/all_orders/images/all_orders_8_8.jpg" mode="scaleToFill" border="0"    class="all_orders_8"></image>
+								<text decode="true" class="address_from">{{item_orders.description}}</text>
 							</view>
-							<image v-on:click="all_orders_10_10_click(item_orders)"  src="/static/all_orders/images/all_orders_10_10.jpg" mode="scaleToFill" border="0"    class="all_orders_10"></image>
+							<!-- <image src="/static/all_orders/images/all_orders_10_10.jpg" mode="scaleToFill" border="0"    class="all_orders_10"></image> -->
 							<view class="all_orders_11">
-								<image v-on:click="all_orders_12_12_click(item_orders)"  src="/static/all_orders/images/all_orders_12_12.jpg" mode="scaleToFill" border="0"    class="all_orders_12"></image>
-								<text decode="true" class="address_to">{{item_orders.address_to}}</text>
+								<image src="/static/all_orders/images/all_orders_12_12.jpg" mode="scaleToFill" border="0"    class="all_orders_12"></image>
+								<text decode="true" class="address_to">{{item_orders.SuccessTime}}</text>
 							</view>
 							<view class="all_orders_14">
 								<text decode="true" class="all_orders_15">订单号</text>
-								<text decode="true" class="orderNo">{{item_orders.orderNo}}</text>
+								<text decode="true" class="orderNo">{{item_orders.out_trade_no}}</text>
 							</view>
 						</view>
-						<image v-on:click="all_orders_6_6_click(item_orders)"  src="/static/all_orders/images/all_orders_6_6.jpg" mode="scaleToFill" border="0"    class="all_orders_6"></image>
+						<view class="all_orders_6">
+							{{item_orders.tradeState === 'SUCCESS'? '交易成功' : '交易失败'}}
+						</view>
+						<!-- <image  src="/static/all_orders/images/all_orders_6_6.jpg" mode="scaleToFill" border="0"    class="SUCCESS"></image> -->
 					</view>
 				</view>
 			</view>

@@ -324,7 +324,7 @@
 			//点击进入详情
 			doTest(item) {
 				item.evaTopicList.sort((a, b) => {
-					return a.sortOrder > b.sortOrder ? 1 : (a.sortOrder === b.sortOrder ? 0 : -1)
+					return a.sortOrder > b.sortOrder ? -1 : (a.sortOrder === b.sortOrder ? 0 : 1)
 				})
 				getApp().globalData.testItem = item;
 				if (item.type === 1) { // 儿童

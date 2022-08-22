@@ -7,7 +7,7 @@
 				<my-icon type="vip" size="30" />
 			</view>
 			<view class="tabs_right">
-				<text>测试题目</text>
+				<text>{{item.title}}</text>
 				<image src="../../static/my/btn_01.png" mode=""></image>
 			</view>
 		</view>
@@ -51,15 +51,17 @@ export default {
 	  getTestList() {
 		let value = uni.getStorageSync('myinfo');
 		this.request({
-			url: '/mini/getUserEvaInfo',
+			url: '/mini/getUserEvaProgress',
 			method: 'POST', 
 			data: {
 				username: value.user.username,
-				isAll: true
+				isAll: true,
+				childId: 0,
+				mcode: ''
 			}
 		}).then(res => {
 			// const lastInfo = res.data.userEvaInfo
-			// this.testList = []
+			this.testList = res.data.userEvaProgress
 		}).catch(e => {
 			console.error(e)
 			this.testList = [];

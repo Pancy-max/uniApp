@@ -69,7 +69,7 @@
 				}
 			}).then(res => {
 				console.log('获取历史做题信息', res.data)
-				const lastInfo = res.data.userEvaProgress
+				const lastInfo = res.data.userEvaProgress[0]
 				if (lastInfo) {
 					const {costTime, startTime, result} = lastInfo
 					this.lastInfo.costTime = costTime
@@ -100,7 +100,7 @@
 					type: 'radio',
 					number: idx + 1 + length,
 			  		// type: questionTypeMap[item.type + ''], // radio 单选 checkbox - 多选 ； write - 填空 
-			  		imageList: item.type === 2 && item.picUrl && item.picUrl.split(',') || [],
+			  		imageList: item.type === 2 && item.picUrl && item.picUrl.split(';') || [],
 					desc: item.type === 3 && item.picUrl,
 					subtitle: item.subtitle,
 			  		title: item.title,
@@ -134,6 +134,7 @@
 			// 已做题目 = 当前索引（从零开始） + 1 - 1（当前没做）
 			const checkRes = e.isEnd ? e.checkRes.check_res : e.checkRes.check_res.slice(0, e.current_id)
 			const hasFinished = this.totalLength === checkRes.length + this.lastInfo.result.length
+			this.isSummitFlag = true
 			const testData = {
 				  result: [...this.lastInfo.result, ...checkRes.map(item => {
 					const keyRes = item.keyRes[0] || {}// 目前都是单选
@@ -162,10 +163,18 @@
 				method: 'POST',
 				data: testData
 			}).then((res) => {
-				this.isSummitFlag = true
 				if(res.data!='' && res.data){
 					console.log('提交测评成功')
-				}else{
+					this.request({
+						url: '/mini/submitEvaResult',
+						method: 'POST',
+						data: testData
+					}).then((result) => {
+						if(result.data!='' && result.data){
+							console.log('计分成功')
+						}
+					})
+					
 				}
 			})
 			if (hasFinished) {

@@ -463,7 +463,7 @@
 	};
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 	.my {
 		// padding: 30rpx;
 		height: calc(100vh);

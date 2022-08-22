@@ -24,7 +24,7 @@
 	<view class="pay_btn" v-if="showPay">
 		<view class="price-box">
 			<text class="origin-price">￥{{price}}</text>
-			<text class="sel-price" v-if="selPrice">券后价 ￥{{selPrice}}</text>
+			<text class="sel-price" v-if="selPrice">活动价 ￥{{selPrice}}</text>
 		</view>
 		<button @click="goPay" class="go_buy">购买</button>
 	</view>
@@ -45,12 +45,17 @@ export default {
 		price: null,
 		selPrice: null,
 		goodsSn: null,
-		payTimer: null
+		payTimer: null,
+		maxTry: 0
 	}
   },
   onLoad(option) {
   	// this.childId=option.childId
 	this.checkLogin()
+  },
+  beforeDestroy() {
+	clearInterval(this.payTimer)
+	this.payTimer = null  
   },
   async created() {
 	  this.item = getApp().globalData.testItem
@@ -103,26 +108,49 @@ export default {
 	  
 	  getPayStatus() {
 		  this.request({
-			  url: '/mini/getUserEvaInfo',
+			  url: '/mini/getUserEvaPayStatus',
 			  method: 'POST',
 			  data: {
 				mcode: this.item.code,
 				username: this.myInfo.user.username,
-				childId: this.item.type === 1 ? this.childId : 0, // 1-儿童 2-成人
-				isAll: false
+				// childId: this.item.type === 1 ? this.childId : 0, // 1-儿童 2-成人
+				// isAll: false
 			  }
 		  }).then(res => {
-			  if (res.code === 7 && res.msg.includes('未支付')) {
-				this.showPay = true
+			  if (res.data.userEvaPayStatus && res.data.userEvaPayStatus.ispay) {
+				  this.showEnter = true
 			  } else {
-				this.showEnter = true
+				  this.showPay = true
 			  }
+			 //  if (res.code === 7 && res.msg.includes('未支付')) {
+				// this.showPay = true
+			 //  } else {
+				// this.showEnter = true
+			 //  }
 		  })
 	  },
 	  goTest(){
-		  uni.navigateTo({
-			url: './test'
-		  })
+		this.request({
+			url: '/mini/getUserEvaProgress',
+			method: 'POST',
+			data: {
+				mcode: this.item.code,
+				username: this.myInfo.user.username,
+				childId: this.item.type === 1 ? this.childId : 0, // 1-儿童 2-成人
+				isAll: false
+			}
+		}).then(res => {
+			const data = res.data
+			if (data && data.userEvaProgress && data.userEvaProgress[0] && data.userEvaProgress[0].hasFinished) {
+				uni.redirectTo({
+					url: './testResult?mcode=' + this.item.code
+				})
+			} else {
+				uni.navigateTo({
+					url: './test'
+				})
+			}
+		})
 	  },
 	  async goPay() {
 		const res = await this.request({
@@ -133,7 +161,14 @@ export default {
 				openid: this.myInfo.user.weixinOpenid,
 			}
 		})
-
+		if (res.code === 7) {
+			uni.showToast({
+				title: res.msg,
+				icon: 'none',
+				duration: 2000
+			})
+			return
+		}
 		uni.requestPayment({
 			provider: "wxpay",
 			"timeStamp": res.data.timeStamp,
@@ -152,24 +187,37 @@ export default {
 			// 	// 查询支持结果
 			// 	console.log('success', e)
 			// },
-			// fail: (err) => {
-			// 	console.log('失败', err)
-			// 	uni.showToast({
-			// 		title: "支付失败",
-			// 		icon: 'none',
-			// 		duration: 2000
-			// 	})
-			// }
+			fail: (err) => {
+				console.log('失败', err)
+				uni.showToast({
+					title: "支付失败",
+					icon: 'none',
+					duration: 2000
+				})
+				clearInterval(this.payTimer)
+				this.payTimer = null
+			}
 		})
-		// 三秒后轮询结果
-		// setTimeout(() => {
+		// 两秒后轮询结果
+		setTimeout(() => {
 			this.payTimer = setInterval(() => {
+			  this.maxTry = 0
 			  this.searchPayResult(res.data.outTradeNo)
 			}, 500)
-		// }, 3000)
+		}, 2000)
 	  },
 	  searchPayResult(id) {
-		  console.log('searchPayResult', id)
+		  this.maxTry++
+		  if (this.maxTry > 100) {
+			  uni.showToast({
+					title: "支付超时",
+					icon: 'none',
+					duration: 2000
+				})
+				clearInterval(this.payTimer)
+				this.payTimer = null
+			  return
+		  }
 		  try{
 		  	this.request({
 		  		url: `/wxpay/getOrderById`,
@@ -178,28 +226,54 @@ export default {
 					outTradeNo: id
 				}
 		  	}).then(res => {
-		  		console.log('searchPayResult', res)
-				  if (res.code === 0 && res.data.tradeState === 'PAY') {
+		  		console.log('查询支付结果', res)
+				const tradeState = res.data && res.data.tradeState
+				  if (res.code === 0 && tradeState === 'SUCCESS') {
 					  uni.showToast({
 							title: "支付成功",
 							icon: 'none',
 							duration: 2000
 						})
-						debugger
+						this.showPay = false
+						this.showEnter = true
 					  clearInterval(this.payTimer)
 					  this.payTimer = null
 				  }
-				  if (!res || res.code === 7 || res.includes('404')) {
+				  if (!res || (typeof res === 'string' && res.includes('404'))) {
+					uni.showToast({
+						title: "支付失败",
+						icon: 'none',
+						duration: 2000
+					})
+				  }
+				  if (['PAYERROR', 'REVOKED', 'REFUND', 'CLOSED'].includes(tradeState)) {
+					  let msg = ''
+					  switch (tradeState){
+					  	case 'PAYERROR':
+							msg = '支付失败'
+					  		break;
+						case 'REVOKED':
+							msg = '已撤销'
+							break;
+						case 'PAYERROR':
+							msg = '转入退款'
+							break;
+						case 'CLOSED':
+							msg = '已关闭'
+							break;
+					  	default:
+					  		break;
+					  }
 					  uni.showToast({
-							title: "支付失败",
-							icon: 'none',
-							duration: 2000
-						})
-						clearInterval(this.payTimer)
-						this.payTimer = null
+					  	title: msg,
+					  	icon: 'none',
+					  	duration: 2000
+					  })
+				  	clearInterval(this.payTimer)
+				  	this.payTimer = null
 				  }
 		  	}).catch(e => {
-				debugger
+				console.error('e', e)
 				clearInterval(this.payTimer)
 				this.payTimer = null
 				uni.showToast({
