@@ -299,12 +299,12 @@ export default {
 
 <style lang="less" scoped>
 	.test-wrapper {
-		height: calc(100vh - 0rpx);
+		height: calc(99vh - 110rpx);
 		background: #9e9e9e14;
 		// padding: 40rpx;
 		display: flex;
 		flex-direction: column;
-		// overflow: hidden;
+		overflow: auto;
 		
 		.title-wrapper {
 			display: flex;
@@ -364,9 +364,11 @@ export default {
 		}
 	}
 	.tabbar {
-		// position: absolute;
-		// width: 90%;
-		// bottom: 5vh;
+		position: fixed;
+		width: 90%;
+		bottom: 1vh;
+		left: 5%;
+		background: #9e9e9e14;
 		.go_test {
 			background-color: #ffff00bd;
 		}

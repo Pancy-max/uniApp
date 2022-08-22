@@ -69,7 +69,7 @@
 				}
 			}).then(res => {
 				console.log('获取历史做题信息', res.data)
-				const lastInfo = res.data.userEvaProgress[0]
+				const lastInfo = res.data && res.data.userEvaProgress && res.data.userEvaProgress[0]
 				if (lastInfo) {
 					const {costTime, startTime, result} = lastInfo
 					this.lastInfo.costTime = costTime
@@ -79,6 +79,10 @@
 				const length = this.lastInfo.result.length
 				console.log('上一次已做题目数', length)
 				// 如果全部做完
+				if (!this.item.evaTopicList) {
+					console.error('获取进度错误，已做题目数大于总题目数')
+					this.questionList = [...this._initData(0)]
+				}
 				if (length === this.item.evaTopicList.length) {
 					uni.redirectTo({
 						url: './testResult'

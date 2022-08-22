@@ -17,7 +17,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="title" v-else>
+			<view class="title" v-else @click="logOut()">
 				<view class="t_left">
 					<image :src="avatar" mode=""></image>
 				</view>
@@ -27,6 +27,11 @@
 							<view class="name1">{{ myinfo.user && myinfo.user.username }}</view>
 						</view>
 						<view class="r_text2">用户等级：{{ myinfo.user && myinfo.user.userLevel }}</view>
+					</view>
+					<view class="r_right">
+						<view class="r_image">
+							<image src="../../static/my/btn_01.png" mode=""></image>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -151,7 +156,7 @@
 		<uni-popup ref="shardPop" type="share" safeArea backgroundColor="#fff">
 			<uni-popup-share @select="selectShareItem"></uni-popup-share>
 		</uni-popup>
-		<view class="my_tabs" v-if="userInfo !=''" @click="logOut">
+		<!-- <view class="my_tabs" v-if="userInfo !=''" @click="logOut">
 			<view class="tabs_left">
 				<image src="../../static/my/icon5.png" mode=""></image>
 			</view>
@@ -159,7 +164,7 @@
 				<text>退出登录</text>
 				<image src="../../static/my/btn_01.png" mode=""></image>
 			</view>
-		</view>
+		</view> -->
 		<uni-popup ref="popup2" type="dialog">
 			<uni-popup-dialog mode="base" message="成功消息" :duration="2000" :before-close="true" @close="close"
 				@confirm="confirm" content="确定要退出当前账号吗" title="退出账号" msgColor="msgColor"></uni-popup-dialog>
@@ -564,7 +569,7 @@
 			}
 
 			.r_right {
-				margin-right: 46rpx;
+				margin-right: 10rpx;
 				display: flex;
 				align-items: center;
 

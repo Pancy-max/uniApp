@@ -452,7 +452,7 @@ view {
 	transition: all 0.3s;
 }
 .question--find-in {
-	animation: findIn-question 0.3s;
+	// animation: findIn-question 0.3s;
 }
 .time {
 	display: flex;
@@ -464,17 +464,17 @@ view {
 	width: 50rpx;
 	height: 50rpx;
 }
-@keyframes findIn-question {
-	from {
-		transform: scale(0);
-		opacity: 0;
-	}
+// @keyframes findIn-question {
+// 	from {
+// 		transform: scale(0);
+// 		opacity: 0;
+// 	}
 
-	to {
-		transform: scale(1);
-		opacity: 1;
-	}
-}
+// 	to {
+// 		transform: scale(1);
+// 		opacity: 1;
+// 	}
+// }
 .precent-wrapper {
 	display: flex;
 	padding: 30rpx;

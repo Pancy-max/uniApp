@@ -27,14 +27,23 @@ export default {
 		childId: 0,
 		item: {},
 		myInfo: {},
-		testResult: null
+		testResult: null,
+		mcode: ''
 	}
   },
   computed: {},
   onLoad(e) {
 	console.log('onLoad', e.mcode)
-	this.childId = getApp().globalData.childId
-	this.item = getApp().globalData.testItem;
+	if (e.mcode) {
+		this.mcode = e.mcode
+		this.type = e.type
+		this.childId = e.childId
+	} else {
+		this.childId = getApp().globalData.childId
+		this.item = getApp().globalData.testItem;
+		this.mcode = this.item.code
+		this.type = this.item.type
+	}
 	this.myInfo = uni.getStorageSync('myinfo');
 	this.getUserEvaInfo()
   },
@@ -44,9 +53,9 @@ export default {
 		  	url: '/mini/getUserEvaInfo',
 		  	method: 'POST',
 		  	data: {
-		  		mcode: this.item.code,
+		  		mcode: this.mcode,
 		  		username: this.myInfo.user.username,
-		  		childId: this.item.type === 1 ? this.childId : 0, // 1-儿童 2-成人
+		  		childId: this.type === 1 ? this.childId : 0, // 1-儿童 2-成人
 		  		isAll: false
 		  	}
 		  }).then(res => {

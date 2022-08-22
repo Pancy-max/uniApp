@@ -1,9 +1,10 @@
 <template>
-	<div class="wrapper">
+	<!-- <div class="wrapper">
 		<view class="text-wrapper">
 			<view class="text" v-html="text"></view>
 		</view>		
-	</div>
+	</div> -->
+	<web-view :src="text"></web-view>
 </template>
 <script>
   export default {
@@ -30,6 +31,7 @@
 					break
 			}
 			this.text = getApp().globalData.aboutUsInfo[e.id] || title
+			console.log('协议链接', this.text)
 			uni.setNavigationBarTitle({
 			  title: title
 			})

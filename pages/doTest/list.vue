@@ -2,12 +2,16 @@
  <view class="test-wrapper">
 	<view class="block-view">
 	
-		<view class="my_tabs" @click="getDetail" v-for="(item, index) in testList" :key="index">
+		<view class="my_tabs" @tap="goTest(index)" v-for="(item, index) in testList" :key="index">
 			<view class="tabs_left">
 				<my-icon type="vip" size="30" />
 			</view>
 			<view class="tabs_right">
-				<text>{{item.title}}</text>
+				<view class="">
+					<view>{{item.title}}</view>
+					<view>{{item.endTime}}</view>
+				</view>
+				
 				<image src="../../static/my/btn_01.png" mode=""></image>
 			</view>
 		</view>
@@ -33,11 +37,7 @@ export default {
   props: {},
   data() {
   	return {
-  		testList: [{
-			title: ''
-		}, {
-			
-		}], //家庭成员列表
+  		testList: [], //列表
   	}
   },
   onLoad() {
@@ -45,6 +45,15 @@ export default {
   },
   onShow() {
   	this.getTestList();
+  },
+  onReachBottom() { //上拉触底函数
+  	this.getTestList(); //加载的数据
+  },
+  onPullDownRefresh() {
+  	this.getTestList();
+  	setTimeout(function() {
+  		uni.stopPullDownRefresh();
+  	}, 1000);
   },
   computed: {},
   methods: {
@@ -67,10 +76,19 @@ export default {
 			this.testList = [];
 		})
 	  },
-	  goTest(){
-		  uni.navigateTo({
-		  	url: './test?id=' + this.item.ID
-		  })
+	  goTest(index){
+		  const item = this.testList[index]
+		  if (item && item.hasFinished) {
+		  	uni.redirectTo({
+		  		url: './testResult?mcode=' + item.code
+		  	})
+		 } else {
+			 uni.showToast({
+			 	title: "题目未完成",
+			 	icon: 'none',
+			 	duration: 2000
+			 })
+		 }
 	  },
   },
 };

@@ -1,12 +1,17 @@
 <template>
+	<view class="">
+		
+
 	<view class="wrapper" :style="{backgroundColor: backColor}" @click="doTest">
-		<view>
-			<view class="title">
+		<view class="">
+<!-- 			<view class="title">
 				{{title}}
-				<span class="read-count" v-if="readCount">(已测:{{readCount}}人)</span>
-			</view>
+			</view> -->
 			<view class="subTitle">{{subTitle}}</view>
-			<view class="footTitle">预计耗时{{needTime/60}}分钟</view>
+			<!-- <view class="footTitle">预计耗时{{needTime/60}}分钟</view> -->
+			<view class="read-count" v-if="readCount">
+				测评 <span class="count-number">{{readCount}}</span>人次
+			</view>
 		</view>
 		<view class="imageWrapper">
 			<image 
@@ -15,6 +20,11 @@
 			/>
 		</view>
 	</view>
+	<view class="title">
+		{{title}}
+		(预计耗时{{needTime/60}}分钟)</view>
+	</view>
+</view>
 </template>
 
 <script>
@@ -49,6 +59,11 @@
 </script>
 
 <style scoped lang="scss">
+	.title {
+		font-size: 32rpx;
+		text-align: center;
+		margin-top: 15rpx;
+	}
 .wrapper {
 	display: flex;
 	justify-content: space-between;
@@ -58,18 +73,31 @@
 	height: 170rpx;
 	border-radius: 20rpx;
 	padding: 20rpx 40rpx;
-	box-shadow: 2rpx 2rpx 0 2rpx rgba(0, 0, 0, 0.2);
-	.title {
-		font-size: 36rpx;
-	}
+	position: relative;
+	// box-shadow: 2rpx 2rpx 0 2rpx rgba(0, 0, 0, 0.2);
 	.read-count {
 		font-size: 28rpx;
-		margin-left: 10rpx;
+		// margin-left: 10rpx;
+		position: absolute;
+		right: 0;
+		bottom: 0rpx;
+		padding: 15rpx;
+		color: #fff;
+		width: 300rpx;
+		text-align: right;
+		background-image: linear-gradient(to left, #333, transparent);
+		.count-number {
+			color: #ffff00;
+			display: inline-block;
+			font-weight: bold;
+			margin: 0 10rpx;
+		}
 	}
 	.subTitle {
-		font-size: 24rpx;
+		font-size: 28rpx;
 		overflow: hidden;
 		width: 54vw;
+		margin-top: 10rpx;
 		text-overflow: ellipsis;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
@@ -81,7 +109,7 @@
 	}
 	.imageWrapper {
 		display: flex;
-		align-items: center;
+		align-items: top;
 		.image {
 			width: 150rpx;
 			height: 100rpx;
