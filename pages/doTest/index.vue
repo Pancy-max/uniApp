@@ -304,7 +304,7 @@ export default {
 		// padding: 40rpx;
 		display: flex;
 		flex-direction: column;
-		overflow: hidden;
+		// overflow: hidden;
 		
 		.title-wrapper {
 			display: flex;
@@ -341,14 +341,14 @@ export default {
 			flex: 1;
 			display: flex;
 			flex-direction: column;
-			overflow: auto;
+			// overflow: auto;
 		}
 		.tt-wrapper {
 			margin: 40rpx;
 			justify-content: baseline;
 			align-items: baseline;
 			padding: 40rpx 20rpx;
-			overflow: auto;
+			// overflow: auto;
 			background: #fff;
 			border: #fff;
 			border-radius: 40rpx;
@@ -359,7 +359,7 @@ export default {
 			.content {
 				font-size: 30rpx;
 				margin-top: 20rpx;
-				max-height: 40vh;
+				// max-height: 40vh;
 			}
 		}
 	}

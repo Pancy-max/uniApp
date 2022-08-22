@@ -1,5 +1,9 @@
 <template>
 	<view class="answer__content">
+		<view class="precent-wrapper">
+			<text class="precent-text">{{showQuestionIndex}}/{{questionList.length}}</text>
+			<progress :percent="percent" class="precent" activeColor="#ffff00bd"></progress>
+		</view>
 		<view class="time" v-if="count">
 			<image src="../../static/images/index/btn_07_time.png" class="timer-image"></image>
 			{{count}}s
@@ -119,6 +123,9 @@ export default {
 		},
 		optActiveStyle() {
 			return `background:${this.colorMap.optBacActive};color:${this.colorMap.optColActive};`
+		},
+		percent() {
+			return Math.floor(this.showQuestionIndex / this.questionList.length * 100);
 		}
 	},
 	mounted() {
@@ -467,5 +474,16 @@ view {
 		transform: scale(1);
 		opacity: 1;
 	}
+}
+.precent-wrapper {
+	display: flex;
+	padding: 30rpx;
+}
+.precent-text {
+	font-size: 25rpx;
+}
+.precent {
+	margin-left: 30rpx;
+	width: 100%;
 }
 </style>
