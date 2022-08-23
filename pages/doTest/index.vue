@@ -21,7 +21,7 @@
 	<view class="tabbar" v-if="showEnter">
 		<button @click="goTest" class="go_test">进入测评</button>
 	</view>
-	<view class="pay_btn" v-if="showPay">
+	<view class="pay_btn tabbar" v-if="showPay">
 		<view class="price-box">
 			<text class="origin-price">￥{{price}}</text>
 			<text class="sel-price" v-if="selPrice">活动价 ￥{{selPrice}}</text>
@@ -377,7 +377,7 @@ export default {
 		display: flex;
 		justify-content: space-between;
 		background: #fff;
-		padding: 40rpx;
+		// padding: 40rpx;
 		.go_buy {
 			background: #ffff00bd;
 			color: #000;

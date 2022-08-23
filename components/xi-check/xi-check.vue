@@ -15,7 +15,7 @@
 			<view class="question_title">
 				<view class="title__number">{{ newOptList[showQuestionIndex].number || showQuestionIndex + 1 }}.</view>
 				<view>
-					<!-- （{{ getQuestionType(newOptList[showQuestionIndex].type) }}) -->
+					（{{ getQuestionType(newOptList[showQuestionIndex].type) }})
 					{{ newOptList[showQuestionIndex].title }}
 				</view>
 			</view>
@@ -50,6 +50,11 @@
 							</view>
 						</view>
 					</block>
+					<button 
+						v-if="newOptList[showQuestionIndex].type == 'checkbox'" 
+						@click="nextQuestionBtn" 
+						class="next-button" 
+					>下一题</button>
 				</block>
 				<block v-else-if="newOptList[showQuestionIndex].type == 'write'">
 					<view class="item__key__box">
@@ -233,7 +238,9 @@ export default {
 				value: e.currentTarget.dataset.id
 			}
 			this.$emit('checkOption', opt)
-			this.nextQuestionBtn()
+			if(checkOpt.type === 'radio'){
+				this.nextQuestionBtn()
+			}
 		},
 		checkActive(_id) {
 			//选择答案事件处理
@@ -270,6 +277,7 @@ export default {
 				isEnd: this.isEnd
 			}
 			if (!this.isEnd) {
+			// if(this.showQuestionIndex < 5){ //测试多选用
 				this.switchQuestion()
 			} else {
 				return this.formatKey(opt)
@@ -485,5 +493,9 @@ view {
 .precent {
 	margin-left: 30rpx;
 	width: 100%;
+}
+.next-button {
+	background-color: #ffff00;
+	margin-top: 50rpx;
 }
 </style>

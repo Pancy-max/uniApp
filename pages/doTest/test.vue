@@ -101,7 +101,8 @@
 			return this.item.evaTopicList.slice(length).map((item, idx) => {
 			  	return {
 			  		id: item.ID, // 题目id
-					type: 'radio',
+					type: (item.type === 2 || item.type === 3) ? 'checkbox' : 'radio',
+					// type: item.ID === 88 ? 'checkbox' : 'radio', //测试多选用
 					number: idx + 1 + length,
 			  		// type: questionTypeMap[item.type + ''], // radio 单选 checkbox - 多选 ； write - 填空 
 			  		imageList: item.type === 2 && item.picUrl && item.picUrl.split(';') || [],
@@ -141,11 +142,11 @@
 			this.isSummitFlag = true
 			const testData = {
 				  result: [...this.lastInfo.result, ...checkRes.map(item => {
-					const keyRes = item.keyRes[0] || {}// 目前都是单选
+					const keyRes = item.keyRes;
 					return {
-						"direction": keyRes.content,
-						"ocode": keyRes.code,
-						"score": keyRes.score,
+						"direction": keyRes.map(v => v.content).join(';'),
+						"ocode":  keyRes.map(v => v.code).join(';'),
+						"score": keyRes.map(v => v.score).join(';'),
 						"tcode": item.code,
 						"title": item.title
 					}
