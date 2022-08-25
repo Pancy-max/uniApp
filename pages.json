@@ -131,6 +131,12 @@
 			"style": {
 				"navigationBarTitleText": "帮助中心"
 			}
+		},
+		{
+			"path": "pages/allOrder/index",
+			"style": {
+				"navigationBarTitleText": "订单"
+			}
 		}
 		//  {
 		// "path": "pages/wy/my/index",

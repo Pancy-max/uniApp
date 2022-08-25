@@ -150,8 +150,6 @@ export default {
 			this.showAnswer = false;
 			this.verification();
 		}
-		console.log('1111222', this.newOptList[this.showQuestionIndex]);
-		this.totalNum = this.newOptList[this.showQuestionIndex]?.number + this.newOptList.length - 1;	
 	},
 	beforeDestroy() {
 		console.log('beforeDestroy', '非正常退出')
@@ -178,6 +176,7 @@ export default {
 		},
 		initData() {
 			if (Array.isArray(this.questionList)) {
+				this.totalNum = this.questionList[this.showQuestionIndex].number + this.questionList.length - 1;
 				this.newOptList = this.deepClone(this.questionList)
 				if (this.newOptList.length === 1) this.isEnd = true
 			}
