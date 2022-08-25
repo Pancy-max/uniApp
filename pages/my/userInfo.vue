@@ -20,7 +20,7 @@
 				<view>手机号</view>
 				<view class="item_color">{{userInfo.mobile}}</view>
 			</view>
-			<view class="in_item">
+			<view class="in_item" v-if="userInfo.CreatedAt">
 				<view>创建时间</view>
 				<view class="item_color">{{userInfo.CreatedAt.slice(0, 10)}} {{ userInfo.CreatedAt.slice(11, 19)}}</view>
 			</view>
@@ -65,8 +65,9 @@ export default {
 	  },
 	  async confirm() {
 	  	console.log('点击退出登录')
+		const that = this
 	  	const callback = function() {
-	  		this.userInfo = ''
+	  		that.userInfo = ''
 	  	}
 	  	this.$logout(callback);
 	  },

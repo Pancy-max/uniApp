@@ -1,5 +1,5 @@
 <script>
-	import md5 from 'common/md5.js'
+	// import md5 from 'common/md5.js'
 	import {
 		Base64
 	} from './utils/base64.js'

@@ -175,18 +175,16 @@
 		Base64
 	} from '../../utils/base64.js'
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
-	import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
+	// import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
 	import uniPopupDialog from '@/components/uni-popup/uni-popup-dialog.vue'
 	import uniPopupShare from '@/components/uni-popup/uni-popup-share.vue'
-	import uniIcons from '@/components/uni-icons/uni-icons.vue'
 
 	export default {
 		components: {
 			uniPopup,
-			uniPopupMessage,
+			// uniPopupMessage,
 			uniPopupDialog,
 			uniPopupShare,
-			uniIcons
 		},
 		name: 'vue',
 		props: {},
@@ -485,11 +483,6 @@
 		.my_header {
 			margin: 40rpx 30rpx;
 		}
-	}
-
-	.btn_13_off {
-		position: relative;
-		margin-top: 40rpx;
 	}
 
 	.title {
