@@ -3,7 +3,7 @@
 		<view class="image_content">
 			<swiper :autoplay="true" :interval="5000" :duration="1000" :circular='true' indicator-dots="true" indicator-color="#999999"
 			 indicator-active-color="#e4e4e4" duration="1000" class="swiperBox">
-				<swiper-item v-for="(item, index) in bannerList" :key='index' @click="openLink(item.picUrl)">
+				<swiper-item v-for="(item, index) in bannerList" :key='index' @click="openLink(index)">
 					<view class="swiper-item">
 						<image style="width: 100%; height: 370rpx;" :src="item.image" lazy-load mode="scaleToFill"></image>
 					</view>
@@ -17,7 +17,7 @@
 			<view v-for="(item, index) in evaListInfo" :key="index">
 				<view class="my_tabs">
 					<view class="tabs_left">
-						<text>{{item.title}}</text>
+						<text class="eva-title">{{item.title}}</text>
 					</view>
 				</view>
 				<template v-if="item.eva_form_list && item.eva_form_list.length > 0">
@@ -40,15 +40,22 @@
 		</scroll-view>
 		<uni-popup ref="childPopup" type="bottom"  background-color="#fff">
 			<view class="pop-child">
-				<view class="title-tip">请选中进行测评的成员</view>
-				<view class="my_tabs child-box" @click="selectChild(i)" v-for="(item, i) in berList" :key="i">
-					<view class="tabs_left">
-						<my-icon type="person" size="26" />
+				<view class="title-tip">请选择儿童</view>
+				<view v-if="berList.length > 0">
+					<view class="my_tabs child-box" @click="selectChild(i)" v-for="(item, i) in berList" :key="i">
+						<view class="tabs_left">
+							<my-icon type="person" size="26" />
+						</view>
+						<view class="tabs_right">
+							<text class="nick-name">{{item.nickname}}</text>
+							<text>生日：{{item.birthday}}</text>
+						</view>
 					</view>
-					<view class="tabs_right">
-						<text class="nick-name">{{item.nickname}}</text>
-						<text>生日：{{item.birthday}}</text>
-					</view>
+				</view>
+				<view>
+					<button class="nav-addchild" @tap="goChild">
+						前往添加儿童
+					</button>
 				</view>
 			</view>			
 		</uni-popup>
@@ -307,14 +314,44 @@
 			// 	}
 			// },
 			// banner链接
-			openLink(link){
-				if(link==''){
-					return false
+			openLink(i){
+				const item = this.bannerList[i]
+				// const target = item.target
+				// 标(1:普通url跳转,2:小程序跳转,3:唤醒其他小程序,4:唤醒app,5:客服消息)',
+				switch (item.target){
+					case 1:
+						let p = encodeURIComponent(item.navigation)
+						uni.navigateTo({
+						    url: `/pages/webview/index?path=${p}`
+						})
+						break;
+					case 2:
+						uni.navigateTo({
+						    url: item.navigation
+						})
+						break
+					case 3:
+						 wx.navigateToMiniProgram({
+						    appId: item.appId,
+						    path: item.navigation,
+						    // extraData: {
+						    //   foo: 'bar'
+						    // },
+						    success(res) {
+							  console.log('打开成功')
+						      console.info(res);
+						    }
+						  });
+						break
+					case 5:
+						uni.navigateTo({
+						    url: `/pages/help/index`
+						})
+						break
+					default:
+						break;
 				}
-			    let p = encodeURIComponent(link)
-			    uni.navigateTo({
-				    url: `/pages/webview/index?path=${p}`
-			    })
+			    
 			},
 			getMore() {
 				uni.navigateTo({
@@ -346,7 +383,6 @@
 				})
 			},
 			selectChild(idx) {
-				this.$refs.childPopup.close()
 				const childAge = getApp().globalData.testItem.childAge
 				if (this.berList[idx].birthday > childAge) {
 					uni.showToast({
@@ -356,9 +392,15 @@
 					})
 					return
 				}
+				this.$refs.childPopup.close()
 				getApp().globalData.childId = this.berList[idx].ID
 				uni.navigateTo({
 					url: '../doTest/index'
+				})
+			},
+			goChild() {
+				uni.navigateTo({
+					url: '../addBer/addBer'
 				})
 			},
 			//获取列表
@@ -486,7 +528,10 @@
 		width: 88rpx;
 		height: 88rpx;
 	}
-
+	.nav-addchild {
+		width: 400rpx;
+		margin-top: 20rpx;
+	}
 	.nav_text {
 		font-size: 32rpx;
 		color: #262626;
@@ -734,6 +779,10 @@
 				width: 48rpx;
 				height: 48rpx;
 				margin-top: 8rpx;
+			}
+			.eva-title {
+				border-left: 8rpx solid #ffff00;
+				padding-left: 20rpx;
 			}
 		}
 	

@@ -41,7 +41,7 @@ export default {
 		showEnter: false,
 		showPay: false,
 		myInfo: {},
-		// childId: null
+		childId: null,
 		price: null,
 		selPrice: null,
 		goodsSn: null,
@@ -50,7 +50,7 @@ export default {
 	}
   },
   onLoad(option) {
-  	// this.childId=option.childId
+  	this.childId=getApp().globalData.childId
 	this.checkLogin()
   },
   beforeDestroy() {
@@ -113,8 +113,8 @@ export default {
 			  data: {
 				mcode: this.item.code,
 				username: this.myInfo.user.username,
-				// childId: this.item.type === 1 ? this.childId : 0, // 1-儿童 2-成人
-				// isAll: false
+				childId: this.item.type === 1 ? this.childId : 0, // 1-儿童 2-成人
+				isAll: false
 			  }
 		  }).then(res => {
 			  if (res.data.userEvaPayStatus && res.data.userEvaPayStatus.ispay) {

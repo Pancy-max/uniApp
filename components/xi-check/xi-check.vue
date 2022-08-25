@@ -23,7 +23,9 @@
 				<view :class="['answer__banner', switchVisible ? 'question--find-out' : 'question--find-in']">
 					<swiper :indicator-dots="true" :autoplay="true">
 						<block v-for="(item, index) in newOptList[showQuestionIndex].imageList" :key="index">
-							<swiper-item><image :src="item" mode="aspectFill"></image></swiper-item>
+							<swiper-item>
+								<image :src="item" mode="aspectFit"></image>
+							</swiper-item>
 						</block>
 					</swiper>
 				</view>
@@ -44,10 +46,13 @@
 							:data-id="item.id"
 						>
 							<view class="question__option__item__number" v-if="item.name">{{ item.name }} .</view>
-							<view v-if="item.content">{{ item.content }}</view>
 							<view v-if="item.picUrl">
-								<image :src="item.picUrl" mode="aspectFill"></image>
+								<image :src="item.picUrl" mode="aspectFit" class="image_content"></image>
 							</view>
+							<view v-else-if="item.content.startsWith('https') || item.content.startsWith('http')">
+								<image :src="item.content" mode="aspectFit" class="image_content"></image>
+							</view>
+							<view v-else-if="item.content">{{ item.content }}</view>
 						</view>
 					</block>
 					<button 
@@ -393,7 +398,7 @@ view {
 .answer__question .question_title {
 	display: flex;
 	width: 100%;
-	font-size: 28rpx;
+	font-size: 34rpx;
 }
 
 .answer__question .title__number {
@@ -410,8 +415,8 @@ view {
 	display: flex;
 	width: 100%;
 	padding: 23rpx 98rpx;
-	margin-top: 30rpx;
-	font-size: 26rpx;
+	margin-top: 34rpx;
+	font-size: 34rpx;
 	color: #232131;
 	background: #eeb67a;
 	border-radius: 14rpx;
@@ -422,7 +427,10 @@ view {
 	padding-top: 4rpx;
 	margin-right: 10rpx;
 }
-
+.image_content {
+	height: 100rpx;
+	width: 200px;
+}
 .answer__next__btn {
 	position: fixed;
 	left: 0;
@@ -488,7 +496,7 @@ view {
 	padding: 30rpx;
 }
 .precent-text {
-	font-size: 25rpx;
+	font-size: 36rpx;
 }
 .precent {
 	margin-left: 30rpx;

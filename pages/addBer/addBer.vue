@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="box">
-			<view class="head">成员信息</view>
+			<view class="head">添加儿童</view>
 			<view class="msg">
 				<view class="text">姓名<i style="color: #d93232;">*</i></view>
 				<!-- <input type="text" v-model="name"> -->
@@ -101,8 +101,11 @@
 							title: '添加成功！',
 							icon: 'success'
 						})
-						uni.navigateBack({
-							delta: 1
+						// uni.navigateBack({
+						// 	delta: 1
+						// })
+						uni.navigateTo({
+							url:'../familyBer/familyBer'
 						})
 					} else {
 						uni.showToast({
@@ -157,6 +160,10 @@
 		margin-left: 58rpx;
 		text-align: center;
 		line-height: 70rpx;
+	}
+	.box .head {
+		font-size: 30rpx;
+		margin-left: 10rpx;
 	}
 	.resend {
 		width: 150rpx;

@@ -62,6 +62,12 @@
 		}
 	  },
 	  {
+		"path": "pages/my/userInfo",
+		"style": {
+		  "navigationBarTitleText": "个人信息"
+		}
+	  },
+	  {
 		"path": "pages/login/index",
 		"style": {
 		  "navigationBarTitleText": "风和兴家庭教育测评"
@@ -151,9 +157,6 @@
 			]
 		  }
 		}
-	  },
-	  {
-	  		"path": "pages/About/text"
 	  },
 	  {
 		"path": "pages/addBer/editBer",

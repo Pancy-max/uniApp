@@ -17,7 +17,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="title" v-else @click="logOut()">
+			<view class="title" v-else @tap="goInfo()">
 				<view class="t_left">
 					<image :src="avatar" mode=""></image>
 				</view>
@@ -165,10 +165,6 @@
 				<image src="../../static/my/btn_01.png" mode=""></image>
 			</view>
 		</view> -->
-		<uni-popup ref="popup2" type="dialog">
-			<uni-popup-dialog mode="base" message="成功消息" :duration="2000" :before-close="true" @close="close"
-				@confirm="confirm" content="确定要退出当前账号吗" title="退出账号" msgColor="msgColor"></uni-popup-dialog>
-		</uni-popup>
 
 	</view>
 
@@ -243,34 +239,10 @@
 		},
 		//#endif
 		methods: {
-			// 转换成员类型
-			changeOwnerType(item) {
-				switch (item) {
-					// case 1:
-					// 	return "业主"
-					// 	break;
-					case 2:
-						return "家庭成员"
-						break;
-						// case 3:
-						// 	return "租户"
-						// 	break;
-					default:
-						break;
-				}
-			},
-			logOut() {
-				this.$refs.popup2.open()
-			},
-			close() {
-				this.$refs.popup2.close()
-			},
-			async confirm() {
-				console.log('点击退出登录')
-				const callback = function() {
-					this.userInfo = ''
-				}
-				this.$logout(callback);
+			goInfo() {
+				uni.navigateTo({
+					url: '../my/userInfo'
+				})
 			},
 			gologin() {
 				if (uni.getSystemInfoSync().platform == 'ios') {
@@ -299,7 +271,7 @@
 
 							} else if (res.cancel) {
 								uni.navigateTo({
-									url: '../login/index'
+					 				url: '../login/index'
 								})
 							}
 						}

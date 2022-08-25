@@ -56,8 +56,12 @@
 				})
 			},
 			getContent(key) {
+				// uni.navigateTo({
+				// 	url: './text?id=' + key
+				// })
+				let p = encodeURIComponent(getApp().globalData.aboutUsInfo[key])
 				uni.navigateTo({
-					url: './text?id=' + key
+				    url: `/pages/webview/index?path=${p}`
 				})
 			}
 		},

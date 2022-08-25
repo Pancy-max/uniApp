@@ -7,12 +7,29 @@
 	 	 <view class="desc">
 	 	 	您的报告已生成，有问题可以预约咨询老师
 	 	 </view>
-	 	<view class="score">{{testResult.score}}分</view>
-		<view class="content">
-			维度：{{testResult.mainDim}}
+	 	<view class="score">{{testResult.score || ''}}分</view>
+		<!-- <view class="content">
+			维度：{{testResult.mainDim || ''}}
 		</view>
 		<view class="content">
-			结果评价：{{testResult.content}}
+			结果评价：{{testResult.content || ''}}
+		</view> -->
+		<view class="charts-box">
+		  <qiun-data-charts type="radar" :chartData="chartData" />
+		</view>
+		<view class="content_analyze">
+			<view class="title">
+				1.专注力
+			</view>
+			<view class="dim_score">
+				<view class="dim_title">
+					维度得分：<uni-rate :readonly="true" :value="2" class="rate-score"/>
+				</view>
+				<view class="dim_content">
+					内容部分
+				</view>
+			</view>
+			
 		</view>
 	 </view>
  </view>
@@ -28,7 +45,17 @@ export default {
 		item: {},
 		myInfo: {},
 		testResult: null,
-		mcode: ''
+		mcode: '',
+		chartData:{
+		  categories: ["2016", "2017", "2018", "2019", "2020", "2021"],
+		  series: [{
+		    name: "目标值",
+		    data: [35, 36, 31, 33, 13, 34]
+		  }, {
+		    name: "完成量",
+		    data: [18, 27, 21, 24, 6, 28]
+		  }]
+		}
 	}
   },
   computed: {},
@@ -104,5 +131,11 @@ export default {
 			text-align: center;
 			line-height: 50rpx;
 		}
+	}
+	.dim_title {
+		font-size: 36rpx;
+	}
+	.rate-score {
+		display: inline-block;
 	}
 </style>
