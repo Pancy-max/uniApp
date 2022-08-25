@@ -1,35 +1,59 @@
 <template>
  <view class="test-wrapper">
 	 <view class="test-content">
-	 	<view class="title">
-	 	 	测评报告
-	 	 </view>
-	 	 <view class="desc">
-	 	 	您的报告已生成，有问题可以预约咨询老师
-	 	 </view>
-	 	<view class="score">{{testResult.score || ''}}分</view>
-		<!-- <view class="content">
-			维度：{{testResult.mainDim || ''}}
-		</view>
-		<view class="content">
-			结果评价：{{testResult.content || ''}}
-		</view> -->
-		<view class="charts-box">
-		  <qiun-data-charts type="radar" :chartData="chartData" />
-		</view>
-		<view class="content_analyze">
+		 <view class="block-content">
 			<view class="title">
-				1.专注力
+				测评报告
+			 </view>
+			 <view class="desc">
+				您的报告已生成，有问题可以预约咨询老师
+			 </view>
+			<view class="score">{{testResult.score || 0}}分</view>
+			<!-- <view class="content">
+				维度：{{testResult.mainDim || ''}}
+			</view>
+			<view class="content">
+				结果评价：{{testResult.content || ''}}
+			</view> -->
+			<view class="charts-box">
+				<block v-if="testResult.MiniEvaUserDimension && testResult.MiniEvaUserDimension.length > 6">
+					<qiun-data-charts type="column" :chartData="chartData" />
+				</block>
+				<block v-else>
+					<qiun-data-charts type="radar" :chartData="chartData" />
+				</block>
+			</view>
+		</view>
+		<view class="content_analyze block-content" v-for="(item, index) in testResult.MiniEvaUserDimension" :key="index">
+			<view class="title">
+				{{index+1}}. {{item.mainDim}}
 			</view>
 			<view class="dim_score">
 				<view class="dim_title">
-					维度得分：<uni-rate :readonly="true" :value="2" class="rate-score"/>
+					<uni-rate :readonly="true" :value="item.score / 20" class="rate-score"/> 
+					<text class="score-dim">{{item.score}}分</text>
 				</view>
 				<view class="dim_content">
-					内容部分
+					{{item.content}}
 				</view>
 			</view>
 			
+		</view>
+		<view class="block-content rec">
+			<view class="rec-content">
+				专家建议
+			</view>
+			<view class="rec-text">
+				{{testResult.recContent|| '专家建议'}}
+			</view>
+		</view>
+		<view class="tuijian-title">
+			课程推荐
+		</view>
+		<view class="block-content">
+			<view class="">
+				
+			</view>
 		</view>
 	 </view>
  </view>
@@ -87,8 +111,8 @@ export default {
 		  	}
 		  }).then(res => {
 		  	const data = res.data
-			console.log('获取测评结果', data.userEvaInfo.MiniEvaUserDimension[0])
-			this.testResult = data.userEvaInfo.MiniEvaUserDimension[0]
+			console.log('获取测评结果', data.userEvaInfo)
+			this.testResult = data.userEvaInfo
 		  })
 		  
 	  }
@@ -98,25 +122,48 @@ export default {
 
 <style lang="less" scoped>
 	.test-wrapper {
-		padding: 40rpx;
+		padding: 20rpx;
 		background: #f1f1ff;
-		height: calc(100vh - 80rpx);
+		height: calc(100vh - 40rpx);
 		overflow: auto;
 		.test-content {
 			padding: 30rpx;
 			border-radius: 20rpx;
-			background: #fff;
+			.block-content {
+				background: #fff;
+				border-radius: 20rpx;
+				padding: 20rpx;
+			}
+			.rec {
+				padding: 0;
+				margin-top: 30rpx;
+			}
+			.rec-content {
+				background: #ffca3e;
+				height: 80rpx;
+				line-height: 80rpx;
+				text-align: center;
+				color: #000;
+				font-size: 36rpx;
+				border-radius: 20rpx 20rpx 0 0;
+			}
+			.rec-text {
+				padding: 20rpx;
+			}
 		}
 		.title {
-			font-size: 40rpx;
+			font-size: 34rpx;
 			color: #000;
+			font-weight: 500;
+			border-left: 10rpx solid #ffca3e;
+			padding-left: 20rpx;
 		}
 		.desc {
 			font-size: 30rpx;
 			color: #999;
 		}
 		.score {
-			background: #ffff00;
+			background: #ffca3e;
 			color: #222;
 			font-size: 40rpx;
 			width: 120rpx;
@@ -126,14 +173,22 @@ export default {
 			text-align: center;
 			line-height: 120rpx;
 		}
+		.score-dim {
+			color: #ffca3e;
+			margin-left: 20rpx;
+		}
 		.content {
 			font-size: 30rpx;
 			text-align: center;
 			line-height: 50rpx;
 		}
 	}
+	.content_analyze {
+		margin-top: 20rpx;
+	}
 	.dim_title {
 		font-size: 36rpx;
+		margin: 30rpx;
 	}
 	.rate-score {
 		display: inline-block;

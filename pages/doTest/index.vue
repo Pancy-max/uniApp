@@ -26,7 +26,7 @@
 			<text class="origin-price">￥{{price}}</text>
 			<text class="sel-price" v-if="selPrice">活动价 ￥{{selPrice}}</text>
 		</view>
-		<button @click="goPay" class="btn">购买</button>
+		<button @click="goPay" class="go-buy">购买</button>
 	</view>
  </view>
 </template>
@@ -300,7 +300,7 @@ export default {
 <style lang="less" scoped>
 	@import '../../common/common.css';
 	.test-wrapper {
-		height: calc(99vh - 110rpx);
+		height: calc(99vh - 95rpx);
 		background: #9e9e9e14;
 		// padding: 40rpx;
 		display: flex;
@@ -370,21 +370,11 @@ export default {
 		bottom: 1vh;
 		left: 5%;
 		background: #9e9e9e14;
-		.go_test {
-			background-color: #ffff00bd;
-		}
 	}
 	.pay_btn {
 		display: flex;
 		justify-content: space-between;
 		background: #fff;
-		// padding: 40rpx;
-		.go_buy {
-			background: #ffff00bd;
-			color: #000;
-			width: 250rpx;
-			margin-right: 0;
-		}
 		.price-box {
 			display: flex;
 			flex-direction: column;
@@ -397,6 +387,13 @@ export default {
 		.sel-price {
 			color: red;
 			font-size: 30rpx;
+		}
+		.go-buy {
+			background-color: #ffff00;
+			position: absolute;
+			right: 1vw;
+			top: 6rpx;
+			width: 30vw;
 		}
 	}
 </style>

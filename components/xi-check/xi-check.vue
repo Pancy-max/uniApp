@@ -20,15 +20,15 @@
 				</view>
 			</view>
 			<block v-if="newOptList[showQuestionIndex].imageList.length && !hideImage">
-				<view :class="['answer__banner', switchVisible ? 'question--find-out' : 'question--find-in']">
-					<swiper :indicator-dots="true" :autoplay="true">
+				<!-- <view :class="['answer__banner', switchVisible ? 'question--find-out' : 'question--find-in']"> -->
+					<!-- <swiper :indicator-dots="true" :autoplay="true"> -->
 						<block v-for="(item, index) in newOptList[showQuestionIndex].imageList" :key="index">
-							<swiper-item>
+							<!-- <swiper-item> -->
 								<image :src="item" mode="aspectFit"></image>
-							</swiper-item>
+							<!-- </swiper-item> -->
 						</block>
-					</swiper>
-				</view>
+					<!-- </swiper> -->
+				<!-- </view> -->
 			</block>
 			<view class="question_subtitle"  v-if="newOptList[showQuestionIndex].desc && !hideImage">
 				{{ newOptList[showQuestionIndex].desc }}

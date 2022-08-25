@@ -122,7 +122,7 @@
 			  				id: v.ID,
 			  				active: 0 // 选中状态
 			  			}
-			  		}).sort((a,b) => a.sortOrder < b.sortOrder ? 1 : -1)
+			  		}).sort((a,b) => a.sortOrder > b.sortOrder ? 1 : (a.sortOrder === b.sortOrder ? 0 : -1))
 			  	}
 			})
 		  },	
