@@ -10,7 +10,9 @@
 			<view class="subTitle">{{subTitle}}</view>
 			<!-- <view class="footTitle">预计耗时{{needTime/60}}分钟</view> -->
 			<view class="read-count" v-if="readCount">
-				测评 <span class="count-number">{{readCount}}</span>人次
+				测评 <span class="count-number">
+				{{readCountText()}}
+				</span>人次
 			</view>
 		</view>
 		<view class="imageWrapper">
@@ -45,6 +47,10 @@
 		methods: {
 			doTest() {
 				this.$emit('doTest')
+			},
+			readCountText() {
+				return this.readCount >= 10000 ? Math.floor(this.readCount / 100) / 100 + '万' : 
+				(this.readCount >= 1000 ? Math.floor(this.readCount / 10) / 100 + '千' : this.readCount)
 			}
 		},
 		computed: {
@@ -85,9 +91,9 @@
 		color: #fff;
 		width: 300rpx;
 		text-align: right;
-		background-image: linear-gradient(to left, #333, transparent);
+		background-image: linear-gradient(to left, #666, transparent);
 		.count-number {
-			color: #ffff00;
+			color: #0000ff;
 			display: inline-block;
 			font-weight: bold;
 			margin: 0 10rpx;

@@ -14,19 +14,19 @@
 	 <view class="tt-wrapper-box">
 	 	<view class="tt-wrapper">
 	 			 <view class="content-desc">测评简介</view>
-	 			 <view class="content">{{item.content}}</view>
+	 			 <view class="content" v-html="item.content"></view>
 	 	</view>
 	 </view>
 
 	<view class="tabbar" v-if="showEnter">
-		<button @click="goTest" class="go_test">进入测评</button>
+		<button @click="goTest" class="btn">进入测评</button>
 	</view>
 	<view class="pay_btn tabbar" v-if="showPay">
 		<view class="price-box">
 			<text class="origin-price">￥{{price}}</text>
 			<text class="sel-price" v-if="selPrice">活动价 ￥{{selPrice}}</text>
 		</view>
-		<button @click="goPay" class="go_buy">购买</button>
+		<button @click="goPay" class="btn">购买</button>
 	</view>
  </view>
 </template>
@@ -298,6 +298,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+	@import '../../common/common.css';
 	.test-wrapper {
 		height: calc(99vh - 110rpx);
 		background: #9e9e9e14;

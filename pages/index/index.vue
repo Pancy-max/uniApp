@@ -114,6 +114,7 @@
 		onShow() {
 			// this.IndexClass();
 			this.getList();
+			this.getBerList();
 		},
 		 onPageScroll(e) {
 			this.scrollTop = e.scrollTop
@@ -131,10 +132,7 @@
 		onLoad() {
 			this.getbannerList();
 			this.getList();
-			// this.IndexClas·s();
 			this._freshing = false;
-			// this.gitlist();
-			// this.check_update();
 		},
 		onReachBottom() { //上拉触底函数
 			this.status = 'more'; //设置sataus是更多
@@ -143,11 +141,8 @@
 		onPullDownRefresh() {
 			this.getbannerList();
 			this.getList()
-			// this.IndexClass();
 			this._freshing = false;
 			console.log('refreshList')
-			// this.gitlist();
-			// this.check_update();
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
@@ -352,11 +347,6 @@
 						break;
 				}
 			    
-			},
-			getMore() {
-				uni.navigateTo({
-					url: "../notice/notice"
-				})
 			},
 			//点击进入详情
 			doTest(item) {
@@ -781,8 +771,9 @@
 				margin-top: 8rpx;
 			}
 			.eva-title {
-				border-left: 8rpx solid #ffff00;
+				border-left: 8rpx solid #0000ff;
 				padding-left: 20rpx;
+				font-size: 36rpx;
 			}
 		}
 	

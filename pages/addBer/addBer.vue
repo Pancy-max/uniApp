@@ -51,7 +51,8 @@
 				name: '',
 				gender: 0,
 				date: currentDate,
-				namePlaceHolder: '请输入姓名'
+				namePlaceHolder: '请输入姓名',
+				from: ''
 			}
 		},
 		 computed: {
@@ -66,17 +67,6 @@
 			selectSex(n) {
 				this.sex = n
 				this.gender = n
-			},
-			// 倒计时
-			countDown(){
-				this.clear = setInterval(this.countDown,1000);
-				
-				if(!this.countdown){                    
-					this.resend = false;
-					clearInterval(this.clear);
-				}else{
-					--this.countdown;
-				}
 			},
 			add(){
 				if (!this.name) {
@@ -101,12 +91,12 @@
 							title: '添加成功！',
 							icon: 'success'
 						})
-						// uni.navigateBack({
-						// 	delta: 1
-						// })
-						uni.navigateTo({
-							url:'../familyBer/familyBer'
+						uni.navigateBack({
+							delta: 1
 						})
+						// uni.navigateTo({
+						// 	url:'../familyBer/familyBer'
+						// })
 					} else {
 						uni.showToast({
 							title: res.msg,
