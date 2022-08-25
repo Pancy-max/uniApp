@@ -1,7 +1,7 @@
 <template>
 	<view class="answer__content">
 		<view class="precent-wrapper">
-			<text class="precent-text">{{showQuestionIndex}}/{{questionList.length}}</text>
+			<text class="precent-text">{{newOptList[showQuestionIndex].number - 1}}/{{totalNum}}</text>
 			<progress :percent="percent" class="precent" activeColor="#ffff00bd"></progress>
 		</view>
 		<view class="time" v-if="count">
@@ -19,7 +19,7 @@
 					{{ newOptList[showQuestionIndex].title }}
 				</view>
 			</view>
-			<block v-if="newOptList[showQuestionIndex].imageList.length">
+			<block v-if="newOptList[showQuestionIndex].imageList.length && !hideImage">
 				<view :class="['answer__banner', switchVisible ? 'question--find-out' : 'question--find-in']">
 					<swiper :indicator-dots="true" :autoplay="true">
 						<block v-for="(item, index) in newOptList[showQuestionIndex].imageList" :key="index">
@@ -30,13 +30,13 @@
 					</swiper>
 				</view>
 			</block>
-			<view class="question_subtitle"  v-if="newOptList[showQuestionIndex].desc">
+			<view class="question_subtitle"  v-if="newOptList[showQuestionIndex].desc && !hideImage">
 				{{ newOptList[showQuestionIndex].desc }}
 			</view>
-			<view class="question_subtitle" v-if="newOptList[showQuestionIndex].subtitle">
+			<view class="question_subtitle" v-if="newOptList[showQuestionIndex].subtitle && showAnswer">
 				{{ newOptList[showQuestionIndex].subtitle }}
 			</view>
-			<view class="question__option">
+			<view class="question__option" v-if="showAnswer">
 				<block v-if="selectKey.includes(newOptList[showQuestionIndex].type)">
 					<block v-for="(item, index) in newOptList[showQuestionIndex].question_option" :key="index">
 						<view
@@ -109,7 +109,10 @@ export default {
 			isEnd: false, //是否为最后一题
 			switchVisible: false, // 切换状态
 			count: 0,
-			timer: null
+			timer: null,
+			showAnswer: true,
+			hideImage: false,
+			totalNum: 0
 		}
 	},
 	watch: {
@@ -120,6 +123,7 @@ export default {
 			clearInterval(this.timer);
 			this.count = this.newOptList[this.showQuestionIndex].countTime || 0;
 			if(this.count) {
+				this.showAnswer = false;
 				this.verification();
 			}
 		}
@@ -135,7 +139,7 @@ export default {
 			return `background:${this.colorMap.optBacActive};color:${this.colorMap.optColActive};`
 		},
 		percent() {
-			return Math.floor(this.showQuestionIndex / this.questionList.length * 100);
+			return Math.floor((this.newOptList[this.showQuestionIndex]?.number - 1) / this.totalNum * 100);
 		}
 	},
 	mounted() {
@@ -143,15 +147,17 @@ export default {
 		this.colorMap = this.deepMerge(this.colorMap, this.colorStyle);
 		this.count = this.newOptList[this.showQuestionIndex]?.countTime || 0;
 		if(this.count) {
+			this.showAnswer = false;
 			this.verification();
 		}
+		console.log('1111222', this.newOptList[this.showQuestionIndex]);
+		this.totalNum = this.newOptList[this.showQuestionIndex]?.number + this.newOptList.length - 1;	
 	},
 	beforeDestroy() {
 		console.log('beforeDestroy', '非正常退出')
 		const opt = {
 			current_id: this.showQuestionIndex,
 			isNormal: true
-			// isEnd: this.isEnd
 		}
 		this.formatKey(opt)
 	},
@@ -164,7 +170,9 @@ export default {
 			this.count--;
 			if (this.count <= 0) {
 			  clearInterval(this.timer);
-			  this.nextQuestionBtn();
+			  // 显示题目和按钮, 隐藏图片
+			  this.showAnswer = true;
+			  this.hideImage = true;
 			}
 		  }, 1000); 
 		},
@@ -270,24 +278,17 @@ export default {
 		},
 		//下一题
 		nextQuestionBtn(e) {
-			// if (!this.checkTest()) {
-			// 	return wx.showToast({
-			// 		title: this.warningTips,
-			// 		icon: 'none'
-			// 	})
-			// }
+			this.hideImage = false;
 			//构建返回数据
 			let opt = {
 				current_id: this.showQuestionIndex,
 				isEnd: this.isEnd
 			}
 			if (!this.isEnd) {
-			// if(this.showQuestionIndex < 5){ //测试多选用
 				this.switchQuestion()
 			} else {
 				return this.formatKey(opt)
 			}
-			// this.$emit('confrim', opt)
 		},
 		// 切换题目
 		switchQuestion() {
@@ -467,9 +468,6 @@ view {
 	transform: translateX(-100%);
 	transition: all 0.3s;
 }
-.question--find-in {
-	// animation: findIn-question 0.3s;
-}
 .time {
 	display: flex;
 	justify-content: center;
@@ -480,17 +478,6 @@ view {
 	width: 50rpx;
 	height: 50rpx;
 }
-// @keyframes findIn-question {
-// 	from {
-// 		transform: scale(0);
-// 		opacity: 0;
-// 	}
-
-// 	to {
-// 		transform: scale(1);
-// 		opacity: 1;
-// 	}
-// }
 .precent-wrapper {
 	display: flex;
 	padding: 30rpx;

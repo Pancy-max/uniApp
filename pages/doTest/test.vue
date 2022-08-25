@@ -104,10 +104,8 @@
 			return this.item.evaTopicList.slice(length).map((item, idx) => {
 			  	return {
 			  		id: item.ID, // 题目id
-					type: (item.type === 2 || item.type === 3) ? 'checkbox' : 'radio',
-					// type: item.ID === 88 ? 'checkbox' : 'radio', //测试多选用
+					type: item.answerType,
 					number: idx + 1 + length,
-			  		// type: questionTypeMap[item.type + ''], // radio 单选 checkbox - 多选 ； write - 填空 
 			  		imageList: item.type === 2 && item.picUrl && item.picUrl.split(';') || [],
 					desc: item.type === 3 && item.picUrl,
 					subtitle: item.subtitle,
