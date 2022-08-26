@@ -4,15 +4,18 @@
 
 	<view class="wrapper" :style="{backgroundColor: backColor}" @click="doTest">
 		<view class="">
-<!-- 			<view class="title">
+			<view class="title">
 				{{title}}
-			</view> -->
-			<view class="subTitle">{{subTitle}}</view>
+			</view>
+			<!-- <view class="subTitle">{{subTitle}}</view> -->
 			<!-- <view class="footTitle">预计耗时{{needTime/60}}分钟</view> -->
 			<view class="read-count" v-if="readCount">
 				测评 <span class="count-number">
 				{{readCountText()}}
 				</span>人次
+			</view>
+			<view class="title-time">
+				预计耗时{{needTime/60}}分钟
 			</view>
 		</view>
 		<view class="imageWrapper">
@@ -21,10 +24,6 @@
 				class="image"
 			/>
 		</view>
-	</view>
-	<view class="title">
-		{{title}}
-		(预计耗时{{needTime/60}}分钟)</view>
 	</view>
 </view>
 </template>
@@ -70,6 +69,12 @@
 		text-align: center;
 		margin-top: 15rpx;
 	}
+	.title-time {
+		color:#333;
+		font-size: 28rpx;
+		position: absolute;
+		bottom: 20rpx;
+	}
 .wrapper {
 	display: flex;
 	justify-content: space-between;
@@ -93,7 +98,7 @@
 		text-align: right;
 		background-image: linear-gradient(to left, #666, transparent);
 		.count-number {
-			color: #0000ff;
+			color: #143d72;
 			display: inline-block;
 			font-weight: bold;
 			margin: 0 10rpx;

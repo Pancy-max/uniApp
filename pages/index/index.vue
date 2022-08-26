@@ -328,14 +328,17 @@
 					case 3:
 						 wx.navigateToMiniProgram({
 						    appId: item.appId,
-						    path: item.navigation,
+						    path: item.navigation || '/pages/index',
 						    // extraData: {
 						    //   foo: 'bar'
 						    // },
 						    success(res) {
 							  console.log('打开成功')
 						      console.info(res);
-						    }
+						    },
+							error(e){
+							  console.log('e', e)
+							}
 						  });
 						break
 					case 5:
@@ -774,6 +777,7 @@
 				border-left: 8rpx solid #0000ff;
 				padding-left: 20rpx;
 				font-size: 36rpx;
+				font-weight: bold;
 			}
 		}
 	

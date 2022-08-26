@@ -62,11 +62,11 @@
 			</view>
 			<view class="content-wrapper">
 				<view class="nav-box">
-					<text class="nav-title">我的商店</text>
+					<text class="nav-title">我的订单</text>
 					<view class="nav-items">
 						<view class="nav-item" @click="myTrading">
 							<image src="../../static/common/btn_08.png" mode=""></image>
-							<text>订单</text>
+							<text>我的订单</text>
 						</view>
 					</view>
 				</view>
@@ -77,7 +77,7 @@
 					<view class="nav-items">
 						<view class="nav-item" @tap="share">
 							<my-icon type="redo" size="26" />
-							<text>小程序码</text>
+							<text>分享好友</text>
 						</view>
 						<view class="nav-item" @tap="help">
 							<my-icon type="chatboxes" size="26" />

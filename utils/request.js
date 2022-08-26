@@ -34,7 +34,7 @@ export default function(obj){
 				// 	icon: "none"
 				// })
 				console.error('请求' + url + '失败: ', res.data.msg)
-				if(res.data.msg.includes('未登录') || res.data.msg.includes('过期')){
+				if(res.data.msg.includes('未登录') || res.data.msg.includes('过期') || res.data.msg.includes('失效')){
 					setTimeout(() => {
 						uni.clearStorageSync()
 						uni.reLaunch({

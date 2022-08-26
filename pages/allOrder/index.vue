@@ -35,8 +35,88 @@
 </template>
 
 <script>
-import all_orders from "./all_order.js";
-export default all_orders;
+	// 定义全局参数,控制数据加载
+	var _self, page = 1,timer = null;
+	export default {
+		data() {
+			return {
+				loadingText: '',
+				list_orders: [],
+				page:0,//当前分页页码
+			}
+		},
+		components:{
+
+		},
+		onLoad(options) {
+			console.log('1111');
+			_self = this;
+
+			this.page=0;
+
+			this.refresh("init");
+
+		},
+		onShow() {
+			console.log("on show");
+
+		},
+		onPullDownRefresh: function() {
+			//下拉刷新的时候请求一次数据
+			this.refresh();
+		},
+		methods: {
+			
+			//刷新数据
+			refresh:function(_action) {
+				console.log('111');
+				uni.showLoading();
+				
+				//提交到服务器
+				var that = this
+				this.request({
+					url: '/wxpay/getOrderList',
+					// data: {},
+					method: 'GET'
+				}).then(res => {
+
+					// 隐藏导航栏加载框  
+					uni.hideNavigationBarLoading();
+					// 停止下拉动作  
+					uni.stopPullDownRefresh();  
+
+					// 隐藏加载框  
+					uni.hideLoading();  
+
+					var tmp = res.data;
+					console.log(res)
+					//初始化，对页面上的控件进行赋值操作
+					if(_action=="init"){
+
+					}
+
+					//如果后端有返回消息，则弹出消息提示
+					if (tmp.message != null && tmp.message != "") {
+						uni.showToast({
+						title: tmp.message,
+						icon: 'none',
+						duration: 2000
+						})
+					}
+
+
+
+					//如果后端有返回页码，则更改当前页码
+					if(tmp.page!=null && tmp.page!=""){
+						page=tmp.page;
+					}	
+					that.list_orders = tmp
+
+				})
+			},
+		}
+	}
+
 </script>
 
 <style lang="scss" scoped>
