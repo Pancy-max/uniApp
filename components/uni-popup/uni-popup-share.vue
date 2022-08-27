@@ -150,6 +150,7 @@
 	.uni-share-image {
 		width: 30px;
 		height: 30px;
+		border-radius: 50%;
 	}
 	
 	.uni-share-text {
@@ -181,5 +182,6 @@
 		padding: 0;
 		margin: 0;
 		height: 30px;
+		border-radius: 50%;
 	}
 </style>

@@ -2,19 +2,12 @@
 	<view>
 		<view class="head">
 			<view class="head_box">
-				<!-- <view class="head_left">
-					<image src="../../static/images/familyBer/ico_01.png" mode="scaleToFill" style="width: 28rpx; height: 28rpx; margin-right: 14rpx;" />
-					<view class="ber_num">家庭成员数：{{ allBerNum }}</view>
-				</view> -->
 				<view class="head_right" @tap='addBer'>
-					<view class="ber_new">+ 新建</view>
+					<view class="ber_new">添加儿童</view>
 				</view>
 			</view>
 		</view>
 		<BerList :berList='berList' @check='check' />
-		<view class="nothingImg" v-if="berList.length == 0">
-			<image src="../../static/common/nothing.png" mode="aspectFill" style="width: 100%; height: 100%;"></image>
-		</view>
 		<view class="noMore">没有更多了</view>
 	</view>
 </template>
@@ -28,14 +21,12 @@
 		data() {
 			return {
 				berList: [], //家庭成员列表
-				// allBerNum: 0 ,//家庭成员总数
 			}
 		},
 		onLoad() {
 			this.getBerList();
 		},
 		onShow() {
-			// this.IndexClass();
 			this.getBerList();
 		},
 		onNavigationBarButtonTap(e) {
@@ -93,8 +84,9 @@
 				display: flex;
 				align-items: center;
 				.ber_new {
-					font-size: 28rpx;
+					font-size: 32rpx;
 					color: #000;
+					font-weight: bold;
 				}
 			}
 		}

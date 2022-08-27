@@ -14,17 +14,9 @@
 				<view class="text_left">性别</view>
 				<view class="text_right">{{ sex }}</view>
 			</view>
-			<!-- <view class="textInput">
-				<view class="text_left">年龄</view>
-				<view class="text_right">{{ msg.age }}</view>
-			</view> -->
-			<!-- <view class="textInput">
-				<view class="text_left">身份证号</view>
-				<view class="text_right">{{ msg.identity_id }}</view>
-			</view> -->
 			<view class="textInput">
-				<view class="text_left">成员编号</view>
-				<view class="text_right">{{ msg.userUuid }}</view>
+				<view class="text_left">生日</view>
+				<view class="text_right">{{ msg.birthday }}</view>
 			</view>
 			<!-- <view class="title" style="margin-top: 68rpx;">联系信息</view>
 			<view class="textInput" style="padding-bottom: 60rpx;">
@@ -137,5 +129,11 @@
 		line-height: 108rpx;
 		font-size: 34rpx;
 		color: #28b07c;
+	}
+	.head {
+		font-size: 36rpx;
+	}
+	.box {
+		height: 100vh;
 	}
 </style>

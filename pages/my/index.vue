@@ -438,7 +438,7 @@
 	};
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 	.my {
 		// padding: 30rpx;
 		height: calc(100vh);
@@ -474,6 +474,7 @@
 						image {
 							width: 50rpx;
 							height: 50rpx;
+							border-radius: 50%;
 						}
 					}
 				}
@@ -548,19 +549,6 @@
 		}
 	}
 
-	// banner
-	.my_banner {
-		margin-top: 24rpx;
-		height: 188rpx;
-		display: flex;
-		margin-bottom: 28rpx;
-		margin-left: 26rpx;
-
-		image {
-			width: 346rpx;
-			height: 188rpx;
-		}
-	}
 
 	.my_tabs {
 		display: flex;
@@ -587,7 +575,7 @@
 			justify-content: space-between;
 
 			text {
-				margin: 44rpx 0;
+				// margin: 44rpx 0;
 				font-size: 34rpx;
 				color: #262626;
 			}

@@ -1,70 +1,72 @@
 <template>
  <view class="test-wrapper">
-	 <view class="test-content">
-		 <view class="block-content">
-			<view class="title">
-				测评报告
-			 </view>
-			 <view class="desc">
-				您的报告已生成，有问题可以预约咨询老师~
-			 </view>
-			<!-- <view class="score">{{testResult.score || 0}}分</view> -->
-			<!-- <view class="content">
-				维度：{{testResult.mainDim || ''}}
-			</view>
-			<view class="content">
-				结果评价：{{testResult.content || ''}}
-			</view> -->
-			
-				<block v-if="recInfo.reportPicType === 'column'">
-					<qiun-data-charts type="column" :chartData="chartData" />
-				</block>
-				<block v-if="recInfo.reportPicType === 'radar'">
-					<qiun-data-charts type="radar" :chartData="chartData" />
-				</block>
-		</view>
-		<view class="content_analyze block-content" v-for="(item, index) in testResult.MiniEvaUserDimension" :key="index">
-			<view class="title">
-				{{index+1}}. {{item.mainDim}}
-			</view>
-			<view class="dim_score">
-				<view class="dim_title">
-					<uni-rate :readonly="true" :value="item.score / 20" class="rate-score"/> 
-					<text class="score-dim">{{item.score}}分</text>
-				</view>
-				<view class="dim_content">
-					{{item.content}}
-				</view>
-			</view>
-			
-		</view>
-		<view class="block-content rec">
-			<view class="rec-content">
-				专家解读
-			</view>
-			<view class="rec-text">
-				{{recInfo.content || ''}}
-			</view>
-		</view>
-		<view class="tuijian-title">
-			课程推荐
-		</view>
-		<view class="block-content">
-			<view class="flex-box">
-				<view class="rec-img">
-					<image :src="recInfo.picurl" mode="scaleToFill" style="width: 200rpx; height: 200rpx; margin-right: 32rpx;" />
-				</view>
-				<view class="rec-right">
-					<view class="rec-title">
-						{{recInfo.title}}
-					</view>
-					<span class="rec-btn" @tap="goRecLink">
-						前往
-					</span>
-				</view>
-			</view>
-		</view>
-	 </view>
+	 <scroll-view scroll-y="true" >
+	 	<view class="test-content">
+	 			 <view class="block-content">
+	 				<view class="title">
+	 					测评报告
+	 				 </view>
+	 				 <view class="desc">
+	 					您的报告已生成，有问题可以预约咨询老师~
+	 				 </view>
+	 				<!-- <view class="score">{{testResult.score || 0}}分</view> -->
+	 				<!-- <view class="content">
+	 					维度：{{testResult.mainDim || ''}}
+	 				</view>
+	 				<view class="content">
+	 					结果评价：{{testResult.content || ''}}
+	 				</view> -->
+	 					<view v-if="recInfo.reportPicType === 'column'" class="">
+	 						<qiun-data-charts type="column" :chartData="chartData" :inScrollView="true"/>
+	 					</view>
+	 					<view v-if="recInfo.reportPicType === 'radar'" class="">
+	 						<qiun-data-charts type="radar" :chartData="chartData" :inScrollView="true"/>
+	 					</view>
+	 					
+	 			</view>
+	 			<view class="content_analyze block-content" v-for="(item, index) in testResult.MiniEvaUserDimension" :key="index">
+	 				<view class="title">
+	 					{{index+1}}. {{item.mainDim || ''}}
+	 				</view>
+	 				<view class="dim_score">
+	 					<view class="dim_title">
+	 						<uni-rate :readonly="true" :value="item.score / 20" class="rate-score"/> 
+	 						<text class="score-dim">{{item.score || 0}}分</text>
+	 					</view>
+	 					<view class="dim_content">
+	 						{{item.content || ''}}
+	 					</view>
+	 				</view>
+	 				
+	 			</view>
+	 			<view class="block-content rec">
+	 				<view class="rec-content">
+	 					专家解读
+	 				</view>
+	 				<view class="rec-text">
+	 					{{recInfo.content || ''}}
+	 				</view>
+	 			</view>
+	 			<view class="tuijian-title">
+	 				课程推荐
+	 			</view>
+	 			<view class="block-content">
+	 				<view class="flex-box">
+	 					<view class="rec-img">
+	 						<image :src="recInfo.picurl" mode="scaleToFill" style="width: 200rpx; height: 200rpx; margin-right: 32rpx;" />
+	 					</view>
+	 					<view class="rec-right">
+	 						<view class="rec-title">
+	 							{{recInfo.title || ''}}
+	 						</view>
+	 						<span class="rec-btn" @tap="goRecLink">
+	 							前往
+	 						</span>
+	 					</view>
+	 				</view>
+	 			</view>
+	 	</view>
+	 </scroll-view>
  </view>
 </template>
 
@@ -172,7 +174,7 @@ export default {
 		padding: 20rpx;
 		background: #f1f1ff;
 		height: calc(100vh - 40rpx);
-		overflow: auto;
+		// overflow: auto;
 		.test-content {
 			padding: 30rpx;
 			border-radius: 20rpx;
@@ -180,6 +182,12 @@ export default {
 				background: #fff;
 				border-radius: 20rpx;
 				padding: 20rpx;
+				position: relative;
+			}
+			.charts-view {
+				position: absolute;
+				top: 0;
+				left: 0;
 			}
 			.rec {
 				padding: 0;

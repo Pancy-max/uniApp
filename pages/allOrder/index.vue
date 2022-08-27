@@ -10,7 +10,6 @@
 								<image src="/static/all_orders/images/all_orders_8_8.jpg" mode="scaleToFill" border="0"    class="all_orders_8"></image>
 								<text decode="true" class="address_from">{{item_orders.description}}</text>
 							</view>
-							<!-- <image src="/static/all_orders/images/all_orders_10_10.jpg" mode="scaleToFill" border="0"    class="all_orders_10"></image> -->
 							<view class="all_orders_11">
 								<image src="/static/all_orders/images/all_orders_12_12.jpg" mode="scaleToFill" border="0"    class="all_orders_12"></image>
 								<text decode="true" class="address_to">{{item_orders.SuccessTime}}</text>
@@ -23,7 +22,6 @@
 						<view class="all_orders_6">
 							{{item_orders.tradeState === 'SUCCESS'? '交易成功' : '交易失败'}}
 						</view>
-						<!-- <image  src="/static/all_orders/images/all_orders_6_6.jpg" mode="scaleToFill" border="0"    class="SUCCESS"></image> -->
 					</view>
 				</view>
 			</view>
@@ -35,8 +33,6 @@
 </template>
 
 <script>
-	// 定义全局参数,控制数据加载
-	var _self, page = 1,timer = null;
 	export default {
 		data() {
 			return {
@@ -49,8 +45,6 @@
 
 		},
 		onLoad(options) {
-			console.log('1111');
-			_self = this;
 
 			this.page=0;
 
@@ -59,6 +53,7 @@
 		},
 		onShow() {
 			console.log("on show");
+			this.refresh();
 
 		},
 		onPullDownRefresh: function() {
@@ -69,7 +64,7 @@
 			
 			//刷新数据
 			refresh:function(_action) {
-				console.log('111');
+				console.log('allOrder');
 				uni.showLoading();
 				
 				//提交到服务器

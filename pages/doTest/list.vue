@@ -4,10 +4,13 @@
 	
 		<view class="my_tabs" @tap="goTest(index)" v-for="(item, index) in testList" :key="index">
 			<view class="tabs_left">
-				<my-icon type="vip" size="30" />
+				<my-icon :type="item.hasFinished ? 'checkmarkempty' : 'map'" size="20" />
+				<view class="tip">
+					{{item.hasFinished ? '已完成' : '未完成'}}
+				</view>
 			</view>
 			<view class="tabs_right">
-				<view class="">
+				<view class="" >
 					<view>{{item.title}}</view>
 					<view>{{item.endTime}}</view>
 				</view>
@@ -17,16 +20,9 @@
 		</view>
 	
 		<view class="fengexian"></view>
+		<view class="noMore" v-if="testList && testList.length === 0">暂无数据</view>
+		
 	</view>
-	 
-	 <!-- <view class="tt-wrapper">
-		 <view class="content-desc">测评简介</view>
-		 <view class="content">{{item.content}}</view>
-	 </view>
-
-	<view class="tabbar" v-show="showEnter">
-		<button @click="goTest" class="go_test">进入测评</button>
-	</view> -->
  </view>
 </template>
 
@@ -83,11 +79,16 @@ export default {
 		  		url: './testResult?mcode=' + item.code
 		  	})
 		 } else {
-			 uni.showToast({
-			 	title: "题目未完成",
-			 	icon: 'none',
-			 	duration: 2000
+			 // uni.showToast({
+			 // 	title: "题目未完成",
+			 // 	icon: 'none',
+			 // 	duration: 2000
+			 // })
+			 uni.navigateTo({
+			 	url: './test'
 			 })
+			 getApp().globalData.childId = item.childId || 0
+			 getApp().globalData.testItem = item
 		 }
 	  },
   },
@@ -122,10 +123,9 @@ export default {
 	
 		.tabs_left {
 			margin: 34rpx 0;
-			margin-left: 40rpx;
 			margin-right: 36rpx;
 			color: #999999;
-	
+			text-align: center;
 			image {
 				width: 48rpx;
 				height: 48rpx;
@@ -151,5 +151,12 @@ export default {
 				height: 30rpx;
 			}
 		}
+	}
+	.noMore {
+		font-size: 26rpx;
+		color: #b3b3b3;
+		margin-top: 25rpx;
+		width: 100%;
+		text-align: center;
 	}
 </style>

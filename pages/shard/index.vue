@@ -65,29 +65,6 @@
 								top: '0rpx',
 							}
 						},
-						// {
-						// 	type: 'image',
-						// 	src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
-						// 	css: {
-						// 		left: '32rpx',
-						// 		top: '32rpx',
-						// 		borderRadius: '50%',
-						// 		width: '80rpx',
-						// 		height: '80rpx'
-						// 	}
-						// },
-						// {
-						// 	type: 'text',
-						// 	text: '厦门吴彦祖',
-						// 	css: {
-						// 		fontSize: '28rpx',
-						// 		fontWeight: 'bold',
-						// 		color: '#1A2033',
-						// 		lineHeight: '28rpx',
-						// 		left: '136rpx',
-						// 		top: '39rpx'
-						// 	}
-						// },
 						{
 							type: 'text',
 							text: '儿童多元智能测评',

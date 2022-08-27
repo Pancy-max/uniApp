@@ -40,7 +40,7 @@
 		</scroll-view>
 		<uni-popup ref="childPopup" type="bottom"  background-color="#fff">
 			<view class="pop-child">
-				<view class="title-tip">请选择儿童</view>
+				<view class="title-tip">本测评量表适用于9岁以上儿童，请添加儿童信息</view>
 				<view v-if="berList.length > 0">
 					<view class="my_tabs child-box" @click="selectChild(i)" v-for="(item, i) in berList" :key="i">
 						<view class="tabs_left">
@@ -461,7 +461,7 @@
 		width: 100%;
 		padding-bottom: 50rpx;
 		.title-tip {
-			padding: 30rpx 0;
+			padding: 30rpx;
 			font-size: 36rpx;
 			line-height: 60rpx;
 			text-align: center;
@@ -774,10 +774,11 @@
 				margin-top: 8rpx;
 			}
 			.eva-title {
-				border-left: 8rpx solid #0000ff;
+				border-left: 6rpx solid #143d72;
 				padding-left: 20rpx;
 				font-size: 36rpx;
 				font-weight: bold;
+				color: #444;
 			}
 		}
 	
@@ -805,4 +806,11 @@
 			}
 		}
 	}
+	.test {
+		margin-left: 42rpx;
+		font-size: 34rpx;
+		color: #262626;
+		font-weight: 900;
+	}
+
 </style>
