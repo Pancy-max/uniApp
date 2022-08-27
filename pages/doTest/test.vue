@@ -1,10 +1,12 @@
 <template>
 	<view class="content">
 		<check-xi 
-			@confrim="confrim" 
-			@checkOption="checkOption" 
-			:questionList="questionList">
-		</check-xi>
+			@confrim="confrim"
+			:questionList="questionList"
+			:questionSum="totalLength"
+			:currentIndex="currentIndex"
+			:resultInfo="lastInfo.result"
+		/>
 	</view>
 </template>
 	
@@ -34,9 +36,8 @@
 				result: []
 			},
 			userInfo: {},
-			questionList:[
-				
-			]
+			questionList:[],
+			currentIndex: 0
 		}
 	  },
 	  computed: {},
@@ -80,32 +81,33 @@
 					this.lastInfo.result = result || []
 				}
 				const length = this.lastInfo.result.length
+				this.currentIndex = length;
 				console.log('上一次已做题目数', length)
 				// 如果全部做完
 				if (!this.item.evaTopicList) {
 					console.error('获取进度错误，已做题目数大于总题目数')
-					this.questionList = [...this._initData(0)]
+					this.questionList = [...this._initData()]
 				}
 				if (length === this.item.evaTopicList.length) {
 					uni.redirectTo({
 						url: './testResult'
 					})
 				} else if (length < this.item.evaTopicList.length) {
-					this.questionList = [...this._initData(length)]
+					this.questionList = [...this._initData()]
 				} else {
 					console.error('获取进度错误，已做题目数大于总题目数')
 				}		
 			}).catch(e => {
 				console.error(e)
-				this.questionList = [...this._initData(0)];
+				this.questionList = [...this._initData()];
 			})
 		  },
-		  _initData(length) {
-			return this.item.evaTopicList.slice(length).map((item, idx) => {
+		  _initData() {
+			return this.item.evaTopicList.map((item, idx) => {
 			  	return {
 			  		id: item.ID, // 题目id
 					type: item.answerType,
-					number: idx + 1 + length,
+					number: idx + 1,
 			  		imageList: item.type === 2 && item.picUrl && item.picUrl.split(';') || [],
 					desc: item.type === 3 && item.picUrl,
 					subtitle: item.subtitle,
@@ -125,7 +127,7 @@
 			  		}).sort((a,b) => a.sortOrder > b.sortOrder ? 1 : (a.sortOrder === b.sortOrder ? 0 : -1))
 			  	}
 			})
-		  },	
+		  },
 		// 提交事件
 		confrim(e){ 
 			console.log('next',e);
@@ -141,25 +143,22 @@
 			}
 			// current_id -当前索引
 			console.log('当前索引', e.current_id)
-			// 已做题目 = 当前索引（从零开始） + 1 - 1（当前没做）
 			const checkRes = e.isEnd ? e.checkRes.check_res : e.checkRes.check_res.slice(0, e.current_id)
 			const hasFinished = this.totalLength === checkRes.length + this.lastInfo.result.length
 			this.isSummitFlag = true
 			const testData = {
-				  result: [...this.lastInfo.result, ...checkRes.map(item => {
+				  result: [...this.lastInfo.result.slice(0, e.startIndex), ...checkRes.slice(e.startIndex).map(item => {
 					const keyRes = item.keyRes;
-					console.log('keyRes', keyRes)
 					return {
 						"direction": keyRes[0] && keyRes[0].content,
 						"ocode":  keyRes.map(v => v.code).join(';'),
 						"score": keyRes[0] && keyRes[0].score,
 						"tcode": item.code,
-						"title": item.title
+						"title": item.title,
 					}
 				  })],
 				  childId: this.item.type === 1 ? this.childId : 0, // 1-儿童 2-成人
 				  source: "string",
-				  // "userUuid": userInfo.user.uuid,
 				  username: userInfo.user.username,
 				  endTime: timeSecond(endTime),
 				  startTime: this.lastInfo.startTime || timeSecond(this.startTime),
@@ -167,7 +166,6 @@
 				  mcode: this.mcode,
 				  amount: this.amount,
 				  hasFinished,
-				  // ispay: false,
 			}
 			this.request({
 				url: '/mini/submitEvaResult',
@@ -195,10 +193,6 @@
 				})
 			}
 		},
-		// 答案选择 change 事件
-		checkOption(e){
-			console.log('check',e);
-		}
 	  },
 	};
 </script>

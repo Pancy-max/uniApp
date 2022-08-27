@@ -1,8 +1,8 @@
 <template>
 	<view class="answer__content">
 		<view class="precent-wrapper">
-			<text class="precent-text">{{newOptList[showQuestionIndex].number - 1}}/{{totalNum}}</text>
-			<progress :percent="percent" class="precent" activeColor="#ffff00bd"></progress>
+			<text class="precent-text">{{showQuestionIndex}}/{{questionSum}}</text>
+			<progress :percent="percent" class="precent" activeColor="#55557f"></progress>
 		</view>
 		<view class="time" v-if="count">
 			<image src="../../static/images/index/btn_07_time.png" class="timer-image"></image>
@@ -13,22 +13,16 @@
 			v-if="newOptList.length"
 		>
 			<view class="question_title">
-				<view class="title__number">{{ newOptList[showQuestionIndex].number || showQuestionIndex + 1 }}.</view>
+				<view class="title__number">{{ showQuestionIndex + 1 }}.</view>
 				<view>
 					（{{ getQuestionType(newOptList[showQuestionIndex].type) }})
 					{{ newOptList[showQuestionIndex].title }}
 				</view>
 			</view>
 			<block v-if="newOptList[showQuestionIndex].imageList.length && !hideImage">
-				<!-- <view :class="['answer__banner', switchVisible ? 'question--find-out' : 'question--find-in']"> -->
-					<!-- <swiper :indicator-dots="true" :autoplay="true"> -->
-						<block v-for="(item, index) in newOptList[showQuestionIndex].imageList" :key="index">
-							<!-- <swiper-item> -->
-								<image :src="item" mode="aspectFit"></image>
-							<!-- </swiper-item> -->
-						</block>
-					<!-- </swiper> -->
-				<!-- </view> -->
+				<block v-for="(item, index) in newOptList[showQuestionIndex].imageList" :key="index">
+						<image :src="item" mode="aspectFit"></image>
+				</block>
 			</block>
 			<view class="question_subtitle"  v-if="newOptList[showQuestionIndex].desc && !hideImage">
 				{{ newOptList[showQuestionIndex].desc }}
@@ -55,9 +49,14 @@
 							<view v-else-if="item.content">{{ item.content }}</view>
 						</view>
 					</block>
+					<button
+						v-if="showQuestionIndex > 0" 
+						class="next-button"
+						@click="prevQuestion"
+					>上一题</button>
 					<button 
 						v-if="newOptList[showQuestionIndex].type == 'checkbox'" 
-						@click="nextQuestionBtn" 
+						@click="nextQuestionBtn"
 						class="next-button" 
 					>下一题</button>
 				</block>
@@ -91,6 +90,18 @@ export default {
 		warningTips: {
 			type: String,
 			default: '请先作答哦~'
+		},
+		currentIndex: {
+			type: Number,
+			require: true
+		},
+		questionSum: {
+			type: Number,
+			require: true
+		},
+		resultInfo: {
+			type: Array, 
+			default: []
 		}
 	},
 	data() {
@@ -100,8 +111,8 @@ export default {
 				nextCol: '#FFFFFF',
 				optBac: '#eee',
 				optCol: '#2b2531',
-				optBacActive: '#ffff00',
-				optColActive: '#000000'
+				optBacActive: '#55557f',
+				optColActive: '#fff'
 			},
 			selectKey: ['radio', 'checkbox'],
 			newOptList: [], //初始化数据
@@ -112,7 +123,7 @@ export default {
 			timer: null,
 			showAnswer: true,
 			hideImage: false,
-			totalNum: 0
+			startIndex: 0
 		}
 	},
 	watch: {
@@ -139,7 +150,7 @@ export default {
 			return `background:${this.colorMap.optBacActive};color:${this.colorMap.optColActive};`
 		},
 		percent() {
-			return Math.floor((this.newOptList[this.showQuestionIndex]?.number - 1) / this.totalNum * 100);
+			return Math.floor(this.showQuestionIndex / this.questionSum * 100);
 		}
 	},
 	mounted() {
@@ -163,6 +174,10 @@ export default {
 		console.log('==============onHide')
 	},
 	methods: {
+		prevQuestion() {
+			this.showQuestionIndex--;
+			this.startIndex = Math.min(this.showQuestionIndex, this.startIndex);
+		},
 		verification() {
 		  this.timer = setInterval(() => {
 			this.count--;
@@ -175,8 +190,19 @@ export default {
 		  }, 1000); 
 		},
 		initData() {
+			for(let i = 0; i < this.resultInfo.length; i++) {
+				const question = this.questionList.find(v => v.code === this.resultInfo[i].tcode);
+				if(!question) continue;
+				question.question_option.map(item => {
+					const ocodes = this.resultInfo[i].ocode.split(';');
+					if(ocodes.indexOf(item.code) !== -1){
+						item.active = true
+					}
+				})
+			}
+			this.showQuestionIndex = this.currentIndex;
+			this.startIndex = this.currentIndex;
 			if (Array.isArray(this.questionList)) {
-				this.totalNum = this.questionList[this.showQuestionIndex].number + this.questionList.length - 1;
 				this.newOptList = this.deepClone(this.questionList)
 				if (this.newOptList.length === 1) this.isEnd = true
 			}
@@ -244,12 +270,6 @@ export default {
 			//选择事件
 			let checkOpt = this.newOptList[this.showQuestionIndex]
 			this.checkActive(e.currentTarget.dataset.id)
-			//返回数据
-			let opt = {
-				id: this.newOptList[this.showQuestionIndex].id,
-				value: e.currentTarget.dataset.id
-			}
-			this.$emit('checkOption', opt)
 			if(checkOpt.type === 'radio'){
 				this.nextQuestionBtn()
 			}
@@ -302,22 +322,6 @@ export default {
 				}
 			}, 300)
 		},
-		//答案选择验证
-		checkTest() {
-			let check_res = false
-			if (this.newOptList[this.showQuestionIndex].type == 'write') {
-				if (this.newOptList[this.showQuestionIndex].question_key.trim()) check_res = true
-			} else {
-				let check_opt = this.newOptList[this.showQuestionIndex]
-				check_opt.question_option.forEach((item, i) => {
-					if (item.active) {
-						check_res = true
-						return
-					}
-				})
-			}
-			return check_res
-		},
 		//答案整理返回
 		formatKey(opt) {
 			console.log('format')
@@ -356,6 +360,7 @@ export default {
 				check_res: newAnswer,
 				keyFormat: formatCheck_res
 			}
+			opt.startIndex = this.startIndex;
 			this.$emit('confrim', opt)
 		}
 	}
@@ -489,7 +494,9 @@ view {
 	width: 100%;
 }
 .next-button {
-	background-color: #ffff00;
+	background-color: #55557f;
 	margin-top: 50rpx;
+	color: #fff;
+	font-size: 34rpx;
 }
 </style>
