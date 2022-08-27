@@ -2,64 +2,23 @@
 	<view class='my'>
 
 		<view class="block-view">
+			<block v-for="(item, index) in aboutUsInfo" :key="index">
+				<view class="title">
+					{{item.firstTitle}}-{{item.mainTitle}}
+				</view>
 				<view class="my_tabs" @click="getContent">
 					<!-- <view class="tabs_left">
 						<my-icon type="staff" size="26" />
 					</view> -->
-					<view class="tabs_right">
-						<text>问题1</text>
+					<view class="tabs_right" >
+						<text>{{item.content}}</text>
 						<image src="../../static/my/btn_01.png" mode=""></image>
 					</view>
 				</view>
-
+				
 				<view class="fengexian"></view>
-
-				<!-- <view class="my_tabs" @click="myTest">
-					<view class="tabs_left">
-						<image src="../../static/common/btn_08.png" mode=""></image>
-					</view>
-					<view class="tabs_right">
-						<text>我的测评</text>
-						<image src="../../static/my/btn_01.png" mode=""></image>
-					</view>
-				</view>
-
-				<view class="fengexian"></view> -->
-
-
-				<!-- <view class="my_tabs" @click="share">
-					<view class="tabs_left">
-						<my-icon type="redo" size="26" />
-					</view>
-					<view class="tabs_right">
-						<text>分享给朋友</text>
-						<image src="../../static/my/btn_01.png" mode=""></image>
-					</view>
-				</view>
-				<view class="fengexian"></view>
-
-				<view class="my_tabs" @click="help">
-					<view class="tabs_left">
-						<my-icon type="chatboxes" size="26" />
-					</view>
-					<view class="tabs_right">
-						<text>联系客服</text>
-						<image src="../../static/my/btn_01.png" mode=""></image>
-					</view>
-				</view> -->
-				<!-- <view class="fengexian"></view>
-
-				<view class="my_tabs" @click="about">
-					<view class="tabs_left">
-						<my-icon type="info" size="26" />
-					</view>
-					<view class="tabs_right">
-						<text>关于我们</text>
-						<image src="../../static/my/btn_01.png" mode=""></image>
-					</view>
-				</view>
-				<view class="fengexian"></view> -->
-			</view>
+			</block>
+		</view>
 
 	</view>
 
@@ -72,7 +31,7 @@
 		props: {},
 		data() {
 			return {
-				
+				aboutUsInfo: []
 			};
 		},
 		onLoad() {
@@ -84,17 +43,16 @@
 					url: '/mini/getHelpCenter',
 					method: 'GET'
 				}).then(res => {
-					// this.aboutUsInfo = res.data.aboutUs
-					// getApp().globalData.aboutUsInfo = res.data.aboutUs 
+					this.aboutUsInfo = res.data.helpInfo
 				}).catch(e => {
 					console.error(e)
-					// this.aboutUsInfo = {};
+					this.aboutUsInfo = []
 				})
 			},
 			getContent(key) {
-				uni.navigateTo({
-					url: './text?id=' + key
-				})
+				// uni.navigateTo({
+				// 	url: './text?id=' + key
+				// })
 			}
 		},
 	};
@@ -111,9 +69,16 @@
 			background: #fff;
 			// border-radius: 40rpx;
 			// margin-bottom: 30rpx;
-			padding: 20rpx;
+			padding: 50rpx 20rpx 20rpx 20rpx;
 			flex: 1;
 			overflow: auto;
+		}
+		.title {
+			margin-left: 30rpx;
+			font-size: 36rpx;
+			font-weight: bold;
+			line-height: 60rpx;
+			margin-top: 30rpx;
 		}
 	}
 

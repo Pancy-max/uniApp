@@ -1,28 +1,31 @@
 <template>
  <view class="test-wrapper">
-	<view class="block-view">
+	 <scroll-view scroll-y="true" >
+	 	<view class="block-view">
+	 	
+	 		<view class="my_tabs" @tap="goTest(index)" v-for="(item, index) in testList" :key="index">
+	 			<view class="tabs_left">
+	 				<my-icon :type="item.hasFinished ? 'checkmarkempty' : 'map'" size="20" />
+	 				<view class="tip">
+	 					{{item.hasFinished ? '已完成' : '未完成'}}
+	 				</view>
+	 			</view>
+	 			<view class="tabs_right">
+	 				<view class="" >
+	 					<view>{{item.title}}</view>
+	 					<view>{{item.endTime}}</view>
+	 				</view>
+	 				
+	 				<image src="../../static/my/btn_01.png" mode=""></image>
+	 			</view>
+	 		</view>
+	 	
+	 		<view class="fengexian"></view>
+	 		<view class="noMore" v-if="testList && testList.length === 0">暂无数据</view>
+	 		
+	 	</view>
+	 </scroll-view>
 	
-		<view class="my_tabs" @tap="goTest(index)" v-for="(item, index) in testList" :key="index">
-			<view class="tabs_left">
-				<my-icon :type="item.hasFinished ? 'checkmarkempty' : 'map'" size="20" />
-				<view class="tip">
-					{{item.hasFinished ? '已完成' : '未完成'}}
-				</view>
-			</view>
-			<view class="tabs_right">
-				<view class="" >
-					<view>{{item.title}}</view>
-					<view>{{item.endTime}}</view>
-				</view>
-				
-				<image src="../../static/my/btn_01.png" mode=""></image>
-			</view>
-		</view>
-	
-		<view class="fengexian"></view>
-		<view class="noMore" v-if="testList && testList.length === 0">暂无数据</view>
-		
-	</view>
  </view>
 </template>
 
@@ -61,7 +64,7 @@ export default {
 			data: {
 				username: value.user.username,
 				isAll: true,
-				childId: 0,
+				// childId: 0,
 				mcode: ''
 			}
 		}).then(res => {
@@ -76,7 +79,7 @@ export default {
 		  const item = this.testList[index]
 		  if (item && item.hasFinished) {
 		  	uni.redirectTo({
-		  		url: './testResult?mcode=' + item.code
+		  		url: `./testResult?mcode=${item.code}&type=${item.type}&childId=${item.childId}`
 		  	})
 		 } else {
 			 // uni.showToast({
@@ -87,8 +90,6 @@ export default {
 			 uni.navigateTo({
 			 	url: './test'
 			 })
-			 getApp().globalData.childId = item.childId || 0
-			 getApp().globalData.testItem = item
 		 }
 	  },
   },
@@ -97,22 +98,14 @@ export default {
 
 <style lang="less" scoped>
 	.test-wrapper {
-		height: calc(100vh - 80rpx);
+		// height: calc(100vh);
 		background: #9e9e9e14;
-		padding: 40rpx;
-	}
-	.tabbar {
-		position: absolute;
-		width: 90%;
-		bottom: 100rpx;
-		.go_test {
-			background-color: #ffff00bd;
-		}
+		// padding: 40rpx;
 	}
 	.block-view {
 		background: #fff;
 		border-radius: 40rpx;
-		margin-bottom: 30rpx;
+		margin: 20rpx;
 		padding: 10rpx;
 	}
 	

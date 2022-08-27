@@ -19,11 +19,11 @@
 					{{ newOptList[showQuestionIndex].title }}
 				</view>
 			</view>
-			<block v-if="newOptList[showQuestionIndex].imageList.length && !hideImage">
+			<view v-if="newOptList[showQuestionIndex].imageList.length && !hideImage" class="image-box">
 				<block v-for="(item, index) in newOptList[showQuestionIndex].imageList" :key="index">
 						<image :src="item" mode="aspectFit"></image>
 				</block>
-			</block>
+			</view>
 			<view class="question_subtitle"  v-if="newOptList[showQuestionIndex].desc && !hideImage">
 				{{ newOptList[showQuestionIndex].desc }}
 			</view>
@@ -36,7 +36,7 @@
 						<view
 							:style="item.active ? optActiveStyle : optStyle"
 							class="question__option__item"
-							@tap.stop="checkOption"
+							@tap.stop="checkOption($event)"
 							:data-id="item.id"
 						>
 							<view class="question__option__item__number" v-if="item.name">{{ item.name }} .</view>
@@ -49,17 +49,21 @@
 							<view v-else-if="item.content">{{ item.content }}</view>
 						</view>
 					</block>
-					<button
-						v-if="showQuestionIndex > 0" 
-						class="next-button"
-						@click="prevQuestion"
-					>上一题</button>
-					<button 
-						v-if="newOptList[showQuestionIndex].type == 'checkbox'" 
-						@click="nextQuestionBtn"
-						class="next-button" 
-					>下一题</button>
+					<view class="btn-flex-box">
+						<button
+							v-if="showQuestionIndex > 0" 
+							class="prev-button"
+							@click="prevQuestion"
+						>上一题</button>
+						<button 
+							v-if="newOptList[showQuestionIndex].type == 'checkbox'" 
+							@click="nextQuestionBtn()"
+							class="next-button" 
+						>下一题</button>
+					</view>
+					
 				</block>
+				
 				<block v-else-if="newOptList[showQuestionIndex].type == 'write'">
 					<view class="item__key__box">
 						答案：
@@ -70,6 +74,13 @@
 						/>
 					</view>
 				</block>
+			</view>
+			<view class="">
+				<button
+					v-show="count"
+					class="prev-button"
+					@click="clearTimeCount"
+				>开启答题</button>
 			</view>
 		</view>
 	</view>
@@ -123,7 +134,8 @@ export default {
 			timer: null,
 			showAnswer: true,
 			hideImage: false,
-			startIndex: 0
+			startIndex: 0,
+			nextFlag: false
 		}
 	},
 	watch: {
@@ -179,15 +191,21 @@ export default {
 			this.startIndex = Math.min(this.showQuestionIndex, this.startIndex);
 		},
 		verification() {
+		  // this.clearTimeCount()
 		  this.timer = setInterval(() => {
 			this.count--;
 			if (this.count <= 0) {
-			  clearInterval(this.timer);
-			  // 显示题目和按钮, 隐藏图片
-			  this.showAnswer = true;
-			  this.hideImage = true;
+			  this.clearTimeCount()
 			}
 		  }, 1000); 
+		},
+		clearTimeCount() {
+			clearInterval(this.timer);
+			// 显示题目和按钮, 隐藏图片
+			this.showAnswer = true;
+			this.hideImage = true;
+			this.timer = null
+			this.count = 0
 		},
 		initData() {
 			for(let i = 0; i < this.resultInfo.length; i++) {
@@ -267,9 +285,17 @@ export default {
 		},
 		// 选择答案
 		checkOption(e) {
-			//选择事件
+			//选择事件-防抖
+			console.log('下一题', this.nextFlag, this.showQuestionIndex)
+			if (this.nextFlag) {
+				return
+			}
+			this.nextFlag = true
+			setTimeout(() => {
+				this.nextFlag = false
+			}, 600)
 			let checkOpt = this.newOptList[this.showQuestionIndex]
-			this.checkActive(e.currentTarget.dataset.id)
+			this.checkActive(e.currentTarget.dataset.id);
 			if(checkOpt.type === 'radio'){
 				this.nextQuestionBtn()
 			}
@@ -296,7 +322,7 @@ export default {
 			this.newOptList = newOpt
 		},
 		//下一题
-		nextQuestionBtn(e) {
+		nextQuestionBtn() {
 			this.hideImage = false;
 			//构建返回数据
 			let opt = {
@@ -308,6 +334,9 @@ export default {
 			} else {
 				return this.formatKey(opt)
 			}
+			
+
+			
 		},
 		// 切换题目
 		switchQuestion() {
@@ -403,7 +432,7 @@ view {
 .answer__question .question_title {
 	display: flex;
 	width: 100%;
-	font-size: 34rpx;
+	font-size: 36rpx;
 }
 
 .answer__question .title__number {
@@ -493,10 +522,29 @@ view {
 	margin-left: 30rpx;
 	width: 100%;
 }
+.btn-flex-box {
+	display: flex;
+	justify-content: space-between;
+}
 .next-button {
 	background-color: #55557f;
 	margin-top: 50rpx;
 	color: #fff;
 	font-size: 34rpx;
+}
+.prev-button {
+	background-color: #55557f;
+	margin-top: 50rpx;
+	color: #fff;
+	font-size: 34rpx;
+	width: 200rpx;
+}
+.question_subtitle {
+	font-size: 34rpx;
+	margin-top: 20rpx;
+}
+.image-box {
+	display: flex;
+	justify-content: space-around;
 }
 </style>

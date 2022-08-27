@@ -3,7 +3,7 @@
 		<view class="poster" v-if="!show_poster">
 			<lPainter :board="posterObj" ref="painter"></lPainter>
 			<view class="footer-btn">
-				<view class="">
+				<view class="" @tap="goBack">
 					返回
 				</view>
 				<view class="save" @click="toSave">
@@ -49,118 +49,53 @@
 			return {
 				show_poster:false,//显示海报
 				path: '', //生成的图片地址
+				myInfo: {},
+				posterInfo: {
+					imageDesc: "图片分享demo",
+					imageUrl: "https://ifragranto.com/banner/qinziuganxi.jpg",
+					linePrice: 19900,
+					price: 9900,
+					qrcodeDesc: "扫描二维码了解更多",
+					qrcodeUrl: "https://ifragranto.com/qrcode/qrcode_for_gh_6289b62b5e41_344.jpg",
+					title: "string"
+				},
 				posterObj: {
 					width: '670rpx',
 					height: '928rpx',
-					background: '#ffaa00',
-					borderRadius: '16rpx',
-					views: [
-						{
-							type: 'image',
-							src: 'https://s.yun-live.com/images/20210201/9a4e7df322dc5c9f30ea9b126d3269a6.png',
-							css: {
-								width: '128rpx',
-								height: '50rpx',
-								left: '542rpx',
-								top: '0rpx',
-							}
-						},
-						{
-							type: 'text',
-							text: '儿童多元智能测评',
-							css: {
-								fontSize: '48rpx',
-								color: '#fff',
-								lineHeight: '48rpx',
-								left: '136rpx',
-								top: '80rpx'
-							}
-						},
-						{
-							type: 'image',
-							src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
-							css: {
-								left: '32rpx',
-								top: '144rpx',
-								width: '606rpx',
-								height: '341rpx',
-								borderRadius: '16rpx'
-							}
-						},
-						{
-							type: 'view',
-							css: {
-								fontSize: '28rpx',
-								lineHeight: '1.4em',
-								background: '#fff',
-								top: '700rpx',
-								height: '200rpx',
-								left: '5%',
-								width: '90%',
-								borderRadius: '20rpx'
-							},
-							views: [
-								{
-									type: 'text',
-									text: '送你一次价值398元',
-									css: {
-										fontSize: '32rpx',
-										color: '#1A2033',
-										fontWeight: 'bold',
-										lineHeight: '45rpx',
-										left: '10%',
-										top: '740rpx',
-										width: '606rpx'
-									}
-								},
-								{
-									type: 'qrcode',
-									text: 'https://www.yun-live.com/',
-									css: {
-										left: '70%',
-										top: '730rpx',
-										width: '150rpx',
-										height: '150rpx'
-									}
-								},
-								{
-									type: 'text',
-									text: '扫描右侧二维码',
-									css: {
-										left: '10%',
-										top: '793rpx',
-										width: '40%',
-										// textAlign: 'center',
-										fontSize: '24rpx',
-										color: '#989FB3',
-										lineHeight: '33rpx'
-									}
-								}
-							]
-						}
-					]
+					background: '#fff',
+					borderRadius: '4rpx',
+					views: []
 				}, //画板数据
 				footer_arr: [
-					'https://s.yun-live.com/images/20210201/d502979c734077930cee837739ee9285.png',
-					'https://s.yun-live.com/images/20210201/0289000561415e1f9f6e542a3553906d.png',
 					'https://s.yun-live.com/images/20210201/5d2e237728e1dd8727835ca95084721e.png',
 					'https://s.yun-live.com/images/20210201/15075d31c26cc446333d569b0d2346e8.png',
-					'https://s.yun-live.com/images/20210201/8f4bbf78cab7a20079992c69e997e30b.png',
-					'https://s.yun-live.com/images/20210201/6e716c556d1a80e90ecb0260e0990add.png'
+					'https://s.yun-live.com/images/20210201/d502979c734077930cee837739ee9285.png',
 				], //底部选项
 				check_idx: 0, //底部选中的下标
 			}
 		},
 		onLoad() {
-
+			this.getPaintData()
+			this.myInfo = uni.getStorageSync('myinfo');
 		},
-		watch: {
-			// check_idx(newVal,oldVal){
-			// 	console.log(111,newVal);
-			// 	console.log(222,oldVal);
-			// }
-		},
+		// watch: {
+		// 	check_idx(newVal,oldVal){
+		// 		this.toChoose(newVal)
+		// 	}
+		// },
 		methods: {
+			getPaintData() {
+				this.request({
+					url: '/mini/getPosterInfo',
+					method: 'GET'
+				}).then(res => {
+					this.posterInfo = res.data.posterInfo
+					this.toChoose(0)
+				}).catch(e => {
+					console.error(e)
+					// this.aboutUsInfo = {};
+				})
+			},
 			previewImg(){
 				// #ifdef H5
 				return;
@@ -189,109 +124,132 @@
 			getImg(r) {
 
 			},
+			goBack() {
+				uni.switchTab({
+					url:'../my/index'
+				})
+			},
 			toChoose(index) {
 				if (index == 5) return;
 				this.check_idx = index;
 				switch (index) {
 					case 0:
-					this.posterObj.background='#fff';
-						this.posterObj.views = [{
-								type: 'image',
-								src: 'https://s.yun-live.com/images/20210201/9a4e7df322dc5c9f30ea9b126d3269a6.png',
-								css: {
-									width: '128rpx',
-									height: '50rpx',
-									left: '542rpx',
-									top: '0rpx',
-								}
-							},
-							{
-								type: 'image',
-								src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
-								css: {
-									left: '32rpx',
-									top: '32rpx',
-									borderRadius: '50%',
-									width: '80rpx',
-									height: '80rpx'
-								}
-							},
-							{
-								type: 'text',
-								text: '厦门吴彦祖',
-								css: {
-									fontSize: '28rpx',
-									fontWeight: 'bold',
-									color: '#1A2033',
-									lineHeight: '28rpx',
-									left: '136rpx',
-									top: '39rpx'
-								}
-							},
-							{
-								type: 'text',
-								text: '邀请您一起扫码看直播',
-								css: {
-									fontSize: '24rpx',
-									color: '#4070FF',
-									lineHeight: '24rpx',
-									left: '136rpx',
-									top: '80rpx'
-								}
-							},
-							{
-								type: 'image',
-								src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
-								css: {
-									left: '32rpx',
-									top: '144rpx',
-									width: '606rpx',
-									height: '341rpx',
-									borderRadius: '16rpx'
-								}
-							},
-							{
-								type: 'text',
-								text: '云现场 | 2020年 麓客城市 WO-LUNTEER创想礼·麓客共创之夜',
-								css: {
-									fontSize: '32rpx',
-									color: '#1A2033',
-									fontWeight: 'bold',
-									lineHeight: '45rpx',
-									left: '32rpx',
-									top: '509rpx',
-									width: '606rpx'
-								}
-							},
-							{
-								type: 'qrcode',
-								text: 'https://www.yun-live.com/',
-								css: {
-									left: '235rpx',
-									top: '631rpx',
-									width: '200rpx',
-									height: '200rpx',
-								}
-							},
-							{
-								type: 'text',
-								text: '————  由云现场提供技术支持  ————',
-								css: {
-									left: '0',
-									top: '863rpx',
-									width: '100%',
-									textAlign: 'center',
-									fontSize: '24rpx',
-									color: '#989FB3',
-									lineHeight: '33rpx'
-								}
+						this.posterObj.background='linear-gradient(153deg, #aaaaff 0%, #aaaa7f 100%)';
+						this.posterObj.views = [
+						{
+							type: 'text',
+							text: this.posterInfo.title,
+							css: {
+								fontSize: '48rpx',
+								color: '#fff',
+								lineHeight: '48rpx',
+								left: '236rpx',
+								top: '600rpx'
 							}
-						]
+						},
+						{
+							type: 'image',
+							src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
+							css: {
+								left: '56rpx',
+								top: '72rpx',
+								borderRadius: '50%',
+								width: '80rpx',
+								height: '80rpx'
+							}
+						},
+						{
+							type: 'text',
+							text: this.myInfo.user.username,
+							css: {
+								fontSize: '28rpx',
+								fontWeight: 'bold',
+								color: '#fff',
+								lineHeight: '28rpx',
+								left: '160rpx',
+								top: '88rpx'
+							}
+						},
+						{
+							type: 'text',
+							text: '邀请你一起学习',
+							css: {
+								fontSize: '24rpx',
+								color: '#fff',
+								lineHeight: '24rpx',
+								left: '160rpx',
+								top: '140rpx'
+							}
+						},
+						{
+							type: 'image',
+							src: this.posterInfo.imageUrl,
+							css: {
+								left: '32rpx',
+								top: '244rpx',
+								width: '606rpx',
+								height: '341rpx',
+								borderRadius: '16rpx'
+							}
+						},
+						{
+							type: 'view',
+							css: {
+								fontSize: '28rpx',
+								lineHeight: '1.4em',
+								background: '#fff',
+								top: '700rpx',
+								height: '200rpx',
+								left: '5%',
+								width: '90%',
+								borderRadius: '20rpx'
+							},
+							views: [
+								{
+									type: 'text',
+									text: this.posterInfo.imageDesc,
+									css: {
+										fontSize: '32rpx',
+										color: '#1A2033',
+										fontWeight: 'bold',
+										lineHeight: '45rpx',
+										left: '10%',
+										top: '740rpx',
+										width: '606rpx'
+									}
+								},
+								{
+									// type: 'qrcode',
+									type: 'image',
+									src: this.posterInfo.qrcodeUrl,
+									css: {
+										left: '70%',
+										top: '730rpx',
+										width: '150rpx',
+										height: '150rpx'
+									}
+								},
+								{
+									type: 'text',
+									text: this.posterInfo.qrcodeDesc,
+									css: {
+										left: '10%',
+										top: '793rpx',
+										width: '40%',
+										// textAlign: 'center',
+										fontSize: '24rpx',
+										color: '#989FB3',
+										lineHeight: '33rpx'
+									}
+								}
+							]
+						}
+					]
 						break;
 					case 1:
 						this.posterObj.views = [{
 								type: 'image',
-								src: 'https://s.yun-live.com/images/20210201/39ae4d9d8ad0b1acac7c224e845c641f.png',
+								src: 'https://s.yun-live.com/images/20210201/524ab6a41fe8c7eb57b35df9a547d388.png',
 								css: {
 									left: '0',
 									top: '0',
@@ -301,7 +259,7 @@
 							},
 							{
 								type: 'image',
-								src: 'https://s.yun-live.com/images/20210201/a887643c62a1748fe5f71a5fccfcacaa.png',
+								src: 'https://s.yun-live.com/images/20210201/cf86cf793964d1b2ded6dd9a0c5fdd5e.png',
 								css: {
 									width: '128rpx',
 									height: '50rpx',
@@ -313,8 +271,8 @@
 								type: 'image',
 								src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
 								css: {
-									left: '32rpx',
-									top: '32rpx',
+									left: '56rpx',
+									top: '72rpx',
 									borderRadius: '50%',
 									width: '80rpx',
 									height: '80rpx'
@@ -322,82 +280,210 @@
 							},
 							{
 								type: 'text',
-								text: '厦门吴彦祖',
+								text: this.myInfo.user.username,
 								css: {
 									fontSize: '28rpx',
 									fontWeight: 'bold',
-									color: '#D8AB87',
+									color: '#1D1D25',
 									lineHeight: '28rpx',
-									left: '136rpx',
-									top: '39rpx'
+									left: '160rpx',
+									top: '80rpx'
 								}
 							},
 							{
 								type: 'text',
-								text: '邀请您一起扫码看直播',
+								text: '邀请你一起学习',
 								css: {
 									fontSize: '24rpx',
-									color: '#FFFFFF',
+									color: '#6CB37A',
 									lineHeight: '24rpx',
-									left: '136rpx',
-									top: '80rpx'
+									left: '160rpx',
+									top: '121rpx'
+								}
+							},
+							{
+								type: 'image',
+								src: this.posterInfo.imageUrl,
+								css: {
+									left: '50%',
+									top: '188rpx',
+									transform: 'translate(-50%,0)',
+									width: '540rpx',
+									height: '303rpx',
+									borderRadius: '16rpx',
+									border:'3rpx solid rgba(255,255,255,0.5)'
+								}
+							},
+							{
+								type: 'view',
+								css: {
+									fontSize: '28rpx',
+									lineHeight: '1.4em',
+									background: '#fff',
+									top: '550rpx',
+									height: '300rpx',
+									left: '10%',
+									width: '80%',
+									borderRadius: '10rpx'
+								},
+								views: [
+									{
+										type: 'text',
+										text: '￥' + this.posterInfo.price / 100 + '',
+										css: {
+											fontSize: '32rpx',
+											color: '#ff557f',
+											fontWeight: 'bold',
+											lineHeight: '45rpx',
+											left: '20%',
+											top: '590rpx',
+											width: '606rpx'
+										}
+									},
+									{
+										type: 'text',
+										text: '￥' + this.posterInfo.linePrice / 100 + '',
+										css: {
+											fontSize: '28rpx',
+											color: '#1A2033',
+											lineHeight: '45rpx',
+											left: '90%',
+											top: '590rpx',
+											width: '606rpx',
+											textDecoration: 'line-through'
+										}
+									},
+									{
+										type: 'text',
+										text: this.posterInfo.imageDesc,
+										css: {
+											fontSize: '32rpx',
+											color: '#1A2033',
+											fontWeight: 'bold',
+											lineHeight: '45rpx',
+											left: '20%',
+											top: '690rpx',
+											width: '606rpx'
+										}
+									},
+									{
+										type: 'view',
+										css: {
+											width: '90%',
+											left: '20%',
+											borderBottom: '3rpx dashed #ff557f',
+											top: '660rpx'
+										}
+									},
+									{
+										// type: 'qrcode',
+										type: 'image',
+										src: this.posterInfo.qrcodeUrl,
+										css: {
+											left: '80%',
+											top: '680rpx',
+											width: '150rpx',
+											height: '150rpx'
+										}
+									},
+									{
+										type: 'text',
+										text: this.posterInfo.qrcodeDesc,
+										css: {
+											left: '20%',
+											top: '743rpx',
+											width: '40%',
+											// textAlign: 'center',
+											fontSize: '24rpx',
+											color: '#989FB3',
+											lineHeight: '33rpx'
+										}
+									}
+								]
+							}
+						]
+						break;
+					case 2:
+					this.posterObj.background='linear-gradient(153deg, #EFF7FE 0%, #E6F0FA 100%)'
+					this.posterObj.views = [{
+							type: 'image',
+							src: 'https://s.yun-live.com/images/20210201/9befed22f44df68a27044ca8a84a39b6.png',
+							css: {
+								left: '0',
+								top: '0',
+								width: '150rpx',
+								height: '150rpx'
+							}
+						},
+							{
+								type: 'image',
+								src: 'https://s.yun-live.com/images/20210201/c40e25e13d91b275b274ccea8576a0e0.png',
+								css: {
+									width: '128rpx',
+									height: '50rpx',
+									left: '542rpx',
+									top: '0rpx',
 								}
 							},
 							{
 								type: 'image',
 								src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
 								css: {
-									left: '50%',
-									top: '188rpx',
-									transform: 'translate(-50%,0)',
-									width: '539rpx',
-									height: '303rpx',
-									borderRadius: '16rpx',
-									border:'3rpx solid #B3A498'
-								}
-							},
-							{
-								type: 'image',
-								src: 'https://s.yun-live.com/images/20210201/d88d56843d43b917e2a28550b2a62723.png',
-								css: {
-									left: '551rpx',
-									top: '111rpx',
-									width: '103rpx',
-									height: '103rpx',
-								}
-							},
-							{
-								type: 'image',
-								src: 'https://s.yun-live.com/images/20210201/247736ffd279276b891ec14db8ed0fd0.png',
-								css: {
-									left: '43rpx',
-									top: '432rpx',
-									width: '56.4rpx',
-									height: '56.4rpx',
+									left: '56rpx',
+									top: '72rpx',
+									borderRadius: '50%',
+									width: '80rpx',
+									height: '80rpx'
 								}
 							},
 							{
 								type: 'text',
-								text: '云现场 | 2020年 麓客城市 WO-LUNTEER创想礼·麓客共创之夜',
+								text: this.myInfo.user.username,
 								css: {
-									fontSize: '32rpx',
-									color: '#fff',
+									fontSize: '28rpx',
 									fontWeight: 'bold',
-									lineHeight: '45rpx',
-									left: '71rpx',
-									top: '492rpx',
-									width: '528rpx'
+									color: '#1D1D25',
+									lineHeight: '28rpx',
+									left: '160rpx',
+									top: '80rpx'
+								}
+							},
+							{
+								type: 'text',
+								text: '邀请你一起学习',
+								css: {
+									fontSize: '24rpx',
+									// color: '#6CB37A',
+									color: '#1D1D25',
+									lineHeight: '24rpx',
+									left: '160rpx',
+									top: '121rpx'
 								}
 							},
 							{
 								type: 'image',
-								src: 'https://s.yun-live.com/images/20210201/63a9b504fb745b43b9fe5c0adef8fddb.png',
+								src: this.posterInfo.imageUrl,
 								css: {
 									left: '50%',
-									top: '750rpx',
+									top: '188rpx',
 									transform: 'translate(-50%,0)',
-									width: '192rpx',
-									height: '78rpx',
+									width: '540rpx',
+									height: '303rpx',
+									borderRadius: '16rpx',
+									border:'3rpx solid rgba(255,255,255,0.5)'
+								}
+							},
+							{
+								type: 'text',
+								text: this.posterInfo.imageDesc,
+								css: {
+									fontSize: '32rpx',
+									color: '#1D1D25',
+									fontWeight: 'bold',
+									lineHeight: '45rpx',
+									left: '71rpx',
+									top: '508rpx',
+									width: '530rpx'
 								}
 							},
 							{
@@ -412,8 +498,8 @@
 								}
 							},
 							{
-								type: 'qrcode',
-								text: 'https://www.yun-live.com/',
+								type: 'image',
+								src: this.posterInfo.qrcodeUrl,
 								css: {
 									left: '50%',
 									top: '638rpx',
@@ -424,394 +510,19 @@
 							},
 							{
 								type: 'text',
-								text: '————  由云现场提供技术支持  ————',
+								text: this.posterInfo.qrcodeDesc,
 								css: {
 									left: '0',
-									top: '863rpx',
+									top: '819rpx',
 									width: '100%',
 									textAlign: 'center',
 									fontSize: '24rpx',
-									color: '#B3A498',
+									color: '#1D1D25',
 									lineHeight: '33rpx'
 								}
 							},
 						]
 						break;
-						case 2:
-							this.posterObj.views = [{
-									type: 'image',
-									src: 'https://s.yun-live.com/images/20210201/78f227bd701da20676c9da9166ce3144.png',
-									css: {
-										left: '0',
-										top: '0',
-										width: '100%',
-										height: '100%'
-									}
-								},
-								{
-									type: 'image',
-									src: 'https://s.yun-live.com/images/20210201/cf86cf793964d1b2ded6dd9a0c5fdd5e.png',
-									css: {
-										width: '128rpx',
-										height: '50rpx',
-										left: '542rpx',
-										top: '0rpx',
-									}
-								},
-								{
-									type: 'image',
-									src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
-									css: {
-										left: '56rpx',
-										top: '72rpx',
-										borderRadius: '50%',
-										width: '80rpx',
-										height: '80rpx'
-									}
-								},
-								{
-									type: 'text',
-									text: '厦门吴彦祖',
-									css: {
-										fontSize: '28rpx',
-										fontWeight: 'bold',
-										color: '#1D1D25',
-										lineHeight: '28rpx',
-										left: '160rpx',
-										top: '80rpx'
-									}
-								},
-								{
-									type: 'text',
-									text: '邀请您一起扫码看直播',
-									css: {
-										fontSize: '24rpx',
-										color: '#6CB37A',
-										lineHeight: '24rpx',
-										left: '160rpx',
-										top: '121rpx'
-									}
-								},
-								{
-									type: 'image',
-									src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
-									css: {
-										left: '50%',
-										top: '188rpx',
-										transform: 'translate(-50%,0)',
-										width: '540rpx',
-										height: '303rpx',
-										borderRadius: '16rpx',
-										border:'3rpx solid rgba(255,255,255,0.5)'
-									}
-								},
-								{
-									type: 'text',
-									text: '云现场 | 2020年 麓客城市 WO-LUNTEER创想礼·麓客共创之夜',
-									css: {
-										fontSize: '32rpx',
-										color: '#1D1D25',
-										fontWeight: 'bold',
-										lineHeight: '45rpx',
-										left: '71rpx',
-										top: '508rpx',
-										width: '530rpx'
-									}
-								},
-								{
-									type: 'view',
-									css: {
-										left: '50%',
-										top: '630rpx',
-										transform: 'translate(-50%,0)',
-										width: '160rpx',
-										height: '160rpx',
-										background: '#fff',
-									}
-								},
-								{
-									type: 'qrcode',
-									text: 'https://www.yun-live.com/',
-									css: {
-										left: '50%',
-										top: '638rpx',
-										transform: 'translate(-50%,0)',
-										width: '144rpx',
-										height: '144rpx',
-									}
-								},
-								{
-									type: 'text',
-									text: '————  由云现场提供技术支持  ————',
-									css: {
-										left: '0',
-										top: '819rpx',
-										width: '100%',
-										textAlign: 'center',
-										fontSize: '24rpx',
-										color: '#E5F0F4',
-										lineHeight: '33rpx'
-									}
-								},
-							]
-							break;
-							case 3:
-								this.posterObj.views = [{
-										type: 'image',
-										src: 'https://s.yun-live.com/images/20210201/524ab6a41fe8c7eb57b35df9a547d388.png',
-										css: {
-											left: '0',
-											top: '0',
-											width: '100%',
-											height: '100%'
-										}
-									},
-									{
-										type: 'image',
-										src: 'https://s.yun-live.com/images/20210201/c40e25e13d91b275b274ccea8576a0e0.png',
-										css: {
-											width: '128rpx',
-											height: '50rpx',
-											left: '542rpx',
-											top: '0rpx',
-										}
-									},
-									{
-										type: 'image',
-										src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
-										css: {
-											left: '56rpx',
-											top: '72rpx',
-											borderRadius: '50%',
-											width: '80rpx',
-											height: '80rpx'
-										}
-									},
-									{
-										type: 'text',
-										text: '厦门吴彦祖',
-										css: {
-											fontSize: '28rpx',
-											fontWeight: 'bold',
-											color: '#1D1D25',
-											lineHeight: '28rpx',
-											left: '160rpx',
-											top: '80rpx'
-										}
-									},
-									{
-										type: 'text',
-										text: '邀请您一起扫码看直播',
-										css: {
-											fontSize: '24rpx',
-											color: '#6CB37A',
-											lineHeight: '24rpx',
-											left: '160rpx',
-											top: '121rpx'
-										}
-									},
-									{
-										type: 'image',
-										src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
-										css: {
-											left: '50%',
-											top: '188rpx',
-											transform: 'translate(-50%,0)',
-											width: '540rpx',
-											height: '303rpx',
-											borderRadius: '16rpx',
-											border:'3rpx solid rgba(255,255,255,0.5)'
-										}
-									},
-									{
-										type: 'text',
-										text: '云现场 | 2020年 麓客城市 WO-LUNTEER创想礼·麓客共创之夜',
-										css: {
-											fontSize: '32rpx',
-											color: '#1D1D25',
-											fontWeight: 'bold',
-											lineHeight: '45rpx',
-											left: '71rpx',
-											top: '508rpx',
-											width: '530rpx'
-										}
-									},
-									{
-										type: 'view',
-										css: {
-											left: '50%',
-											top: '630rpx',
-											transform: 'translate(-50%,0)',
-											width: '160rpx',
-											height: '160rpx',
-											background: '#fff',
-										}
-									},
-									{
-										type: 'qrcode',
-										text: 'https://www.yun-live.com/',
-										css: {
-											left: '50%',
-											top: '638rpx',
-											transform: 'translate(-50%,0)',
-											width: '144rpx',
-											height: '144rpx',
-										}
-									},
-									{
-										type: 'text',
-										text: '————  由云现场提供技术支持  ————',
-										css: {
-											left: '0',
-											top: '819rpx',
-											width: '100%',
-											textAlign: 'center',
-											fontSize: '24rpx',
-											color: '#E5F0F4',
-											lineHeight: '33rpx'
-										}
-									},
-								]
-								break;
-								case 4:
-									this.posterObj.background='linear-gradient(153deg, #EFF7FE 0%, #E6F0FA 100%)'							
-									this.posterObj.views = [{
-											type: 'image',
-											src: 'https://s.yun-live.com/images/20210201/9befed22f44df68a27044ca8a84a39b6.png',
-											css: {
-												left: '0',
-												top: '0',
-												width: '150rpx',
-												height: '150rpx'
-											}
-										},
-										{
-											type: 'image',
-											src: 'https://s.yun-live.com/images/20210201/ac22a4d279076116e1e9bea7f5a325e1.png',
-											css: {
-												width: '128rpx',
-												height: '50rpx',
-												left: '542rpx',
-												top: '0rpx',
-											}
-										},
-										{
-											type: 'image',
-											src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
-											css: {
-												left: '35rpx',
-												top: '35rpx',
-												borderRadius: '50%',
-												width: '80rpx',
-												height: '80rpx'
-											}
-										},
-										{
-											type: 'text',
-											text: '厦门吴彦祖',
-											css: {
-												fontSize: '28rpx',
-												fontWeight: 'bold',
-												color: '#1D1D25',
-												lineHeight: '28rpx',
-												left: '152rpx',
-												top: '40rpx'
-											}
-										},
-										{
-											type: 'text',
-											text: '邀请您一起扫码看直播',
-											css: {
-												fontSize: '24rpx',
-												color: '#FF8931',
-												lineHeight: '24rpx',
-												left: '152rpx',
-												top: '80rpx'
-											}
-										},
-										{
-											type: 'image',
-											src: 'https://s.yun-live.com/images/20210201/4afd6a85e7469ecb61c7377062c5f42c.png',
-											css: {
-												left: '0',
-												top: '94rpx',
-												width: '100%',
-												height: '473rpx',
-											}
-										},
-										{
-											type: 'image',
-											src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
-											css: {
-												left: '50%',
-												top: '167rpx',
-												transform: 'translate(-50%,0)',
-												width: '580rpx',
-												height: '326rpx',
-												borderRadius: '16rpx',
-											}
-										},
-										{
-											type: 'text',
-											text: '云现场 | 2020年 麓客城市 WO-LUNTEER创想礼·麓客共创之夜',
-											css: {
-												fontSize: '32rpx',
-												color: '#3F4770',
-												fontWeight: 'bold',
-												lineHeight: '45rpx',
-												left: '48rpx',
-												top: '534rpx',
-												width: '574rpx'
-											}
-										},
-										{
-											type: 'image',
-											src: 'https://s.yun-live.com/images/20210201/583a28f485b9967d61b71d35ac652e29.png',
-											css: {
-												left: '50%',
-												top: '634rpx',
-												transform: 'translate(-50%,0)',
-												width: '218rpx',
-												height: '218rpx',
-											}
-										},
-										{
-											type: 'view',
-											css: {
-												left: '50%',
-												top: '671rpx',
-												transform: 'translate(-50%,0)',
-												width: '144rpx',
-												height: '144rpx',
-												background: '#fff',
-											}
-										},
-										{
-											type: 'qrcode',
-											text: 'https://www.yun-live.com/',
-											css: {
-												left: '50%',
-												top: '678rpx',
-												transform: 'translate(-50%,0)',
-												width: '130rpx',
-												height: '130rpx',
-											}
-										},
-										{
-											type: 'text',
-											text: '————  由云现场提供技术支持  ————',
-											css: {
-												left: '0',
-												top: '859rpx',
-												width: '100%',
-												textAlign: 'center',
-												fontSize: '24rpx',
-												color: '#A4ADC3',
-												lineHeight: '33rpx'
-											}
-										},
-									]
-									break;
 					default:
 						break;
 				}

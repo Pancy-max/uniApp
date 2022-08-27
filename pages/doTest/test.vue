@@ -144,10 +144,32 @@
 			// current_id -当前索引
 			console.log('当前索引', e.current_id)
 			const checkRes = e.isEnd ? e.checkRes.check_res : e.checkRes.check_res.slice(0, e.current_id)
-			const hasFinished = this.totalLength === checkRes.length + this.lastInfo.result.length
+			// console.log('this.totalLength', this.totalLength)
+			// console.log('当前已做长度', checkRes.length, '上一次长度', this.lastInfo.result.length)
+			// const hasFinished = this.totalLength === checkRes.length
+			console.log('答案整理', checkRes)
+			console.log('hasFinished', e.isEnd)
+			const hasFinished = e.isEnd
 			this.isSummitFlag = true
+			for (let item of checkRes) {
+				if (item.keyRes.length === 0) {
+					console.log('题目未完成，请重新做题')
+					uni.showToast({
+					    title: '题目未完成, 请重新做题',
+					    icon: 'error',
+					    duration: 2000
+					})
+					setTimeout(function() {
+						uni.reLaunch({
+							url: '/pages/doTest/test'
+						})
+					}, 1000);
+					return
+				}
+			}
 			const testData = {
-				  result: [...this.lastInfo.result.slice(0, e.startIndex), ...checkRes.slice(e.startIndex).map(item => {
+				  // result: [...this.lastInfo.result.slice(0, e.startIndex), ...checkRes.slice(e.startIndex).map(item => {
+				result: checkRes.map(item => {
 					const keyRes = item.keyRes;
 					return {
 						"direction": keyRes[0] && keyRes[0].content,
@@ -156,7 +178,7 @@
 						"tcode": item.code,
 						"title": item.title,
 					}
-				  })],
+				  }),
 				  childId: this.item.type === 1 ? this.childId : 0, // 1-儿童 2-成人
 				  source: "string",
 				  username: userInfo.user.username,
@@ -167,13 +189,15 @@
 				  amount: this.amount,
 				  hasFinished,
 			}
+			console.log(testData)
+			
 			this.request({
 				url: '/mini/submitEvaResult',
 				method: 'POST',
 				data: testData
 			}).then((res) => {
 				if(res.data!='' && res.data){
-					console.log('提交测评成功')
+					console.log('提交测评成功', res.data)
 					if (hasFinished) {
 						this.request({
 							url: '/mini/submitEvaResult',

@@ -1,4 +1,3 @@
-<!--本页面由uniapp切片工具生成，uni-app切片-可视化设计工具(一套代码编译到7个平台iOS、Android、H5、小程序)，软件下载地址：http://www.ymznkf.com/new_view_669.htm -->
 <template>
 	<view class="YmContent">
 			<view class="all_orders_1">
@@ -20,7 +19,12 @@
 							</view>
 						</view>
 						<view class="all_orders_6">
-							{{item_orders.tradeState === 'SUCCESS'? '交易成功' : '交易失败'}}
+							<text style="color: red;margin-right: 10rpx;text-align: right;">
+								￥{{item_orders.PayerTotal / 100 || 0}}
+							</text>
+							<text>
+								{{item_orders.tradeState === 'SUCCESS'? '交易成功' : '交易失败'}}
+							</text>
 						</view>
 					</view>
 				</view>
@@ -47,7 +51,6 @@
 		onLoad(options) {
 
 			this.page=0;
-
 			this.refresh("init");
 
 		},
@@ -63,12 +66,12 @@
 		methods: {
 			
 			//刷新数据
-			refresh:function(_action) {
+			refresh(_action) {
 				console.log('allOrder');
-				uni.showLoading();
+				// uni.showLoading();
 				
 				//提交到服务器
-				var that = this
+				// var that = this
 				this.request({
 					url: '/wxpay/getOrderList',
 					// data: {},
@@ -76,12 +79,12 @@
 				}).then(res => {
 
 					// 隐藏导航栏加载框  
-					uni.hideNavigationBarLoading();
+					// uni.hideNavigationBarLoading();
 					// 停止下拉动作  
-					uni.stopPullDownRefresh();  
+					// uni.stopPullDownRefresh();  
 
 					// 隐藏加载框  
-					uni.hideLoading();  
+					// uni.hideLoading();  
 
 					var tmp = res.data;
 					console.log(res)
@@ -105,7 +108,7 @@
 					if(tmp.page!=null && tmp.page!=""){
 						page=tmp.page;
 					}	
-					that.list_orders = tmp
+					this.list_orders = tmp
 
 				})
 			},

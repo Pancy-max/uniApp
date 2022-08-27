@@ -13,8 +13,8 @@
 	  <!-- 同意服务条款 -->
 	  <checkbox-group :class="checked == 1 ? 'shake-horizontal' : ''" class="auth-clause" @change="CheckboxChange" v-if="H5Wechat">
 	  	<checkbox class="orange" :class="checked == 2 ? 'checked' : ''" :checked="checked == 2 ? true : false" value="2" />
-	  	<view>
-	  		我已阅读<text class="linkxy" @tap="onDetails(8, '用户协议')">用户协议</text>及<text class="linkxy" @tap="onDetails(9, '隐私保护')">隐私权保护声明</text>
+	  	<view style="padding-right: 30rpx;">
+	  		我已阅读<text class="linkxy" @tap="getContent('userAggrement')">用户协议</text>、<text class="linkxy" @tap="getContent('privacyAggrement')">隐私权保护声明</text>及<text class="linkxy" @tap="getContent('childrenAggrement')">儿童个人信息保护规则</text>
 	  	</view>
 	  </checkbox-group>
 		<view class="regbutton_login" @click='wechatLogin' v-if="H5Wechat">
@@ -47,7 +47,9 @@
 				openId: ''
 			};
 		},
+		
 		onLoad() {
+			
 			uni.clearStorageSync();
 			// #ifdef H5
 			var ua = navigator.userAgent.toLowerCase();
@@ -58,6 +60,8 @@
 			}
 			this.getAppid()
 			this.getUrlParam()
+			this.getAboutUs()
+			
 			// #endif
 			// #ifdef MP-WEIXIN
 			this.H5Wechat = true
@@ -68,6 +72,12 @@
 			wybLoading
 		},
 		methods: {
+			getContent(key) {
+				let p = encodeURIComponent(getApp().globalData.aboutUsInfo[key])
+				uni.navigateTo({
+				    url: `/pages/webview/index?path=${p}`
+				})
+			},
 			CheckboxChange(e) {
 				this.checked = e.detail.value;
 				this.isChecked = !this.isChecked
@@ -263,70 +273,18 @@
 					return null
 				}
 			},
-			getAppid() {
-				let that = this
-				let nonce = Math.random().toString(36).substr(2)
-				let time_stamp = Date.parse(new Date()) / 1000
-				let getData = {
-					time_stamp: time_stamp,
-					nonce: nonce,
-					signature: md5(`app_key=` + this.$appKey + `&app_secret=` + this.$app_secret + `&nonce=` + nonce +
-						`&time_stamp=` + time_stamp),
-					app_key: this.$appKey,
-				}
+			getAboutUs() {
 				this.request({
-					url: '/v1/token/get_appid',
-					method: 'post',
-					data: getData
+					url: '/mini/getAboutUs',
+					method: 'GET'
 				}).then(res => {
-					if (res.code === 200) {
-						that.appid = res.data.appid
-					} else {
-						uni.showToast({
-							title: res.desc,
-							icon: none
-						})
-					}
+					// this.aboutUsInfo = res.data.aboutUs
+					getApp().globalData.aboutUsInfo = res.data.aboutUs 
+				}).catch(e => {
+					console.error(e)
+					// this.aboutUsInfo = {};
 				})
 			},
-			H5WechatLogin() {
-				let that = this
-				let nonce = Math.random().toString(36).substr(2)
-				let time_stamp = Date.parse(new Date()) / 1000
-				that.request({
-					url: '/v1/token/web_wechat',
-					method: 'post',
-					data: {
-						times: 1,
-						code: this.code,
-						time_stamp: time_stamp,
-						nonce: nonce,
-						signature: md5(`app_key=` + this.$appKey + `&app_secret=` + this.$app_secret + `&nonce=` + nonce +
-							`&time_stamp=` + time_stamp),
-						app_key: this.$appKey,
-					}
-				}).then(res => {
-					if (res.code === 901) {
-						let openId = res.data.open_id
-						uni.navigateTo({
-							url: `/pages/login/bindtel?openId=${openId}`
-						})
-					} else if (res.code === 200) {
-						uni.setStorage({
-							key: 'myinfo',
-							data: res.data
-						})
-						uni.switchTab({
-							url: '../my/index'
-						})
-					} else {
-						uni.showToast({
-							title: res.desc,
-							icon: none
-						})
-					}
-				})
-			}
 		},
 	};
 </script>

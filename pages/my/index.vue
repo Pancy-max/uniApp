@@ -156,15 +156,6 @@
 		<uni-popup ref="shardPop" type="share" safeArea backgroundColor="#fff">
 			<uni-popup-share @select="selectShareItem"></uni-popup-share>
 		</uni-popup>
-		<!-- <view class="my_tabs" v-if="userInfo !=''" @click="logOut">
-			<view class="tabs_left">
-				<image src="../../static/my/icon5.png" mode=""></image>
-			</view>
-			<view class="tabs_right">
-				<text>退出登录</text>
-				<image src="../../static/my/btn_01.png" mode=""></image>
-			</view>
-		</view> -->
 
 	</view>
 

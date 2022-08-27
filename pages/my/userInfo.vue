@@ -12,10 +12,10 @@
 			 <view>昵称</view>
 			 <view class="item_color">{{userInfo.nickname}}</view>
 			</view>
-			<view class="in_item">
+			<!-- <view class="in_item">
 				<view>ID</view>
 				<view class="item_color">{{userInfo.ID}}</view>
-			</view>
+			</view> -->
 			<view class="in_item">
 				<view>手机号</view>
 				<view class="item_color">{{userInfo.mobile}}</view>

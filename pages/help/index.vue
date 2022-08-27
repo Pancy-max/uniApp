@@ -36,7 +36,7 @@
 				const customCenter = res.data.customCenter
 				if (customCenter) {
 					this.value = customCenter.qrcodeUrl || 'https://doc.uqrcode.cn'
-					this.text = customCenter.text || '请保存二维码，在微信识别添加客服'
+					this.text = customCenter.content || '请保存二维码，在微信识别添加客服'
 				}
 			}).catch(e => {
 				console.error(e)

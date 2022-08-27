@@ -143,7 +143,7 @@ export default {
 			const data = res.data
 			if (data && data.userEvaProgress && data.userEvaProgress[0] && data.userEvaProgress[0].hasFinished) {
 				uni.redirectTo({
-					url: './testResult?mcode=' + this.item.code
+					url: `./testResult?mcode=${this.item.code}&childId=${this.item.type === 1 ? this.childId : 0}&type=${this.item.type}`
 				})
 			} else {
 				uni.navigateTo({

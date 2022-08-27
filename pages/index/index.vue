@@ -42,15 +42,17 @@
 			<view class="pop-child">
 				<view class="title-tip">本测评量表适用于9岁以上儿童，请添加儿童信息</view>
 				<view v-if="berList.length > 0">
-					<view class="my_tabs child-box" @click="selectChild(i)" v-for="(item, i) in berList" :key="i">
-						<view class="tabs_left">
-							<my-icon type="person" size="26" />
+					<scroll-view scroll-y="true" style="max-height: 400rpx" >
+						<view class="my_tabs child-box" @click="selectChild(i)" v-for="(item, i) in berList" :key="i">
+							<view class="tabs_left">
+								<my-icon type="person" size="26" />
+							</view>
+							<view class="tabs_right">
+								<text class="nick-name">{{item.nickname}}</text>
+								<text>生日：{{item.birthday}}</text>
+							</view>
 						</view>
-						<view class="tabs_right">
-							<text class="nick-name">{{item.nickname}}</text>
-							<text>生日：{{item.birthday}}</text>
-						</view>
-					</view>
+					</scroll-view>
 				</view>
 				<view>
 					<button class="nav-addchild" @tap="goChild">
