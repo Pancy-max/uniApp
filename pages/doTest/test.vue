@@ -168,7 +168,6 @@
 				}
 			}
 			const testData = {
-				  // result: [...this.lastInfo.result.slice(0, e.startIndex), ...checkRes.slice(e.startIndex).map(item => {
 				result: checkRes.map(item => {
 					const keyRes = item.keyRes;
 					return {

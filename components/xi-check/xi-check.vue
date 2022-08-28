@@ -325,6 +325,11 @@ export default {
 			// 查看是否有选择答案
 			const activeItem = this.newOptList[this.showQuestionIndex].question_option.filter(item => item.active);
 			if(!activeItem.length){
+				uni.showToast({
+					title: "请选择答案～",
+					icon: 'none',
+					duration: 2000
+				})
 				return;
 			}
 			this.hideImage = false;
@@ -535,6 +540,7 @@ view {
 	margin-top: 50rpx;
 	color: #fff;
 	font-size: 34rpx;
+	width: 200rpx;
 }
 .prev-button {
 	background-color: #55557f;
