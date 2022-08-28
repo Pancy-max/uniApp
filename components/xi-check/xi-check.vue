@@ -56,7 +56,7 @@
 							@click="prevQuestion"
 						>上一题</button>
 						<button 
-							v-if="newOptList[showQuestionIndex].type == 'checkbox'" 
+							v-if="newOptList[showQuestionIndex].type == 'checkbox' || isActive" 
 							@click="nextQuestionBtn()"
 							class="next-button" 
 						>下一题</button>
@@ -163,6 +163,11 @@ export default {
 		},
 		percent() {
 			return Math.floor(this.showQuestionIndex / this.questionSum * 100);
+		},
+		isActive() {
+			if(!this.newOptList.length) return false;
+			const items = this.newOptList[this.showQuestionIndex].question_option.filter(item => item.active);
+			return !!items.length;
 		}
 	},
 	mounted() {
@@ -292,7 +297,7 @@ export default {
 			this.nextFlag = true
 			setTimeout(() => {
 				this.nextFlag = false
-			}, 600)
+			}, 200)
 			let checkOpt = this.newOptList[this.showQuestionIndex]
 			this.checkActive(e.currentTarget.dataset.id);
 			if(checkOpt.type === 'radio'){
