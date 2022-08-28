@@ -59,7 +59,8 @@
 		margin-top: 10rpx;
 	}
 	.button {
-		background-color: yellow;
+		background-color: #55557f;
+		color: #fff;
 		margin-top: 100rpx;
 		width: 80%;
 	}
