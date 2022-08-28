@@ -133,9 +133,7 @@ export default {
 			count: 0,
 			timer: null,
 			showAnswer: true,
-			hideImage: false,
-			startIndex: 0,
-			nextFlag: false
+			hideImage: false
 		}
 	},
 	watch: {
@@ -193,7 +191,6 @@ export default {
 	methods: {
 		prevQuestion() {
 			this.showQuestionIndex--;
-			this.startIndex = Math.min(this.showQuestionIndex, this.startIndex);
 		},
 		verification() {
 		  // this.clearTimeCount()
@@ -224,7 +221,6 @@ export default {
 				})
 			}
 			this.showQuestionIndex = this.currentIndex;
-			this.startIndex = this.currentIndex;
 			if (Array.isArray(this.questionList)) {
 				this.newOptList = this.deepClone(this.questionList)
 				if (this.newOptList.length === 1) this.isEnd = true
@@ -290,14 +286,7 @@ export default {
 		},
 		// 选择答案
 		checkOption(e) {
-			//选择事件-防抖
-			if (this.nextFlag) {
-				return
-			}
-			this.nextFlag = true
-			setTimeout(() => {
-				this.nextFlag = false
-			}, 200)
+			if(this.switchVisible) return;
 			let checkOpt = this.newOptList[this.showQuestionIndex]
 			this.checkActive(e.currentTarget.dataset.id);
 			if(checkOpt.type === 'radio'){
@@ -403,7 +392,6 @@ export default {
 				check_res: newAnswer,
 				keyFormat: formatCheck_res
 			}
-			opt.startIndex = this.startIndex;
 			this.$emit('confrim', opt)
 		}
 	}
