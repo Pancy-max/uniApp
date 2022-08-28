@@ -1,10 +1,8 @@
 <template>
 	<div class="wrapper">
-		<uqrcode ref="qrcode" canvas-id="qrcode" :value="value" :options="options"/>
+		<!-- <uqrcode ref="qrcode" canvas-id="qrcode" :value="value" :options="options"/> -->
+		<image :src="value" mode="aspectFit"></image>
 		<view class="text-wrapper">
-			<!-- <view class="text">请保存二维码，在微信识别添加客服</view>
-			<view class="text">客服人员将为你提供帮助</view>
-			<view class="text">客服在线时间 10:00 - 18:00</view> -->
 			<view class="text">
 				{{text}}
 			</view>

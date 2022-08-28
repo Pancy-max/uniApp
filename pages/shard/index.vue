@@ -136,17 +136,17 @@
 					case 0:
 						this.posterObj.background='linear-gradient(153deg, #aaaaff 0%, #aaaa7f 100%)';
 						this.posterObj.views = [
-						{
-							type: 'text',
-							text: this.posterInfo.title,
-							css: {
-								fontSize: '48rpx',
-								color: '#fff',
-								lineHeight: '48rpx',
-								left: '236rpx',
-								top: '600rpx'
-							}
-						},
+						// {
+						// 	type: 'text',
+						// 	text: this.posterInfo.title,
+						// 	css: {
+						// 		fontSize: '48rpx',
+						// 		color: '#fff',
+						// 		lineHeight: '48rpx',
+						// 		left: '236rpx',
+						// 		top: '600rpx'
+						// 	}
+						// },
 						{
 							type: 'image',
 							src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
@@ -223,7 +223,7 @@
 									type: 'image',
 									src: this.posterInfo.qrcodeUrl,
 									css: {
-										left: '70%',
+										left: '75%',
 										top: '730rpx',
 										width: '150rpx',
 										height: '150rpx'
@@ -392,7 +392,7 @@
 										css: {
 											left: '20%',
 											top: '743rpx',
-											width: '40%',
+											width: '70%',
 											// textAlign: 'center',
 											fontSize: '24rpx',
 											color: '#989FB3',
