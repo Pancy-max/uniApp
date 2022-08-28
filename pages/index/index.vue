@@ -38,29 +38,6 @@
 				</template>
 			</view>
 		</scroll-view>
-		<uni-popup ref="childPopup" type="bottom"  background-color="#fff">
-			<view class="pop-child">
-				<view class="title-tip">本测评量表适用于9岁以上儿童，请添加儿童信息</view>
-				<view v-if="berList.length > 0">
-					<scroll-view scroll-y="true" style="max-height: 400rpx" >
-						<view class="my_tabs child-box" @click="selectChild(i)" v-for="(item, i) in berList" :key="i">
-							<view class="tabs_left">
-								<my-icon type="person" size="26" />
-							</view>
-							<view class="tabs_right">
-								<text class="nick-name">{{item.nickname}}</text>
-								<text>生日：{{item.birthday}}</text>
-							</view>
-						</view>
-					</scroll-view>
-				</view>
-				<view>
-					<button class="nav-addchild" @tap="goChild">
-						前往添加儿童
-					</button>
-				</view>
-			</view>			
-		</uni-popup>
 		<!-- 弹出层 -->
 		<view class="" v-if="vers">
 			<view class="popup"></view>
@@ -93,7 +70,6 @@
 				vers: false,
 				oldversion: '',
 				content: '',
-				berList: [],
 				isupdate: true,
 				bannerList: [], //banner图片
 				evaListInfo: [], //测评列表
@@ -116,7 +92,6 @@
 		onShow() {
 			// this.IndexClass();
 			this.getList();
-			this.getBerList();
 		},
 		 onPageScroll(e) {
 			this.scrollTop = e.scrollTop
@@ -355,47 +330,12 @@
 			},
 			//点击进入详情
 			doTest(item) {
-				item.evaTopicList.sort((a, b) => {
-					return a.sortOrder > b.sortOrder ? 1 : (a.sortOrder === b.sortOrder ? 0 : -1)
-				})
-				getApp().globalData.testItem = item;
-				if (item.type === 1) { // 儿童
-					this.$refs.childPopup.open()
-					this.getBerList()
-				} else {
-					getApp().globalData.childId = null
-					uni.navigateTo({
-						url: '../doTest/index'
-					})
-				}
-			},
-			getBerList(){
-				this.request({
-					url: '/mini/getChildInfo',
-					method: 'GET'
-				}).then((res)=>{
-					this.berList = res.data.userInfo
-				})
-			},
-			selectChild(idx) {
-				const childAge = getApp().globalData.testItem.childAge
-				if (this.berList[idx].birthday > childAge) {
-					uni.showToast({
-						title: '儿童出生日期必须大于' + childAge + ',请重新选择！',
-						icon: 'none',
-						duration: 2000
-					})
-					return
-				}
-				this.$refs.childPopup.close()
-				getApp().globalData.childId = this.berList[idx].ID
+				// item.evaTopicList.sort((a, b) => {
+				// 	return a.sortOrder > b.sortOrder ? 1 : (a.sortOrder === b.sortOrder ? 0 : -1)
+				// })
+				// getApp().globalData.testItem = item;
 				uni.navigateTo({
-					url: '../doTest/index'
-				})
-			},
-			goChild() {
-				uni.navigateTo({
-					url: '../addBer/addBer'
+					url: '../doTest/index?mcode=' + item.code
 				})
 			},
 			//获取列表
@@ -416,6 +356,7 @@
 						return a.sortOrder > b.sortOrder ? 1 : -1
 					})
 					this.evaListInfo = evaListInfo
+					getApp().globalData.evaListInfo = evaListInfo
 					// if (res.data.data.length <= 0) {
 					// 	this.isEnd = true;
 					// 	this.status = 'noMore'
@@ -458,17 +399,6 @@
 	}
 </script>
 <style lang="scss" scoped>
-	.pop-child {
-		background: #fff;
-		width: 100%;
-		padding-bottom: 50rpx;
-		.title-tip {
-			padding: 30rpx;
-			font-size: 36rpx;
-			line-height: 60rpx;
-			text-align: center;
-		}
-	}
 	.image_content {
 		width: 100%;
 		height: 370rpx;
@@ -522,17 +452,6 @@
 		margin: 0 auto;
 		width: 88rpx;
 		height: 88rpx;
-	}
-	.nav-addchild {
-		width: 400rpx;
-		margin-top: 20rpx;
-	}
-	.nav_text {
-		font-size: 32rpx;
-		color: #262626;
-		margin-top: 10rpx;
-		text-align: center;
-		width: 100%;
 	}
 
 
@@ -749,14 +668,6 @@
 		height: 20rpx;
 		border-radius: 20rpx 20rpx 0 0;
 		margin-top: -10rpx;
-	}
-	.my_tabs.child-box {
-		border: 1px solid #ccc;
-		border-radius: 30rpx;
-		margin-top: 40rpx;
-		margin-left: 20rpx;
-		margin-right: 20rpx;
-		box-shadow: 1rpx 1rpx 0 2rpx rgba(0, 0, 0, 0.15);
 	}
 	.my_tabs {
 		display: flex;

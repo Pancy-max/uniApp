@@ -104,6 +104,18 @@
 		  },
 		  _initData() {
 			return this.item.evaTopicList.map((item, idx) => {
+				const question_option = item.evaOptionList.map((v, i) => {
+			  			return {
+							picUrl: v.picUrl,
+			  				content: v.direction,
+			  				name: '',
+							score: v.score,
+							code: v.code,
+			  				id: v.ID,
+			  				active: 0, // 选中状态
+							sortOrder: v.sortOrder
+			  			}
+			  		})
 			  	return {
 			  		id: item.ID, // 题目id
 					type: item.answerType,
@@ -114,17 +126,9 @@
 			  		title: item.title,
 					countTime: item.countTime,
 					code: item.code,
-			  		question_option: item.evaOptionList.map((v, i) => {
-			  			return {
-							picUrl: v.picUrl,
-			  				content: v.direction,
-			  				name: '',
-							score: v.score,
-							code: v.code,
-			  				id: v.ID,
-			  				active: 0 // 选中状态
-			  			}
-			  		}).sort((a,b) => a.sortOrder > b.sortOrder ? 1 : (a.sortOrder === b.sortOrder ? 0 : -1))
+			  		question_option: question_option.sort((a,b) => {
+						return a.sortOrder > b.sortOrder ? 1 : (a.sortOrder === b.sortOrder ? 0 : -1)
+					})
 			  	}
 			})
 		  },

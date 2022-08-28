@@ -42,7 +42,7 @@
 			return {
 				loadingText: '',
 				list_orders: [],
-				page:0,//当前分页页码
+				// page:0,//当前分页页码
 			}
 		},
 		components:{
@@ -50,7 +50,7 @@
 		},
 		onLoad(options) {
 
-			this.page=0;
+			// this.page=0;
 			this.refresh("init");
 
 		},
@@ -94,20 +94,20 @@
 					}
 
 					//如果后端有返回消息，则弹出消息提示
-					if (tmp.message != null && tmp.message != "") {
-						uni.showToast({
-						title: tmp.message,
-						icon: 'none',
-						duration: 2000
-						})
-					}
+					// if (tmp.message != null && tmp.message != "") {
+					// 	uni.showToast({
+					// 	title: tmp.message,
+					// 	icon: 'none',
+					// 	duration: 2000
+					// 	})
+					// }
 
 
 
-					//如果后端有返回页码，则更改当前页码
-					if(tmp.page!=null && tmp.page!=""){
-						page=tmp.page;
-					}	
+					// //如果后端有返回页码，则更改当前页码
+					// if(tmp.page!=null && tmp.page!=""){
+					// 	page=tmp.page;
+					// }	
 					this.list_orders = tmp
 
 				})

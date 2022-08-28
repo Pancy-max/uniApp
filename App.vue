@@ -9,7 +9,8 @@
 			testResult: {}, // 当前测试结果
 			childList: [],
 			childId: null, // 当前测试的儿童id
-			aboutUsInfo: {} // 关于我们协议相关信息
+			aboutUsInfo: {}, // 关于我们协议相关信息
+			evaListInfo: []
 		},
 		onLaunch: function() {
 			let that = this

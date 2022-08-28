@@ -19,7 +19,7 @@
 	 </view>
 
 	<view class="tabbar" v-if="showEnter">
-		<button @click="goTest" class="btn">进入测评</button>
+		<button @click="jdugeTest" class="btn">进入测评</button>
 	</view>
 	<view class="pay_btn tabbar" v-if="showPay">
 		<view class="price-box">
@@ -28,6 +28,29 @@
 		</view>
 		<button @click="goPay" class="go-buy">购买</button>
 	</view>
+	<uni-popup ref="childPopup" type="bottom"  background-color="#fff">
+		<view class="pop-child">
+			<view class="title-tip">本测评量表适用于9岁以上儿童，请添加儿童信息</view>
+			<view v-if="berList.length > 0">
+				<scroll-view scroll-y="true" style="max-height: 400rpx" >
+					<view class="my_tabs child-box" @click="selectChild(i)" v-for="(item, i) in berList" :key="i">
+						<view class="tabs_left">
+							<my-icon type="person" size="26" />
+						</view>
+						<view class="tabs_right">
+							<text class="nick-name">{{item.nickname}}</text>
+							<text>生日：{{item.birthday}}</text>
+						</view>
+					</view>
+				</scroll-view>
+			</view>
+			<view>
+				<button class="nav-addchild" @tap="goChild">
+					前往添加儿童
+				</button>
+			</view>
+		</view>			
+	</uni-popup>
  </view>
 </template>
 
@@ -46,29 +69,52 @@ export default {
 		selPrice: null,
 		goodsSn: null,
 		payTimer: null,
-		maxTry: 0
+		maxTry: 0,
+		berList: [],
+		mcode: null
 	}
   },
-  onLoad(option) {
-  	this.childId=getApp().globalData.childId
+  onShow() {
+	 this.getBerList() 
+  },
+  async onLoad(option) {
+  	// this.childId=getApp().globalData.childId
+	console.log('option', option)
+	this.mcode = option.mcode
 	this.checkLogin()
+	this.getCurrentItem(option.mcode)
+	if (!this.item.isfree) { // 查询商品价格
+		await this.getGoods()
+		this.getPayStatus()
+	} else {
+		this.showEnter = true
+	}
   },
   beforeDestroy() {
 	clearInterval(this.payTimer)
 	this.payTimer = null  
   },
   async created() {
-	  this.item = getApp().globalData.testItem
 	  this.myInfo = uni.getStorageSync('myinfo');
-	  if (!this.item.isfree) { // 查询商品价格
-		await this.getGoods()
-		this.getPayStatus()
-	  } else {
-		  this.showEnter = true
-	  }
   },
   computed: {},
   methods: {
+	  getCurrentItem(mcode) {
+		 const evaListInfo = getApp().globalData.evaListInfo
+		 for (let ele of evaListInfo) {
+			 for (let item of ele.eva_form_list) {
+			 	if (item.code === mcode) {
+			 		item.evaTopicList.sort((a, b) => {
+			 			return a.sortOrder > b.sortOrder ? 1 : (a.sortOrder === b.sortOrder ? 0 : -1)
+			 		})
+			 		getApp().globalData.testItem = item;
+			 		this.item = item
+					return
+			 	}
+			 }
+		 	
+		 }
+	  },
 	  checkLogin() {
 	  	if (!this.myInfo) {
 			uni.showModal({
@@ -113,8 +159,8 @@ export default {
 			  data: {
 				mcode: this.item.code,
 				username: this.myInfo.user.username,
-				childId: this.item.type === 1 ? this.childId : 0, // 1-儿童 2-成人
-				isAll: false
+				// childId: this.item.type === 1 ? this.childId : 0, // 1-儿童 2-成人
+				// isAll: false
 			  }
 		  }).then(res => {
 			  if (res.data.userEvaPayStatus && res.data.userEvaPayStatus.ispay) {
@@ -129,7 +175,44 @@ export default {
 			 //  }
 		  })
 	  },
+	  getBerList(){
+	  	this.request({
+	  		url: '/mini/getChildInfo',
+	  		method: 'GET'
+	  	}).then((res)=>{
+	  		this.berList = res.data.userInfo
+	  	})
+	  },
+	  selectChild(idx) {
+	  	const childAge = getApp().globalData.testItem.childAge
+	  	if (this.berList[idx].birthday > childAge) {
+	  		uni.showToast({
+	  			title: '儿童出生日期必须大于' + childAge + ',请重新选择！',
+	  			icon: 'none',
+	  			duration: 2000
+	  		})
+	  		return
+	  	}
+	  	this.$refs.childPopup.close()
+	  	getApp().globalData.childId = this.berList[idx].ID
+		this.goTest()
+	  },
+	  goChild() {
+	  	uni.navigateTo({
+	  		url: '../addBer/addBer'
+	  	})
+	  },
+	  jdugeTest() {
+		  if (this.item.type === 1) { // 儿童
+			this.$refs.childPopup.open()
+			this.getBerList()	
+		  } else {
+			getApp().globalData.childId = null
+			this.goTest()
+		  }
+	  },
 	  goTest(){
+		  
 		this.request({
 			url: '/mini/getUserEvaProgress',
 			method: 'POST',
@@ -394,6 +477,85 @@ export default {
 			right: 1vw;
 			top: 6rpx;
 			width: 30vw;
+		}
+	}
+	.pop-child {
+		background: #fff;
+		width: 100%;
+		padding-bottom: 50rpx;
+		.title-tip {
+			padding: 30rpx;
+			font-size: 36rpx;
+			line-height: 60rpx;
+			text-align: center;
+		}
+		.nav-addchild {
+			width: 400rpx;
+			margin-top: 20rpx;
+		}
+		.nav_text {
+			font-size: 32rpx;
+			color: #262626;
+			margin-top: 10rpx;
+			text-align: center;
+			width: 100%;
+		}
+	}
+	.my_tabs.child-box {
+		border: 1px solid #ccc;
+		border-radius: 30rpx;
+		margin-top: 40rpx;
+		margin-left: 20rpx;
+		margin-right: 20rpx;
+		box-shadow: 1rpx 1rpx 0 2rpx rgba(0, 0, 0, 0.15);
+	}
+	.my_tabs {
+		display: flex;
+		margin: 0 20rpx;
+		box-sizing: border-box;
+		background-color: #fff;
+		
+		.tabs_left {
+			margin: 34rpx 0;
+			margin-left: 40rpx;
+			margin-right: 36rpx;
+			color: #333;
+	
+			image {
+				width: 48rpx;
+				height: 48rpx;
+				margin-top: 8rpx;
+			}
+			.eva-title {
+				border-left: 6rpx solid #143d72;
+				padding-left: 20rpx;
+				font-size: 36rpx;
+				font-weight: bold;
+				color: #444;
+			}
+		}
+		.tabs_right {
+			flex: 1;
+			display: flex;
+			justify-content: start;
+			flex-direction: column;
+			
+			text {
+				margin: 10rpx 0;
+				font-size: 32rpx;
+				color: #262626;
+				.nick-name {
+					color: #000;
+					font-weight: bold;
+					font-size: 38rpx;
+				}
+			}
+			
+			image {
+				margin-right: 38rpx;
+				width: 30rpx;
+				height: 30rpx;
+			}
 		}
 	}
 </style>

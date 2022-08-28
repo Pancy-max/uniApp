@@ -6,10 +6,6 @@
 				<image src="../../static/common/logo.png" mode=""></image>
 			</view>
 		</view>
-
-		<!--  <view class="regbutton_login"  @click='wechatLogin' v-if="H5Wechat">
-	  	<button class="button"  open-type='getUserInfo'>微信快捷登录/注册</button>
-	  </view> -->
 	  <!-- 同意服务条款 -->
 	  <checkbox-group :class="checked == 1 ? 'shake-horizontal' : ''" class="auth-clause" @change="CheckboxChange" v-if="H5Wechat">
 	  	<checkbox class="orange" :class="checked == 2 ? 'checked' : ''" :checked="checked == 2 ? true : false" value="2" />
@@ -19,9 +15,6 @@
 	  </checkbox-group>
 		<view class="regbutton_login" @click='wechatLogin' v-if="H5Wechat">
 			<button class="button" open-type='getUserInfo'>微信快捷登录/注册</button>
-		</view>
-		<view class="regbutton_login" @click="clickonlog" v-if="!H5Wechat">
-			<button class="regbutton">账号快捷登录/注册</button>
 		</view>
 
 		<view class="lo_font">
@@ -43,7 +36,6 @@
 				appid: '',
 				code: '',
 				tel: '',
-				smsCode: '',
 				openId: ''
 			};
 		},
@@ -58,14 +50,14 @@
 			} else {
 				this.H5Wechat = false
 			}
-			this.getAppid()
-			this.getUrlParam()
-			this.getAboutUs()
+			// this.getAppid()
+			// this.getUrlParam()
 			
 			// #endif
 			// #ifdef MP-WEIXIN
 			this.H5Wechat = true
 			// #endif
+			this.getAboutUs()
 
 		},
 		components: {
@@ -81,14 +73,6 @@
 			CheckboxChange(e) {
 				this.checked = e.detail.value;
 				this.isChecked = !this.isChecked
-			},
-			// 跳转到账号密码页面
-			clickonlog() {
-				//console.log(JSON.stringify())
-				//在起始页面跳转到test.vue页面并传递参数
-				uni.navigateTo({
-					url: "../theLogin/index"
-				});
 			},
 			wechatLogin() {
 				if(!this.isChecked){
@@ -139,21 +123,6 @@
 								}
 								natUrl  = "/pages/login/bindtel"
 								// #endif
-								// TODO: 登录信息
-								// that.request({
-								// 	url: '/v1/token/wechat_check_tel',
-								// 	method: 'post',
-								// 	data: getData
-								// }).then(res => {
-								// 	that.$refs.loading.hideLoading()
-								// 	if (res.data.have_tel) {
-								// 		that.weChat(res.data.tel)
-								// 	} else {
-								// 		uni.navigateTo({
-								// 			url: natUrl
-								// 		})
-								// 	}
-								// })
 								this.$refs.loading.hideLoading()
 								// 跳到到微信登录
 								uni.navigateTo({
@@ -165,99 +134,6 @@
 					}
 				})
 				// #endif
-				// #ifdef H5
-				var ua = navigator.userAgent.toLowerCase();
-				if (ua.match(/MicroMessenger/i) == "micromessenger") {
-					let local = encodeURIComponent(this.$websiteUrl + '/h5/#/pages/login/index');
-					window.location.href =
-						"https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +
-						this.appid +
-						"&redirect_uri=" +
-						local +
-						"&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
-				} else {
-					return
-				}
-				// #endif
-			},
-			weChat(tel) {
-				let that = this
-				let nonce = Math.random().toString(36).substr(2)
-				let time_stamp = Date.parse(new Date()) / 1000
-				let getData = {}
-				uni.login({
-					provider: 'weixin',
-					success: (loginRes) => {
-						uni.getUserInfo({
-							provider: "weixin",
-							success: (infoRes) => {
-								// #ifdef MP-WEIXIN
-								getData = {
-									code: loginRes.code,
-									encryptedData: infoRes.encryptedData,
-									iv: infoRes.iv,
-									time_stamp: time_stamp,
-									nonce: nonce,
-									signature: md5(`app_key=` + this.$appKey + `&app_secret=` +
-										this.$app_secret + `&nonce=` + nonce + `&time_stamp=` +
-										time_stamp),
-									app_key: this.$appKey,
-									times: 2,
-									os_type:1
-								}
-								// #endif
-								// #ifdef APP-PLUS
-								getData = {
-									tel:tel,
-									user_info: JSON.stringify(infoRes.userInfo),
-									time_stamp: time_stamp,
-									nonce: nonce,
-									signature: md5(`app_key=` + this.$appKey + `&app_secret=` +
-										this.$app_secret + `&nonce=` + nonce + `&time_stamp=` +
-										time_stamp),
-									app_key: this.$appKey,
-									os_type:2,
-									times: 2
-								}
-								// #endif
-								that.request({
-									url: '/v1/token/wechat',
-									method: 'POST',
-									data: getData
-								}).then((res) => {
-									if (res.code === 200) {
-										uni.setStorage({
-											key: 'myinfo',
-											data: res.data
-										})
-										uni.switchTab({
-											url: '../my/index'
-										})
-										// #ifdef APP-PLUS
-										//app 端注册推送信息client_id
-										this.$save_client(res.data.client.user_id);
-										// #endif
-									} else if (res.code == 400) {
-										uni.showModal({
-											title: res.desc,
-											showCancel: false,
-											success() {
-												uni.switchTab({
-													url: '../index/index'
-												})
-											}
-										})
-									} else {
-										uni.showToast({
-											title: res.desc,
-											icon: "none"
-										})
-									}
-								})
-							}
-						})
-					}
-				})
 			},
 			getUrlParam() {
 				let url = window.location.href.split('#')[0]
