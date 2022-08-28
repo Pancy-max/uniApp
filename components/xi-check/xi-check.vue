@@ -317,12 +317,13 @@ export default {
 		//下一题
 		nextQuestionBtn() {
 			// 查看是否有选择答案
+			if(this.switchVisible) return;
 			const activeItem = this.newOptList[this.showQuestionIndex].question_option.filter(item => item.active);
 			if(!activeItem.length){
 				uni.showToast({
 					title: "请选择答案～",
 					icon: 'none',
-					duration: 2000
+					duration: 1000
 				})
 				return;
 			}
