@@ -286,7 +286,6 @@ export default {
 		// 选择答案
 		checkOption(e) {
 			//选择事件-防抖
-			console.log('下一题', this.nextFlag, this.showQuestionIndex)
 			if (this.nextFlag) {
 				return
 			}
@@ -323,6 +322,11 @@ export default {
 		},
 		//下一题
 		nextQuestionBtn() {
+			// 查看是否有选择答案
+			const activeItem = this.newOptList[this.showQuestionIndex].question_option.filter(item => item.active);
+			if(!activeItem.length){
+				return;
+			}
 			this.hideImage = false;
 			//构建返回数据
 			let opt = {
