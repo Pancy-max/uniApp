@@ -69,7 +69,7 @@ export default {
 			}
 		}).then(res => {
 			// const lastInfo = res.data.userEvaInfo
-			this.testList = res.data.userEvaProgress
+			this.testList = res.data.userEvaProgress || []
 		}).catch(e => {
 			console.error(e)
 			this.testList = [];
@@ -98,7 +98,7 @@ export default {
 
 <style lang="less" scoped>
 	.test-wrapper {
-		// height: calc(100vh);
+		height: calc(100vh);
 		background: #9e9e9e14;
 		// padding: 40rpx;
 	}
@@ -151,5 +151,7 @@ export default {
 		margin-top: 25rpx;
 		width: 100%;
 		text-align: center;
+		height: 5vh;
+		line-height: 5vh;
 	}
 </style>

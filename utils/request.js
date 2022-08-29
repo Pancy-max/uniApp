@@ -29,10 +29,6 @@ export default function(obj){
 				method:method
 			});
 			if (res.data && res.data.code === 7 && (!url.includes('login') && !url.includes('register'))){
-				// uni.showToast({
-				// 	title: res.data.msg,
-				// 	icon: "none"
-				// })
 				console.error('请求' + url + '失败: ', res.data.msg)
 				if(res.data.msg.includes('未登录') || res.data.msg.includes('过期') || res.data.msg.includes('失效')){
 					setTimeout(() => {
@@ -41,6 +37,11 @@ export default function(obj){
 							url: '/pages/login/index'
 						})
 					}, 1000)
+				} else {
+					uni.showToast({
+						title: '网络异常，请重试或联系客服处理',
+						icon: "none"
+					})
 				}
 				this.userInfo = ''
 				return res.data

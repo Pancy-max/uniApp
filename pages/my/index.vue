@@ -437,7 +437,7 @@
 		flex-direction: column;
 		overflow: hidden;
 		.block-view {
-			background: #f0f0f0;
+			background: #fafafa;
 			// border-radius: 40rpx;
 			// margin-bottom: 30rpx;
 			padding: 20rpx;

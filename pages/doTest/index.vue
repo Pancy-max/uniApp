@@ -13,8 +13,8 @@
 	 </view>
 	 <view class="tt-wrapper-box">
 	 	<view class="tt-wrapper">
-	 			 <view class="content-desc">测评简介</view>
-	 			 <view class="content" v-html="item.content"></view>
+			 <view class="content-desc">测评简介</view>
+			 <view class="content" v-html="item.content"></view>
 	 	</view>
 	 </view>
 
@@ -28,12 +28,18 @@
 		</view>
 		<button @click="goPay" class="go-buy">购买</button>
 	</view>
-	<uni-popup ref="childPopup" type="bottom"  background-color="#fff">
+	<!-- <uni-popup ref="childPopup" type="bottom"  background-color="#fff"> -->
+	<block v-if="item.type === 1 && showEnter">
 		<view class="pop-child">
-			<view class="title-tip">本测评量表适用于9岁以上儿童，请添加儿童信息</view>
+			<view class="title-tip">本测评量表适用于9岁以上儿童</view>
+			<view class="title-tip">请选择儿童进行测评</view>
 			<view v-if="berList.length > 0">
 				<scroll-view scroll-y="true" style="max-height: 400rpx" >
-					<view class="my_tabs child-box" @click="selectChild(i)" v-for="(item, i) in berList" :key="i">
+					<view 
+					class="my_tabs child-box" @click="selectChild(i)" 
+					v-for="(item, i) in berList" 
+					:class="selectChildIndex === i ? 'select-child' : ''"
+					:key="i">
 						<view class="tabs_left">
 							<my-icon type="person" size="26" />
 						</view>
@@ -44,16 +50,17 @@
 					</view>
 				</scroll-view>
 			</view>
-			<view>
+			<view v-if="berList.length < 3">
 				<button class="nav-addchild" @tap="goChild">
-					前往添加儿童
+					添加更多儿童
 				</button>
 			</view>
-		</view>			
-	</uni-popup>
+		</view>
+	</block>
+	<!-- </uni-popup> -->
  </view>
 </template>
-
+ 
 <script>
 export default {
   components: {},
@@ -71,7 +78,8 @@ export default {
 		payTimer: null,
 		maxTry: 0,
 		berList: [],
-		mcode: null
+		mcode: null,
+		selectChildIndex: null
 	}
   },
   onShow() {
@@ -82,6 +90,7 @@ export default {
 	console.log('option', option)
 	this.mcode = option.mcode
 	this.checkLogin()
+	this.getBerList()
 	this.getCurrentItem(option.mcode)
 	if (!this.item.isfree) { // 查询商品价格
 		await this.getGoods()
@@ -179,12 +188,16 @@ export default {
 	  	this.request({
 	  		url: '/mini/getChildInfo',
 	  		method: 'GET'
-	  	}).then((res)=>{
+	  	}).then((res)=> {
 	  		this.berList = res.data.userInfo
+			if (this.selectChildIndex !== null) {
+				getApp().globalData.childId = this.berList[this.selectChildIndex].ID
+			}
 	  	})
 	  },
 	  selectChild(idx) {
 	  	const childAge = getApp().globalData.testItem.childAge
+		this.selectChildIndex = null
 	  	if (this.berList[idx].birthday > childAge) {
 	  		uni.showToast({
 	  			title: '儿童出生日期必须大于' + childAge + ',请重新选择！',
@@ -193,9 +206,10 @@ export default {
 	  		})
 	  		return
 	  	}
-	  	this.$refs.childPopup.close()
+		this.selectChildIndex = idx
+	  	// this.$refs.childPopup.close()
 	  	getApp().globalData.childId = this.berList[idx].ID
-		this.goTest()
+		// this.goTest()
 	  },
 	  goChild() {
 	  	uni.navigateTo({
@@ -204,8 +218,17 @@ export default {
 	  },
 	  jdugeTest() {
 		  if (this.item.type === 1) { // 儿童
-			this.$refs.childPopup.open()
-			this.getBerList()	
+			// this.$refs.childPopup.open()
+			if (this.selectChildIndex === null) {
+				uni.showToast({
+					title: '请选择儿童进行测评',
+					icon: 'none',
+					duration: 2000
+				})
+				return
+			}
+			this.goTest()
+			// this.getBerList()
 		  } else {
 			getApp().globalData.childId = null
 			this.goTest()
@@ -481,17 +504,21 @@ export default {
 	}
 	.pop-child {
 		background: #fff;
-		width: 100%;
-		padding-bottom: 50rpx;
+		border: #fff;
+		border-radius: 40rpx;
+		margin: 40rpx;
+		padding: 40rpx;
 		.title-tip {
-			padding: 30rpx;
-			font-size: 36rpx;
-			line-height: 60rpx;
-			text-align: center;
+			padding: 10rpx 0;
+			font-size: 32rpx;
+			line-height: 40rpx;
+			text-align: left;
 		}
 		.nav-addchild {
-			width: 400rpx;
+			width: 300rpx;
 			margin-top: 20rpx;
+			background: #55557f;
+			color: #fff;
 		}
 		.nav_text {
 			font-size: 32rpx;
@@ -508,6 +535,9 @@ export default {
 		margin-left: 20rpx;
 		margin-right: 20rpx;
 		box-shadow: 1rpx 1rpx 0 2rpx rgba(0, 0, 0, 0.15);
+	}
+	.my_tabs.select-child {
+		border: 5rpx solid #55557f;
 	}
 	.my_tabs {
 		display: flex;

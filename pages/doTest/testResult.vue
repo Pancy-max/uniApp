@@ -71,7 +71,7 @@
 					课程推荐
 				</view>
 				<view class="block-content">
-					<view class="flex-box">
+					<view class="flex-box" @tap="goRecLink">
 						<view class="rec-img">
 							<image :src="recInfo.picurl" mode="scaleToFill"
 								style="width: 200rpx; height: 200rpx; margin-right: 32rpx;" />
@@ -88,6 +88,10 @@
 				</view>
 			</view>
 		</scroll-view>
+		<view class="tabbar" >
+			<text class="contact-text">请专业测评老师解读报告？</text>
+			<button open-type="contact" class="contact-btn" size="mini"> 问一问</button>
+		</view>
 	</view>
 </template>
 
@@ -433,8 +437,8 @@
 							}),
 							series: [
 								{
-									name: '分数',
-									data: list.map(ele => ele.score)
+									name: '',
+									data: list.map(ele => ele.score),
 								}
 							]
 						}
@@ -444,9 +448,15 @@
 							},
 							extra: {
 								radar: {
-									max: list[0].totalScore
+									max: list[0].totalScore,
+									// axisLabel: true
 								}
-							}
+							},
+							legend: {
+							  show: true,
+							  position: "right",
+							  lineHeight: 25
+							},
 						}
 					}
 					// 处理二级数据
@@ -540,7 +550,24 @@
 
 <style lang="less" scoped>
 	.test-wrapper {
-
+		.tabbar {
+			position: fixed;
+			width: 100%;
+			bottom: 1vh;
+			background: #9e9e9e14;
+		}
+		.contact-text {
+			line-height: 80rpx;
+			margin-left: 20rpx;
+		}
+		.contact-btn {
+			float: right;
+			background-color: #55557f;
+			color: #fff;
+			right: 20rpx;
+			top: 12rpx;
+			width: 150rpx;
+		}
 		// padding: 20rpx;
 		// background: #f1f1ff;
 		// // height: calc(100vh - 40rpx);

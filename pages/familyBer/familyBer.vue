@@ -44,6 +44,14 @@
 				})
 			},
 			addBer(){
+				if (this.berList.length >= 3) {
+					uni.showToast({
+						title: '最大只能添加三个儿童',
+						icon: 'none',
+						duration: 2000
+					})
+					return
+				}
 				uni.navigateTo({
 					url:'../addBer/addBer'
 				})

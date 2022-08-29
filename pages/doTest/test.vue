@@ -210,15 +210,13 @@
 							if(result.data!='' && result.data){
 								console.log('计分成功')
 							}
+							uni.redirectTo({
+								url: './testResult'
+							})
 						})
 					}	
 				}
 			})
-			if (hasFinished) {
-				uni.redirectTo({
-					url: './testResult'
-				})
-			}
 		},
 	  },
 	};
