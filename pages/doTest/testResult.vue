@@ -1,13 +1,13 @@
 <template>
 	<view class="test-wrapper">
-		<scroll-view scroll-y="true">
+		<scroll-view scroll-y="true" class="test-scroll-view">
 			<view class="test-content">
 				<view class="block-content">
 					<view class="title">
 						测评报告
 					</view>
 					<view class="desc">
-						您的报告已生成，有问题可以预约咨询老师~
+						您的报告已生成，有问题可以预约咨询老师 ~
 					</view>
 					<!-- <view class="score">{{testResult.score || 0}}分</view> -->
 					<!-- <view class="content">
@@ -17,10 +17,10 @@
 	 					结果评价：{{testResult.content || ''}}
 	 				</view> -->
 					<block v-if="level === 1">
-						<view v-if="recInfo.reportPicType === 'column'" class="">
+						<view v-if="recInfo.reportPicType === 'column'"  class="charts-box">
 							<qiun-data-charts type="column" :chartData="chartData" :opts="options" :inScrollView="true" />
 						</view>
-						<view v-if="recInfo.reportPicType === 'radar'" class="">
+						<view v-if="recInfo.reportPicType === 'radar'"  class="charts-box">
 							<qiun-data-charts type="radar" :chartData="chartData" :opts="options" :inScrollView="true" />
 						</view>
 						
@@ -29,15 +29,13 @@
 				</view>
 				<view class="content_analyze block-content" v-for="(v, index) in dimData"
 					:key="index" >
-					<view class="title">
-						{{v.dimTitle || ''}}
-					</view>
+					<view class="title" v-html="v.dimTitle"></view>
 					<!-- 二级 开始-->
 						<block v-if="level === 2">
-							<view v-if="recInfo.reportPicType === 'column'" class="">
+							<view v-if="recInfo.reportPicType === 'column'"  class="charts-box">
 								<qiun-data-charts type="column" :chartData="v.chartData" :opts="v.options" :inScrollView="true" />
 							</view>
-							<view v-if="recInfo.reportPicType === 'radar'" class="">
+							<view v-if="recInfo.reportPicType === 'radar'"  class="charts-box">
 								<qiun-data-charts type="radar" :chartData="v.chartData" :opts="v.options" :inScrollView="true" />
 							</view>
 						</block>
@@ -51,9 +49,7 @@
 										<uni-rate :readonly="true" :value="ele.score / ele.totalScore * 5" class="rate-score" />
 										<text class="score-dim">{{ele.score || 0}}分</text>
 									</view>
-									<view class="dim_content">
-										{{ele.content || ''}}
-									</view>
+									<view class="dim_content" v-html="ele.content"></view>
 								</view>
 							</view>
 						<!-- 二级结束 -->
@@ -63,8 +59,7 @@
 					<view class="rec-content">
 						专家解读
 					</view>
-					<view class="rec-text">
-						{{recInfo.content || ''}}
+					<view class="rec-text" v-html="recInfo.content">
 					</view>
 				</view>
 				<view class="tuijian-title">
@@ -433,11 +428,11 @@
 						this.chartData = {
 							categories: list.map(ele => {
 								ele.totalScore = ele.totalScore || 10
-								return ele.subDim
+								return ele.mainDim
 							}),
 							series: [
 								{
-									name: '',
+									name: '分数',
 									data: list.map(ele => ele.score),
 								}
 							]
@@ -449,14 +444,20 @@
 							extra: {
 								radar: {
 									max: list[0].totalScore,
-									// axisLabel: true
+									// axisLabel: false
 								}
 							},
+							// padding: [100,100,,25],
+							// dataLabel: true,
+							// dataPointShape: false,
 							legend: {
 							  show: true,
 							  position: "right",
-							  lineHeight: 25
+							  lineHeight: 100
 							},
+							title: {
+								name: '标题'
+							}
 						}
 					}
 					// 处理二级数据
@@ -553,20 +554,27 @@
 		.tabbar {
 			position: fixed;
 			width: 100%;
-			bottom: 1vh;
-			background: #9e9e9e14;
+			bottom: 0;
+			background: #fff;
+		}
+		.test-scroll-view {
+			height: calc(100vh - 120rpx);
 		}
 		.contact-text {
-			line-height: 80rpx;
-			margin-left: 20rpx;
+			line-height: 120rpx;
+			margin-left: 30rpx;
 		}
 		.contact-btn {
 			float: right;
-			background-color: #55557f;
+			background-color: #ffca3e;
 			color: #fff;
-			right: 20rpx;
-			top: 12rpx;
-			width: 150rpx;
+			right: 40rpx;
+			top: 25rpx;
+			width: 180rpx;
+			height: 70rpx;
+			line-height: 70rpx;
+			border-radius: 38rpx;
+			font-size: 30rpx;
 		}
 		// padding: 20rpx;
 		// background: #f1f1ff;
@@ -582,12 +590,6 @@
 				border-radius: 20rpx;
 				padding: 20rpx;
 				position: relative;
-			}
-
-			.charts-view {
-				position: absolute;
-				top: 0;
-				left: 0;
 			}
 
 			.rec {
@@ -671,6 +673,10 @@
 	.tuijian-title {
 		margin: 30rpx;
 		font-size: 36rpx;
+	}
+	.charts-box {
+		width: 100%;
+		height: 300px;
 	}
 
 	.flex-box {

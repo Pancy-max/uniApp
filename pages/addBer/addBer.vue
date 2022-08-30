@@ -2,6 +2,10 @@
 	<view>
 		<view class="box">
 			<view class="head">添加儿童</view>
+			<view class="tip">
+				<my-icon type="info" size="24" class="icon-info"/>
+				<text class="info-text">请确保年龄真实性，以免影响测评结果</text>
+			</view>
 			<view class="msg">
 				<view class="text">姓名<i style="color: #d93232;">*</i></view>
 				<!-- <input type="text" v-model="name"> -->
@@ -154,6 +158,21 @@
 	.box .head {
 		font-size: 30rpx;
 		margin-left: 10rpx;
+	}
+	.tip {
+		color: #42A5F5;
+		background: #E3F2FD;
+		display: flex;
+		align-items: center;
+		.icon-info {
+			margin-left: 10rpx;
+		}
+		.info-text {
+			height: 70rpx;
+			line-height: 72rpx;
+			padding-left: 20rpx;
+			font-size: 28rpx;
+		}
 	}
 	.resend {
 		width: 150rpx;

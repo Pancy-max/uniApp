@@ -77,12 +77,18 @@
 			}
 		},
 		{
+			"path": "pages/familyBer/familyBerSelect",
+			"style": {
+				"navigationBarTitleText": "选择儿童"
+			}
+		},
+		{
 			"path": "pages/berDetail/berDetail"
 		},
 		{
 			"path": "pages/addBer/addBer",
 			"style": {
-				"navigationBarTitleText": "家庭成员"
+				"navigationBarTitleText": "添加儿童信息"
 			}
 		},
 		{

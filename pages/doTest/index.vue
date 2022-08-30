@@ -30,29 +30,18 @@
 	</view>
 	<!-- <uni-popup ref="childPopup" type="bottom"  background-color="#fff"> -->
 	<block v-if="item.type === 1 && showEnter">
-		<view class="pop-child">
-			<view class="title-tip">本测评量表适用于9岁以上儿童</view>
-			<view class="title-tip">请选择儿童进行测评</view>
-			<view v-if="berList.length > 0">
-				<scroll-view scroll-y="true" style="max-height: 400rpx" >
-					<view 
-					class="my_tabs child-box" @click="selectChild(i)" 
-					v-for="(item, i) in berList" 
-					:class="selectChildIndex === i ? 'select-child' : ''"
-					:key="i">
-						<view class="tabs_left">
-							<my-icon type="person" size="26" />
-						</view>
-						<view class="tabs_right">
-							<text class="nick-name">{{item.nickname}}</text>
-							<text>生日：{{item.birthday}}</text>
-						</view>
-					</view>
-				</scroll-view>
+		<view class="pop-child title-wrapper">
+			<view class="selectedChild" v-if="childId">
+				已选儿童：{{berList.find(item => item.ID === +childId).nickname}}
 			</view>
-			<view v-if="berList.length < 3">
-				<button class="nav-addchild" @tap="goChild">
-					添加更多儿童
+			<view v-if="berList.length === 0">
+				<button class="nav-addchild" @tap="addChild">
+					添加儿童
+				</button>
+			</view>
+			<view v-if="berList.length > 0">
+				<button class="nav-addchild" @tap="selectChild">
+					选择儿童
 				</button>
 			</view>
 		</view>
@@ -84,6 +73,7 @@ export default {
   },
   onShow() {
 	 this.getBerList() 
+	 this.childId = getApp().globalData.childId
   },
   async onLoad(option) {
   	// this.childId=getApp().globalData.childId
@@ -190,38 +180,24 @@ export default {
 	  		method: 'GET'
 	  	}).then((res)=> {
 	  		this.berList = res.data.userInfo
-			if (this.selectChildIndex !== null) {
-				getApp().globalData.childId = this.berList[this.selectChildIndex].ID
-			}
 	  	})
 	  },
-	  selectChild(idx) {
-	  	const childAge = getApp().globalData.testItem.childAge
-		this.selectChildIndex = null
-	  	if (this.berList[idx].birthday > childAge) {
-	  		uni.showToast({
-	  			title: '儿童出生日期必须大于' + childAge + ',请重新选择！',
-	  			icon: 'none',
-	  			duration: 2000
-	  		})
-	  		return
-	  	}
-		this.selectChildIndex = idx
-	  	// this.$refs.childPopup.close()
-	  	getApp().globalData.childId = this.berList[idx].ID
-		// this.goTest()
-	  },
-	  goChild() {
+	  addChild() {
 	  	uni.navigateTo({
 	  		url: '../addBer/addBer'
 	  	})
 	  },
+	  selectChild() {
+		uni.navigateTo({
+			url: '../familyBer/familyBerSelect'
+		})
+	  },
 	  jdugeTest() {
 		  if (this.item.type === 1) { // 儿童
 			// this.$refs.childPopup.open()
-			if (this.selectChildIndex === null) {
+			if (!this.childId) {
 				uni.showToast({
-					title: '请选择儿童进行测评',
+					title: '请添加儿童信息进行测评',
 					icon: 'none',
 					duration: 2000
 				})
@@ -495,49 +471,13 @@ export default {
 			font-size: 30rpx;
 		}
 		.go-buy {
-			background-color: #ffff00;
+			background: #FF5000;
+			color: #f5f5f2;
 			position: absolute;
 			right: 1vw;
 			top: 6rpx;
 			width: 30vw;
 		}
-	}
-	.pop-child {
-		background: #fff;
-		border: #fff;
-		border-radius: 40rpx;
-		margin: 40rpx;
-		padding: 40rpx;
-		.title-tip {
-			padding: 10rpx 0;
-			font-size: 32rpx;
-			line-height: 40rpx;
-			text-align: left;
-		}
-		.nav-addchild {
-			width: 300rpx;
-			margin-top: 20rpx;
-			background: #55557f;
-			color: #fff;
-		}
-		.nav_text {
-			font-size: 32rpx;
-			color: #262626;
-			margin-top: 10rpx;
-			text-align: center;
-			width: 100%;
-		}
-	}
-	.my_tabs.child-box {
-		border: 1px solid #ccc;
-		border-radius: 30rpx;
-		margin-top: 40rpx;
-		margin-left: 20rpx;
-		margin-right: 20rpx;
-		box-shadow: 1rpx 1rpx 0 2rpx rgba(0, 0, 0, 0.15);
-	}
-	.my_tabs.select-child {
-		border: 5rpx solid #55557f;
 	}
 	.my_tabs {
 		display: flex;
@@ -587,5 +527,10 @@ export default {
 				height: 30rpx;
 			}
 		}
+	}
+	.selectedChild {
+		display: inline-block;
+		font-size: 34rpx;
+		margin-bottom: 10rpx;
 	}
 </style>
