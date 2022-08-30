@@ -6,15 +6,31 @@
 				<image src="../../static/common/logo.png" mode=""></image>
 			</view>
 		</view>
-	  <!-- 同意服务条款 -->
-	  <checkbox-group :class="checked == 1 ? 'shake-horizontal' : ''" class="auth-clause" @change="CheckboxChange" v-if="H5Wechat">
-	  	<checkbox class="orange" :class="checked == 2 ? 'checked' : ''" :checked="checked == 2 ? true : false" value="2" />
-	  	<view style="padding-right: 30rpx;">
-	  		我已阅读<text class="linkxy" @tap="getContent('userAggrement')">用户协议</text>、<text class="linkxy" @tap="getContent('privacyAggrement')">隐私权保护声明</text>及<text class="linkxy" @tap="getContent('childrenAggrement')">儿童个人信息保护规则</text>
-	  	</view>
-	  </checkbox-group>
-		<view class="regbutton_login" @click='wechatLogin' v-if="H5Wechat">
-			<button class="button" open-type='getUserInfo'>微信快捷登录/注册</button>
+		<!-- 同意服务条款 -->
+		<checkbox-group class="auth-clause" @change="CheckboxChange">
+			<checkbox class="orange" :class="checked == 2 ? 'checked' : ''" :checked="checked == 2 ? true : false"
+				value="2" />
+			<view style="padding-right: 30rpx;">
+				我已阅读<text class="linkxy" @tap="getContent('userAggrement')">用户协议</text>、<text class="linkxy"
+					@tap="getContent('privacyAggrement')">隐私权保护声明</text>及<text class="linkxy"
+					@tap="getContent('childrenAggrement')">儿童个人信息保护规则</text>
+			</view>
+		</checkbox-group>
+		<view class="regbutton_login" @click='wechatLogin'>
+			<button class="button" open-type='getUserInfo'>微信登录{{agreeF}}</button>
+		</view>
+
+		<checkbox-group class="read-text" @change="checkBoxF">
+			<checkbox color="#55557f" style="transform:scale(0.7)" class="orange" :checked="agreeF == 2 ? true : false"></checkbox>
+				我已阅读并确认同意
+				<text class="linkxy" @tap="getContent('userAggrement')">《用户协议》</text>和
+				<text class="linkxy" @tap="getContent('privacyAggrement')">《隐私权保护声明》</text>
+		</checkbox-group>
+		
+		<view class="read-text">
+			<checkbox color="#55557f" style="transform:scale(0.7)" class="orange" v-model="agreeS"></checkbox>
+				我已阅读并确认同意
+				<text class="linkxy" @tap="getContent('childrenAggrement')">《儿童个人信息保护规则》</text>
 		</view>
 
 		<view class="lo_font">
@@ -30,8 +46,10 @@
 	export default {
 		data() {
 			return {
+				agreeF: 0,
+				agreeS: false,
 				checked: 0,
-				isChecked:false,
+				isChecked: false,
 				H5Wechat: true,
 				appid: '',
 				code: '',
@@ -39,9 +57,9 @@
 				openId: ''
 			};
 		},
-		
+
 		onLoad() {
-			
+
 			uni.clearStorageSync();
 			// #ifdef H5
 			var ua = navigator.userAgent.toLowerCase();
@@ -52,7 +70,7 @@
 			}
 			// this.getAppid()
 			// this.getUrlParam()
-			
+
 			// #endif
 			// #ifdef MP-WEIXIN
 			this.H5Wechat = true
@@ -67,15 +85,20 @@
 			getContent(key) {
 				let p = encodeURIComponent(getApp().globalData.aboutUsInfo[key])
 				uni.navigateTo({
-				    url: `/pages/webview/index?path=${p}`
+					url: `/pages/webview/index?path=${p}`
 				})
 			},
 			CheckboxChange(e) {
+				console.log('111', e.detail.value);
 				this.checked = e.detail.value;
 				this.isChecked = !this.isChecked
 			},
+			checkBoxF(e) {
+				console.log('1111',e.detail.value);
+				this.agreeF = e.detail.value;
+			},
 			wechatLogin() {
-				if(!this.isChecked){
+				if (!this.isChecked) {
 					uni.showToast({
 						title: '请勾选同意选项',
 						icon: 'none',
@@ -88,7 +111,7 @@
 				let nonce = Math.random().toString(36).substr(2)
 				let time_stamp = Date.parse(new Date()) / 1000
 				let getData = {}
-				let natUrl  = "/pages/login/wechat"
+				let natUrl = "/pages/login/wechat"
 				// #ifdef MP-WEIXIN || APP-PLUS
 				uni.login({
 					provider: "weixin",
@@ -105,11 +128,12 @@
 									time_stamp: time_stamp,
 									nonce: nonce,
 									signature: md5(`app_key=` + this.$appKey + `&app_secret=` +
-										this.$app_secret + `&nonce=` + nonce + `&time_stamp=` +
+										this.$app_secret + `&nonce=` + nonce +
+										`&time_stamp=` +
 										time_stamp),
 									app_key: this.$appKey
 								}
-								natUrl  = "/pages/login/wechat"
+								natUrl = "/pages/login/wechat"
 								// #endif
 								// #ifdef APP-PLUS
 								getData = {
@@ -117,11 +141,12 @@
 									time_stamp: time_stamp,
 									nonce: nonce,
 									signature: md5(`app_key=` + this.$appKey + `&app_secret=` +
-										this.$app_secret + `&nonce=` + nonce + `&time_stamp=` +
+										this.$app_secret + `&nonce=` + nonce +
+										`&time_stamp=` +
 										time_stamp),
 									app_key: this.$appKey
 								}
-								natUrl  = "/pages/login/bindtel"
+								natUrl = "/pages/login/bindtel"
 								// #endif
 								this.$refs.loading.hideLoading()
 								// 跳到到微信登录
@@ -155,7 +180,7 @@
 					method: 'GET'
 				}).then(res => {
 					// this.aboutUsInfo = res.data.aboutUs
-					getApp().globalData.aboutUsInfo = res.data.aboutUs 
+					getApp().globalData.aboutUsInfo = res.data.aboutUs
 				}).catch(e => {
 					console.error(e)
 					// this.aboutUsInfo = {};
@@ -166,6 +191,8 @@
 </script>
 
 <style lang="less">
+
+
 	.lo_icon {
 		margin-bottom: 95rpx;
 		margin-top: 120rpx;
@@ -220,6 +247,7 @@
 		font-size: 32rpx;
 		color: #4D4D4D;
 	}
+
 	.auth-clause {
 		display: flex;
 		align-items: center;
@@ -228,6 +256,11 @@
 		margin-top: 80rpx;
 		margin-left: 50rpx;
 	}
+	
+	checkbox .wx-checkbox-input{
+	  border-radius: 50%;
+	}
+	
 	switch.orange[checked] .wx-switch-input,
 	checkbox.orange[checked] .wx-checkbox-input,
 	radio.orange[checked] .wx-radio-input,
@@ -237,10 +270,18 @@
 		background-color: #686868 !important;
 		border-color: #000000 !important;
 		color: #ffffff !important;
+		border-radius: 50%;
 	}
-	.linkxy{
-		margin-left: 10px;
-		margin-right: 10px;
+	
+	
+	.read-text {
+		display: flex;
+		font-size: 25rpx;
+		align-items: center;
+		margin-left: 50rpx;
+		margin-bottom: 20rpx;
+	}
+	.linkxy {
 		color: #0055ff;
 	}
 </style>
