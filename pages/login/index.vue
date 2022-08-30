@@ -6,33 +6,26 @@
 				<image src="../../static/common/logo.png" mode=""></image>
 			</view>
 		</view>
-		<!-- 同意服务条款 -->
-		<checkbox-group class="auth-clause" @change="CheckboxChange">
-			<checkbox class="orange" :class="checked == 2 ? 'checked' : ''" :checked="checked == 2 ? true : false"
-				value="2" />
-			<view style="padding-right: 30rpx;">
-				我已阅读<text class="linkxy" @tap="getContent('userAggrement')">用户协议</text>、<text class="linkxy"
-					@tap="getContent('privacyAggrement')">隐私权保护声明</text>及<text class="linkxy"
-					@tap="getContent('childrenAggrement')">儿童个人信息保护规则</text>
+		<view class="text-sub">
+			请完成微信授权以继续使用
+		</view>
+		<view class="regbutton_login" @click='wechatLogin'>
+			<button class="button" open-type='getUserInfo' :disabled="disabled">微信登录</button>
+		</view>
+
+		<checkbox-group @change="checkBoxF">
+			<view class="read-text">
+				<checkbox color="#55557f" style="transform:scale(0.7)" class="orange" ></checkbox>
+					我已阅读并确认同意
+					<text class="linkxy" @tap="getContent('userAggrement')">《用户协议》</text>和
+					<text class="linkxy" @tap="getContent('privacyAggrement')">《隐私权保护声明》</text>
+			</view>
+			<view class="read-text">
+				<checkbox color="#55557f" style="transform:scale(0.7)" class="orange"></checkbox>
+					我已阅读并确认同意
+					<text class="linkxy" @tap="getContent('childrenAggrement')">《儿童个人信息保护规则》</text>
 			</view>
 		</checkbox-group>
-		<view class="regbutton_login" @click='wechatLogin'>
-			<button class="button" open-type='getUserInfo'>微信登录{{agreeF}}</button>
-		</view>
-
-		<checkbox-group class="read-text" @change="checkBoxF">
-			<checkbox color="#55557f" style="transform:scale(0.7)" class="orange" :checked="agreeF == 2 ? true : false"></checkbox>
-				我已阅读并确认同意
-				<text class="linkxy" @tap="getContent('userAggrement')">《用户协议》</text>和
-				<text class="linkxy" @tap="getContent('privacyAggrement')">《隐私权保护声明》</text>
-		</checkbox-group>
-		
-		<view class="read-text">
-			<checkbox color="#55557f" style="transform:scale(0.7)" class="orange" v-model="agreeS"></checkbox>
-				我已阅读并确认同意
-				<text class="linkxy" @tap="getContent('childrenAggrement')">《儿童个人信息保护规则》</text>
-		</view>
-
 		<view class="lo_font">
 			风和兴有限公司技术支持
 		</view>
@@ -46,8 +39,7 @@
 	export default {
 		data() {
 			return {
-				agreeF: 0,
-				agreeS: false,
+				disabled: true,
 				checked: 0,
 				isChecked: false,
 				H5Wechat: true,
@@ -59,7 +51,6 @@
 		},
 
 		onLoad() {
-
 			uni.clearStorageSync();
 			// #ifdef H5
 			var ua = navigator.userAgent.toLowerCase();
@@ -88,24 +79,10 @@
 					url: `/pages/webview/index?path=${p}`
 				})
 			},
-			CheckboxChange(e) {
-				console.log('111', e.detail.value);
-				this.checked = e.detail.value;
-				this.isChecked = !this.isChecked
-			},
 			checkBoxF(e) {
-				console.log('1111',e.detail.value);
-				this.agreeF = e.detail.value;
+				this.disabled = e.detail.value.length < 2;
 			},
 			wechatLogin() {
-				if (!this.isChecked) {
-					uni.showToast({
-						title: '请勾选同意选项',
-						icon: 'none',
-						duration: 2000,
-					});
-					return
-				}
 				let that = this
 				this.$refs.loading.showLoading()
 				let nonce = Math.random().toString(36).substr(2)
@@ -238,7 +215,8 @@
 
 	.button {
 		background-color: #65bb25;
-		font-size: 32rpx;
+		// font-size: 32rpx;
+		// border-radius: 50rpx;
 		color: #FFFFFF;
 	}
 
@@ -283,5 +261,12 @@
 	}
 	.linkxy {
 		color: #0055ff;
+	}
+	
+	.text-sub {
+		width: 100%;
+		font-size: 24rpx;
+		color: #808080;
+		text-align: center;		
 	}
 </style>
