@@ -575,6 +575,9 @@
 			line-height: 70rpx;
 			border-radius: 38rpx;
 			font-size: 30rpx;
+			&::after {
+				border: 0 none;
+			}
 		}
 		// padding: 20rpx;
 		// background: #f1f1ff;

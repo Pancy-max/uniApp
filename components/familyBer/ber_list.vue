@@ -12,11 +12,14 @@
 						<view class="ber_name">{{ item.nickname }}</view>
 						<view class="ber_num">出生日期: {{ item.birthday }}</view>
 					</view>
-					<view class="ber_check" @tap="check(index)">
+					<view class="ber_check" @tap="check(index)" v-if="showDetail">
 						<view>查看</view>
 					</view>
 				</view>
 			</view>
+			<span class="btn-add" @tap="addChild">
+				添加儿童
+			</span>
 		</scroll-view>
 	</view>
 	
@@ -27,6 +30,10 @@
 		props:{
 			berList: {
 				type: Array
+			},
+			showDetail: {
+				type: Boolean,
+				default: true
 			}
 		},
 		data() {
@@ -37,6 +44,11 @@
 		methods:{
 			check(index) {
 				this.$emit('check', this.berList[index].userUuid)
+			},
+			addChild() {
+				uni.navigateTo({
+					url: '../addBer/addBer'
+				})
 			},
 			selectChild(idx) {
 				const childAge = getApp().globalData.testItem.childAge
@@ -61,6 +73,19 @@
 </script>
 
 <style lang="scss" scoped>
+	.btn-add {
+		width: 50vw;
+		position: fixed;
+		bottom: 20%;
+		left: 25%;
+		height: 104rpx;
+		border-radius: 20rpx;
+		text-align: center;
+		line-height: 104rpx;
+		color: #fff;
+		font-size: 34rpx;
+		background-color: #55557f;
+	}
 	.mer_list {
 		display: flex;
 		width: 690rpx;

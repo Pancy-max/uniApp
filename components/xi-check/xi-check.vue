@@ -51,12 +51,12 @@
 					</block>
 					<view class="btn-flex-box">
 						<button
-							v-if="showQuestionIndex > 0" 
+							v-if="!switchVisible && (showQuestionIndex > 0)" 
 							class="prev-button"
 							@click="prevQuestion"
 						>上一题</button>
 						<button 
-							v-if="newOptList[showQuestionIndex].type == 'checkbox' || isActive" 
+							v-if="!switchVisible && (newOptList[showQuestionIndex].type == 'checkbox' || isActive)" 
 							@click="nextQuestionBtn()"
 							class="next-button" 
 						>下一题</button>

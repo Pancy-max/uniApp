@@ -2,10 +2,10 @@
 	<view>
 		<view class="head">
 			<view class="head_box">
-				<view class="title-tip">本测量表适用于出生日期早于2013年1月1日出生的儿童，请选择适龄儿童</view>
+				<view class="title-tip">本测量表适用于出生日期早于{{childAge}}出生的儿童，请选择适龄儿童</view>
 			</view>
 		</view>
-		<BerList :berList='berList' @select='select' />
+		<BerList :berList='berList' @select='select' :showDetail="false"/>
 	</view>
 </template>
 
@@ -18,10 +18,12 @@
 		data() {
 			return {
 				berList: [], //家庭成员列表
+				childAge: ''
 			}
 		},
 		onLoad() {
 			this.getBerList();
+			this.childAge = getApp().globalData.testItem.childAge
 		},
 		onShow() {
 			this.getBerList();

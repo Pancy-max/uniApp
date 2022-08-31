@@ -9,9 +9,13 @@
 								<image src="/static/all_orders/images/all_orders_8_8.jpg" mode="scaleToFill" border="0"    class="all_orders_8"></image>
 								<text decode="true" class="address_from">{{item_orders.description}}</text>
 							</view>
-							<view class="all_orders_11">
+							<view class="all_orders_11" >
 								<image src="/static/all_orders/images/all_orders_12_12.jpg" mode="scaleToFill" border="0"    class="all_orders_12"></image>
-								<text decode="true" class="address_to">{{item_orders.SuccessTime}}</text>
+								<text decode="true" class="address_to" v-if="item_orders.SuccessTime">{{item_orders.SuccessTime}}</text>
+								<text decode="true" class="address_to" v-else>
+									{{item_orders.UpdatedAt.slice(0, 10)}} {{item_orders.UpdatedAt.slice(11, 19)}}
+								</text>
+								
 							</view>
 							<view class="all_orders_14">
 								<text decode="true" class="all_orders_15">订单号</text>

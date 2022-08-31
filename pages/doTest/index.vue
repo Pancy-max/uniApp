@@ -17,9 +17,25 @@
 			 <view class="content" v-html="item.content"></view>
 	 	</view>
 	 </view>
-
-	<view class="tabbar" v-if="showEnter">
-		<button @click="jdugeTest" class="btn">进入测评</button>
+	<view class="selectedChild" v-if="childId">
+		已选儿童：{{berList.find(item => item.ID === +childId).nickname}}
+	</view>
+	<view class="tabbar-test" v-if="showEnter">
+		<view v-if="item.type === 1" class="tabbar-btn btn-left" @tap="selectChild">
+			<block v-if="berList.length === 0">
+				<span class="nav-addchild">
+					添加儿童
+				</span>
+			</block>
+			<block v-if="berList.length > 0">
+				<span class="nav-addchild">
+					选择儿童
+				</span>
+			</block>
+		</view>
+		<view class="tabbar-btn btn-right" @tap="jdugeTest" >
+			<span class="test-btn">进入测评</span>
+		</view>
 	</view>
 	<view class="pay_btn tabbar" v-if="showPay">
 		<view class="price-box">
@@ -29,23 +45,6 @@
 		<button @click="goPay" class="go-buy">购买</button>
 	</view>
 	<!-- <uni-popup ref="childPopup" type="bottom"  background-color="#fff"> -->
-	<block v-if="item.type === 1 && showEnter">
-		<view class="pop-child title-wrapper">
-			<view class="selectedChild" v-if="childId">
-				已选儿童：{{berList.find(item => item.ID === +childId).nickname}}
-			</view>
-			<view v-if="berList.length === 0">
-				<button class="nav-addchild" @tap="addChild">
-					添加儿童
-				</button>
-			</view>
-			<view v-if="berList.length > 0">
-				<button class="nav-addchild" @tap="selectChild">
-					选择儿童
-				</button>
-			</view>
-		</view>
-	</block>
 	<!-- </uni-popup> -->
  </view>
 </template>
@@ -182,15 +181,16 @@ export default {
 	  		this.berList = res.data.userInfo
 	  	})
 	  },
-	  addChild() {
-	  	uni.navigateTo({
-	  		url: '../addBer/addBer'
-	  	})
-	  },
 	  selectChild() {
-		uni.navigateTo({
-			url: '../familyBer/familyBerSelect'
-		})
+		if (this.berList.length === 0) {
+			uni.navigateTo({
+				url: '../addBer/addBer'
+			})
+		} else {
+			uni.navigateTo({
+				url: '../familyBer/familyBerSelect'
+			})
+		}
 	  },
 	  jdugeTest() {
 		  if (this.item.type === 1) { // 儿童
@@ -382,7 +382,7 @@ export default {
 <style lang="less" scoped>
 	@import '../../common/common.css';
 	.test-wrapper {
-		height: calc(99vh - 95rpx);
+		height: calc(100vh - 100rpx);
 		background: #9e9e9e14;
 		// padding: 40rpx;
 		display: flex;
@@ -452,6 +452,32 @@ export default {
 		bottom: 1vh;
 		left: 5%;
 		background: #9e9e9e14;
+	}
+	.tabbar-test {
+		position: fixed;
+		width: 100%;
+		bottom: 0vh;
+		height: 100rpx;
+		left: 0%;
+		background: #fff;
+		display: flex;
+		align-items: center;
+		text-align: center;
+	}
+	.tabbar-btn {
+		width: 50%;
+		line-height: 100rpx;
+	}
+	.btn-left {
+		background-color: #7878b3;
+		color: #fff;
+	}
+	.btn-right {
+		background-color: #55557f;
+		color: #fff;
+	}
+	.nav-addchild {
+		color: #fff;
 	}
 	.pay_btn {
 		display: flex;
@@ -532,5 +558,6 @@ export default {
 		display: inline-block;
 		font-size: 34rpx;
 		margin-bottom: 10rpx;
+		margin-left: 30rpx;
 	}
 </style>
