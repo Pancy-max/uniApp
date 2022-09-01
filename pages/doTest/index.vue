@@ -465,7 +465,8 @@ export default {
 		text-align: center;
 	}
 	.tabbar-btn {
-		width: 50%;
+		// width: 50%;
+		flex: 1;
 		line-height: 100rpx;
 	}
 	.btn-left {

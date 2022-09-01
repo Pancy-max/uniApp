@@ -1,17 +1,18 @@
 <template>
 	<view class='my'>
-
+		<text class="title">APP常见问题</text>
 		<view class="block-view">
 			<block v-for="(item, index) in aboutUsInfo" :key="index">
-				<view class="title">
+<!-- 				<view class="title">
 					{{item.firstTitle}}-{{item.mainTitle}}
-				</view>
-				<view class="my_tabs" @click="getContent">
+				</view> -->
+				<view class="my_tabs" @click="getContent(item)">
 					<!-- <view class="tabs_left">
 						<my-icon type="staff" size="26" />
 					</view> -->
 					<view class="tabs_right" >
-						<text>{{item.content}}</text>
+						<!-- <text>{{item.content}}</text> -->
+						<text>{{item.firstTitle}}-{{item.mainTitle}}</text>
 						<image src="../../static/my/btn_01.png" mode=""></image>
 					</view>
 				</view>
@@ -49,10 +50,12 @@
 					this.aboutUsInfo = []
 				})
 			},
-			getContent(key) {
-				// uni.navigateTo({
-				// 	url: './text?id=' + key
-				// })
+			getContent(item) {
+				getApp().globalData.help = item;
+				console.log('key', item);
+				uni.navigateTo({
+					url: './content'
+				})
 			}
 		},
 	};
@@ -60,6 +63,7 @@
 
 <style lang="less" scoped>
 	.my {
+		background-color: #f1f1f1;
 		// padding: 30rpx;
 		height: calc(100vh);
 		display: flex;
@@ -67,11 +71,12 @@
 		overflow: hidden;
 		.block-view {
 			background: #fff;
-			// border-radius: 40rpx;
+			border-radius: 40rpx;
 			// margin-bottom: 30rpx;
-			padding: 50rpx 20rpx 20rpx 20rpx;
-			flex: 1;
-			overflow: auto;
+			// padding: 0 20rpx 20rpx 20rpx;
+			margin: 30rpx 20rpx;
+			// flex: 1;
+			// overflow: auto;
 		}
 		.title {
 			margin-left: 30rpx;

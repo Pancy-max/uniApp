@@ -17,9 +17,9 @@
 					</view>
 				</view>
 			</view>
-			<span class="btn-add" @tap="addChild">
+<!-- 			<span class="btn-add" @tap="addChild">
 				添加儿童
-			</span>
+			</span> -->
 		</scroll-view>
 	</view>
 	

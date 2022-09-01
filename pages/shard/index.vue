@@ -1,7 +1,8 @@
 <template>
 	<view class="page">
 		<view class="poster" v-if="!show_poster">
-			<lPainter :board="posterObj" ref="painter"></lPainter>
+			<!-- <lPainter :board="posterObj" ref="painter" style="display: none;"></lPainter> -->
+			<l-painter ref="painter" width="686rpx"  height="928rpx" />
 			<view class="footer-btn">
 				<view class="" @tap="goBack">
 					返回
@@ -10,6 +11,8 @@
 					保存
 				</view>
 			</view>
+			<!-- <image :src="path" mode="" class="image-content"></image> -->
+			
 		</view>
 		<view class="poster-btn">
 			<view :class="{'is-check':check_idx==index}" v-for="(item,index) in footer_arr" :key="index" @click="toChoose(index)">
@@ -121,8 +124,15 @@
 					uni.hideLoading()
 				});
 			},
-			getImg(r) {
-
+			onRender() {
+				// 支持通过调用render传入参数
+				const painter = this.$refs.painter
+				painter.render(this.posterObj)
+			},
+			canvasToTempFilePath() {
+				const painter = this.$refs.painter
+				// 支持通过调用canvasToTempFilePath方法传入参数 调取生成图片
+				painter.canvasToTempFilePath().then(res => this.path = res.tempFilePath)
 			},
 			goBack() {
 				uni.switchTab({
@@ -526,6 +536,7 @@
 					default:
 						break;
 				}
+				this.onRender()
 			},
 		}
 	}

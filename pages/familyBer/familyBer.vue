@@ -75,7 +75,7 @@
 		border-bottom: 1px solid #e6e6e6;
 		.head_box {
 			width: 690rpx;
-			height: 68rpx;
+			height: 100rpx;
 			margin: 0 auto;
 			display: flex;
 			justify-content: space-between;
@@ -92,9 +92,21 @@
 				display: flex;
 				align-items: center;
 				.ber_new {
-					font-size: 32rpx;
-					color: #000;
-					font-weight: bold;
+					// font-size: 32rpx;
+					// color: #000;
+					// font-weight: bold;
+					// width: 50vw;
+					// position: fixed;
+					// bottom: 20%;
+					// left: 25%;
+					// height: 104rpx;
+					border-radius: 20rpx;
+					text-align: center;
+					line-height: 75rpx;
+					color: #fff;
+					font-size: 33rpx;
+					background-color: #55557f;
+					width: 200rpx;
 				}
 			}
 		}
