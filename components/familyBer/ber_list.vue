@@ -4,13 +4,19 @@
 			<view class="child-box mer_list" 
 				:class="selectChildIndex === i ? 'select-child' : ''"
 				v-for="(item, index) in berList" 
-				:key='item.id' 
+				:key='item.id'
 				@click="selectChild(index)" >
 				<!-- <image src="../../static/images/familyBer/ico_01.png" mode="scaleToFill" style="width: 78rpx; height: 78rpx; margin-right: 32rpx;" /> -->
 				<view class="mer_content">
-					<view class="ber_text">
+					<view class="ber_text" :class="mcode && item.formList.split(',').includes(mcode) ? 'disabled' : ''">
 						<view class="ber_name">{{ item.nickname }}</view>
 						<view class="ber_num">出生日期: {{ item.birthday }}</view>
+					</view>
+					<view class="tabs_left" v-if="mcode && item.formList.split(',').includes(mcode)">
+						<my-icon type="checkmarkempty" size="20" />
+						<view class="tip">
+							已完成
+						</view>
 					</view>
 					<view class="ber_check" @tap="check(index)" v-if="showDetail">
 						<view>查看</view>
@@ -34,6 +40,18 @@
 			showDetail: {
 				type: Boolean,
 				default: true
+			},
+			mcode: {
+				type: String,
+				default: ''
+			}
+		},
+		computed: {//已完成人數
+			hasFinishedNum() {
+				if (!this.mcode) {
+					return 0
+				}
+				return this.berList.filter(item => item.formList.split(',').includes(this.mcode)).length
 			}
 		},
 		data() {
@@ -51,8 +69,19 @@
 				})
 			},
 			selectChild(idx) {
-				const childAge = getApp().globalData.testItem.childAge
 				this.selectChildIndex = null
+				if (this.berList[idx].formList.split(',').includes(this.mcode)) {
+					return
+				}
+				const {childAge, childNum} = getApp().globalData.testItem
+				if (this.hasFinishedNum >= childNum) {
+					uni.showToast({
+						title: '该题目一个用户最多只能给' + childNum + '个儿童测试，请试试其他题目！',
+						icon: 'none',
+						duration: 2000
+					})
+					return
+				}
 				console.log('selectChild', this.berList, idx, childAge)
 				if (this.berList[idx].birthday > childAge) {
 					uni.showToast({
@@ -113,6 +142,17 @@
 					margin-top: 11rpx;
 				}
 			}
+			.ber_text.disabled {
+				.ber_name {
+					font-size: 34rpx;
+					color: #ccc;
+				}
+				.ber_num {
+					font-size: 24rpx;
+					color: #ccc;
+					margin-top: 11rpx;
+				}
+			}
 			.ber_check {
 				display: flex;
 				font-size: 26rpx;
@@ -149,5 +189,8 @@
 		.select-child {
 			border: 5rpx solid #55557f;
 		}
+	}
+	.tabs_left {
+		text-align: center;
 	}
 </style>

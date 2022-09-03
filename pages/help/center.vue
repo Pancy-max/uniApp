@@ -1,6 +1,6 @@
 <template>
 	<view class='my'>
-		<text class="title">APP常见问题</text>
+		<text class="title">常见问题</text>
 		<view class="block-view">
 			<block v-for="(item, index) in aboutUsInfo" :key="index">
 <!-- 				<view class="title">

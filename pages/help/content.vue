@@ -1,5 +1,5 @@
 <template>
-	<view class="wrapper">{{content}}</view>
+	<view class="wrapper" v-html="content"></view>
 </template>
 
 <script>
