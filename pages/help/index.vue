@@ -4,11 +4,11 @@
 		（长按二维码添加客服）
 		
 		<view class="text-wrapper">
-			
 			<view class="text">
 				{{text}}
 			</view>
 		</view>
+		<!-- <button class="button" @tap="openCustomerServiceChat">联系客服</button> -->
 		<button open-type="contact" class="button">联系客服</button>
 	</div>
 </template>
@@ -38,6 +38,15 @@
 					}
 				}).catch(e => {
 					console.error(e)
+				})
+			},
+			openCustomerServiceChat() {
+				wx.openCustomerServiceChat({
+				  extInfo: {url: 'https://work.weixin.qq.com/nl/act/p/a733314375294bdd'},
+				  corpId: 'ww1178f8ccaa5bdec7',
+				  success(res) {
+					  console.log('openCustomerServiceChat', res)
+				  }
 				})
 			}
 		},

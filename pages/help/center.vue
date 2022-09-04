@@ -12,7 +12,7 @@
 					</view> -->
 					<view class="tabs_right" >
 						<!-- <text>{{item.content}}</text> -->
-						<text>{{item.firstTitle}}-{{item.mainTitle}}</text>
+						<text>{{item.mainTitle}}</text>
 						<image src="../../static/my/btn_01.png" mode=""></image>
 					</view>
 				</view>

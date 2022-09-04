@@ -339,7 +339,7 @@
 								views: [
 									{
 										type: 'text',
-										text: '￥' + this.posterInfo.price / 100 + '',
+										text: this.posterInfo.price == 0 ? '限时免费' : '￥' + this.posterInfo.price / 100 + '',
 										css: {
 											fontSize: '32rpx',
 											color: '#ff557f',
@@ -352,7 +352,7 @@
 									},
 									{
 										type: 'text',
-										text: '￥' + this.posterInfo.linePrice / 100 + '',
+										text: this.posterInfo.linePrice == 0 ? '限时免费' : '￥' + this.posterInfo.linePrice / 100 + '',
 										css: {
 											fontSize: '28rpx',
 											color: '#1A2033',

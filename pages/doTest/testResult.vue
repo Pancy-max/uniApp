@@ -61,6 +61,7 @@
 					</view>
 					<view class="rec-text" v-html="recInfo.content">
 					</view>
+					<button open-type="contact" class="contact-btn" size="mini">联系专家</button>
 				</view>
 				<view class="tuijian-title">
 					课程推荐
@@ -69,13 +70,13 @@
 					<view class="flex-box" @tap="goRecLink">
 						<view class="rec-img">
 							<image :src="recInfo.picurl" mode="scaleToFill"
-								style="width: 200rpx; height: 200rpx; margin-right: 32rpx;" />
+								style="width: 268rpx; height: 200rpx; margin-right: 32rpx;" />
 						</view>
 						<view class="rec-right">
 							<view class="rec-title">
 								{{recInfo.title || ''}}
 							</view>
-							<span class="rec-btn" @tap="goRecLink">
+							<span class="contact-btn" @tap="goRecLink">
 								前往
 							</span>
 						</view>
@@ -83,10 +84,9 @@
 				</view>
 			</view>
 		</scroll-view>
-		<view class="tabbar" >
+		<!-- <view class="tabbar" >
 			<text class="contact-text">请专业测评老师解读报告？</text>
-			<button open-type="contact" class="contact-btn" size="mini"> 问一问</button>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -558,23 +558,24 @@
 			background: #fff;
 		}
 		.test-scroll-view {
-			height: calc(100vh - 120rpx);
+			height: calc(100vh - 0rpx);
 		}
 		.contact-text {
 			line-height: 120rpx;
 			margin-left: 30rpx;
 		}
 		.contact-btn {
-			float: right;
+			position: absolute;
+			right: 30rpx;
+			bottom: 10rpx;
 			background-color: #ffca3e;
 			color: #fff;
-			right: 40rpx;
-			top: 25rpx;
-			width: 180rpx;
 			height: 70rpx;
 			line-height: 70rpx;
 			border-radius: 38rpx;
 			font-size: 30rpx;
+			min-width: 130rpx;
+			text-align: center;
 			&::after {
 				border: 0 none;
 			}
@@ -597,6 +598,7 @@
 
 			.rec {
 				padding: 0;
+				padding-bottom: 60rpx;
 				margin-top: 30rpx;
 			}
 

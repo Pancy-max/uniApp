@@ -8,6 +8,7 @@
 						<image style="width: 100%; height: 370rpx;" :src="item.image" lazy-load mode="scaleToFill"></image>
 					</view>
 				</swiper-item>
+				<!-- <button open-type="contact" class="button" ref="contactRef">联系客服</button> -->
 			</swiper>
 		</view>
 		
@@ -24,7 +25,7 @@
 					<view class="testItem" v-for="(_item, _index) in item.eva_form_list" :key="_index">
 					<test-list-item
 					@doTest='doTest(_item)'
-					:index="(index + 1) * (_index + 1)"
+					:index="(index + 1) * (_index + 2) - 1"
 					:title="_item.title"
 					:readCount="_item.readCount"
 					:subTitle="_item.subtitle" 
@@ -323,6 +324,7 @@
 						    url: `/pages/help/index`
 						})
 						break
+						// this.$refs.contactRef.click()
 					default:
 						break;
 				}
