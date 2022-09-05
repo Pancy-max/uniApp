@@ -1,9 +1,10 @@
 <template>
 	<view>
 		<view class="lo_icon">
-			<view class="lo_image">
+			<!-- <view class="lo_image">
 				<image src="../../static/common/logo.png" mode=""></image>
-			</view>
+			</view> -->
+			<image :src="logoUrl" mode="heightFix"></image>
 		</view>
 		
 		<view class="content" style="border-top: 1px solid #CCCCCC;">
@@ -32,13 +33,15 @@
 					openid: '',       // openid 用户唯一标识
 					unionid: ',',    // unionid 开放平台唯一标识  
 					session_key: ''  // session_key  会话密钥  
-				}
+				},
+				logoUrl: ''
 			}
 		},
 		components:{
 			wybLoading
 		},
 		onLoad() {
+			this.logoUrl = getApp().globalData.logoUrl
 			const that = this
 			wx.login({
 			      success: res => {

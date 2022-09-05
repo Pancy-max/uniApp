@@ -11,7 +11,8 @@
 			childId: null, // 当前测试的儿童id
 			aboutUsInfo: {}, // 关于我们协议相关信息
 			evaListInfo: [],
-			help: {}
+			help: {},
+			logoUrl: ''
 		},
 		onLaunch: function() {
 			let that = this

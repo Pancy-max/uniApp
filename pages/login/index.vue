@@ -2,9 +2,10 @@
 	<view class='login'>
 
 		<view class="lo_icon">
-			<view class="lo_image">
+			<!-- <view class="lo_image">
 				<image src="../../static/common/logo.png" mode=""></image>
-			</view>
+			</view> -->
+			<image :src="logoUrl" mode="heightFix"></image>
 		</view>
 		<view class="text-sub">
 			请完成微信授权以继续使用
@@ -46,19 +47,20 @@
 				appid: '',
 				code: '',
 				tel: '',
-				openId: ''
+				openId: '',
+				logoUrl: ''
 			};
 		},
 
 		onLoad() {
 			uni.clearStorageSync();
 			// #ifdef H5
-			var ua = navigator.userAgent.toLowerCase();
-			if (ua.match(/MicroMessenger/i) == "micromessenger") {
-				this.H5Wechat = true
-			} else {
-				this.H5Wechat = false
-			}
+			// var ua = navigator.userAgent.toLowerCase();
+			// if (ua.match(/MicroMessenger/i) == "micromessenger") {
+			// 	this.H5Wechat = true
+			// } else {
+			// 	this.H5Wechat = false
+			// }
 			// this.getAppid()
 			// this.getUrlParam()
 
@@ -158,6 +160,8 @@
 				}).then(res => {
 					// this.aboutUsInfo = res.data.aboutUs
 					getApp().globalData.aboutUsInfo = res.data.aboutUs
+					getApp().globalData.logoUrl = res.data.aboutUs.aboutUrl
+					this.logoUrl = getApp().globalData.logoUrl
 				}).catch(e => {
 					console.error(e)
 					// this.aboutUsInfo = {};

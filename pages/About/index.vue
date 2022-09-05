@@ -1,9 +1,10 @@
 <template>
 	<view class="wrapper">
 		<view class="lo_icon">
-			<view class="lo_image">
-				<image src="../../static/common/logo.png" mode=""></image>
-			</view>
+			<!-- <view class="lo_image"> -->
+				<!-- <image src="../../static/common/logo.png" mode=""></image> -->
+				<image :src="logoUrl" mode="heightFix"></image>
+			<!-- </view> -->
 		</view>
 		<view class="block-view">
 			<view class="my_tabs" @tap="getContent('userAggrement')">
@@ -37,6 +38,7 @@
 				// aboutUsInfo: {
 					
 				// }
+				logoUrl: ''
 			}
 		},
 		onLoad() {
@@ -49,7 +51,9 @@
 					method: 'GET'
 				}).then(res => {
 					// this.aboutUsInfo = res.data.aboutUs
-					getApp().globalData.aboutUsInfo = res.data.aboutUs 
+					getApp().globalData.aboutUsInfo = res.data.aboutUs
+					getApp().globalData.logoUrl = res.data.aboutUs.aboutUrl
+					this.logoUrl = getApp().globalData.logoUrl
 				}).catch(e => {
 					console.error(e)
 					// this.aboutUsInfo = {};

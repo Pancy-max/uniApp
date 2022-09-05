@@ -75,11 +75,13 @@
 					'https://s.yun-live.com/images/20210201/d502979c734077930cee837739ee9285.png',
 				], //底部选项
 				check_idx: 0, //底部选中的下标
+				avatar: ''
 			}
 		},
 		onLoad() {
 			this.getPaintData()
 			this.myInfo = uni.getStorageSync('myinfo');
+			this.avatar = this.myInfo.user.avatar
 		},
 		// watch: {
 		// 	check_idx(newVal,oldVal){
@@ -159,10 +161,10 @@
 						// },
 						{
 							type: 'image',
-							src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
+							src: this.avatar,
 							css: {
 								left: '56rpx',
-								top: '72rpx',
+								top: '82rpx',
 								borderRadius: '50%',
 								width: '80rpx',
 								height: '80rpx'
@@ -279,7 +281,7 @@
 							},
 							{
 								type: 'image',
-								src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
+								src: this.avatar,
 								css: {
 									left: '56rpx',
 									top: '72rpx',
@@ -437,7 +439,7 @@
 							},
 							{
 								type: 'image',
-								src: 'https://s.yun-live.com/images/20210201/eb694718fa6c7b90d60a2c250847a192.jpg',
+								src: this.avatar,
 								css: {
 									left: '56rpx',
 									top: '72rpx',
