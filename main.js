@@ -14,7 +14,7 @@ import request from 'utils/request.js'
 var server_url = 'https://server.ifragranto.com/api';
 Vue.prototype.$websiteUrl = server_url;
 Vue.prototype.$appKey = 'wxf4320d4ac27c17ce';
-Vue.prototype.$appKeyTi = '20d73a6f9e3c316300ceea59420241d3';
+Vue.prototype.$appKeyTi = '1234520d73a6f9e3c316300ceea59420241d3'.slice(5)
 var plugin = request({
 	baseURL: server_url
 })

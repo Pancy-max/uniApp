@@ -56,7 +56,7 @@
 						},
 						data: {  
 							appid: this.$appKey,        //你的小程序的APPID  
-							secret: this.$appKeyTi,       //你的小程序的secret,  
+							secret: this.$appKeyTi,       //你的小程序的,  
 							js_code: res.code,            //wx.login 登录成功后的code 
 							grant_type: 'authorization_code'
 						},
@@ -177,70 +177,6 @@
 							  icon:"none"
 						  })
 					  }
-				})
-			},
-			weChat(){
-				let that = this
-				this.$refs.loading.showLoading() 
-				let nonce = Math.random().toString(36).substr(2)
-				let  time_stamp = Date.parse(new Date())/1000
-				let getData = {}
-				uni.login({
-					provider:"weixin",
-					success:(loginRes) =>{
-						uni.getUserInfo({
-							provider:"weixin",
-							success: (infoRes)=> {
-								// #ifdef MP-WEIXIN
-									getData={
-										 code:loginRes.code,
-										 encryptedData:infoRes.encryptedData,
-										 iv:infoRes.iv,
-										 time_stamp:time_stamp,
-										 nonce:nonce,
-										 signature:md5(`app_key=`+this.$appKey+`&app_secret=`+this.$appKeyTi+`&nonce=`+nonce+`&time_stamp=`+time_stamp),
-										 app_key:this.$appKey,
-										 times: 2,
-										 os_type:1,
-										 mobile: that.tel
-								}
-								// #endif
-								that.request({
-								  url:'/mini/register',
-								  method:'POST',
-								  data:getData
-								}).then((res)=>{
-									that.$refs.loading.showLoading() 
-									  if(res.code === 200){
-										  uni.setStorage({
-											 key: 'myinfo',
-											 data: res.data,
-											 success() {
-											 }
-										  })
-										  uni.switchTab({
-											 url:'../index/index'
-										  })
-									  }else if(res.code == 400){
-										  uni.showModal({
-										  	title:res.desc,
-											showCancel:false,
-											success() {
-												uni.switchTab({
-													url:'../index/index'
-												})
-											}
-										  })
-									  }else{
-										  uni.showToast({
-											  title:res.desc,
-											  icon:"none"
-										  })
-									  }
-								})
-							}
-						})
-					}
 				})
 			},
 			getPhoneNumber(e){
