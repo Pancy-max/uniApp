@@ -77,14 +77,9 @@
 				})
 			},
 			getWxUserInfo(e) {
-				const that = this
-				wx.getUserInfo({
-				  success: function(res) {
-					that.getUserInfo(e, res.userInfo)
-				  }
-				})
+				const userInfo = getApp().globalData.wechatInfo.userInfo
+				this.getUserInfo(e, userInfo)
 			},
-			
 			
 			async getUserInfo(e, userInfo) {
 				const that = this

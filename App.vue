@@ -12,7 +12,8 @@
 			aboutUsInfo: {}, // 关于我们协议相关信息
 			evaListInfo: [],
 			help: {},
-			logoUrl: ''
+			logoUrl: '',
+			wechatInfo: {}
 		},
 		onLaunch: function() {
 			let that = this

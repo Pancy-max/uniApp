@@ -10,8 +10,9 @@
 		<view class="text-sub">
 			请完成微信授权以继续使用
 		</view>
-		<view class="regbutton_login" @click='wechatLogin'>
-			<button class="button" open-type='getUserInfo' :disabled="disabled">微信登录</button>
+		<view class="regbutton_login">
+			<button class="button" open-type='getUserProfile' @tap='getUserProfile' :disabled="disabled">
+				微信登录</button>
 		</view>
 
 		<checkbox-group @change="checkBoxF">
@@ -84,6 +85,36 @@
 			checkBoxF(e) {
 				this.disabled = e.detail.value.length < 2;
 			},
+			getUserProfile() {
+				 wx.getUserProfile({
+				    desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+					// provider: "weixin",
+					success: (infoRes) => {
+						// #ifdef MP-WEIXIN||APP-PLUS
+						// #ifdef MP-WEIXIN
+						// getData = {
+						// 	code: loginRes.code,
+						// 	encryptedData: infoRes.encryptedData,
+							// iv: infoRes.iv,
+							// time_stamp: time_stamp,
+							// nonce: nonce,
+							// signature: md5(`app_key=` + this.$appKey + `&app_secret=` +
+							// 	this.$appKeyTi + `&nonce=` + nonce +
+							// 	`&time_stamp=` +
+							// 	time_stamp),
+							// app_key: this.$appKey
+						// }
+						getApp().globalData.wechatInfo = infoRes
+						// #endif
+						this.$refs.loading.hideLoading()
+						// 跳到到微信登录
+						uni.navigateTo({
+							url: '/pages/login/wechat'
+						})
+						// #endif
+					}
+				})
+			},
 			wechatLogin() {
 				let that = this
 				this.$refs.loading.showLoading()
@@ -95,7 +126,7 @@
 				uni.login({
 					provider: "weixin",
 					success: (loginRes) => {
-						uni.getUserInfo({
+						uni.getUserProfile({
 							provider: "weixin",
 							success: (infoRes) => {
 								// #ifdef MP-WEIXIN||APP-PLUS
@@ -128,6 +159,7 @@
 								natUrl = "/pages/login/bindtel"
 								// #endif
 								this.$refs.loading.hideLoading()
+								console.log('getData', getData)
 								// 跳到到微信登录
 								uni.navigateTo({
 									url: natUrl
