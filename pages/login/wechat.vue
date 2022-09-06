@@ -56,7 +56,7 @@
 						},
 						data: {  
 							appid: this.$appKey,        //你的小程序的APPID  
-							secret: this.$app_secret,       //你的小程序的secret,  
+							secret: this.$appKeyTi,       //你的小程序的secret,  
 							js_code: res.code,            //wx.login 登录成功后的code 
 							grant_type: 'authorization_code'
 						},
@@ -198,7 +198,7 @@
 										 iv:infoRes.iv,
 										 time_stamp:time_stamp,
 										 nonce:nonce,
-										 signature:md5(`app_key=`+this.$appKey+`&app_secret=`+this.$app_secret+`&nonce=`+nonce+`&time_stamp=`+time_stamp),
+										 signature:md5(`app_key=`+this.$appKey+`&app_secret=`+this.$appKeyTi+`&nonce=`+nonce+`&time_stamp=`+time_stamp),
 										 app_key:this.$appKey,
 										 times: 2,
 										 os_type:1,

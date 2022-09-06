@@ -107,7 +107,7 @@
 									time_stamp: time_stamp,
 									nonce: nonce,
 									signature: md5(`app_key=` + this.$appKey + `&app_secret=` +
-										this.$app_secret + `&nonce=` + nonce +
+										this.$appKeyTi + `&nonce=` + nonce +
 										`&time_stamp=` +
 										time_stamp),
 									app_key: this.$appKey
@@ -120,7 +120,7 @@
 									time_stamp: time_stamp,
 									nonce: nonce,
 									signature: md5(`app_key=` + this.$appKey + `&app_secret=` +
-										this.$app_secret + `&nonce=` + nonce +
+										this.$appKeyTi + `&nonce=` + nonce +
 										`&time_stamp=` +
 										time_stamp),
 									app_key: this.$appKey

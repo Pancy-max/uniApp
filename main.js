@@ -14,7 +14,7 @@ import request from 'utils/request.js'
 var server_url = 'https://server.ifragranto.com/api';
 Vue.prototype.$websiteUrl = server_url;
 Vue.prototype.$appKey = 'wxf4320d4ac27c17ce';
-Vue.prototype.$app_secret = '20d73a6f9e3c316300ceea59420241d3';
+Vue.prototype.$appKeyTi = '20d73a6f9e3c316300ceea59420241d3';
 var plugin = request({
 	baseURL: server_url
 })
@@ -36,7 +36,7 @@ Vue.prototype.$save_client = function(uid) {
 	var that = this;
 	// #ifdef APP-PLUS
 	var appid = plus.runtime.appid;
-	console.log('应用的 appid 为：' + appid);
+	console.log('应锟矫碉拷 appid 为锟斤拷' + appid);
 	var inf = plus.push.getClientInfo();
 	var version = plus.runtime.version;
 	let phone_model = ''
