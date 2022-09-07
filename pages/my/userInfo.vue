@@ -16,10 +16,10 @@
 				<view>ID</view>
 				<view class="item_color">{{userInfo.ID}}</view>
 			</view> -->
-			<view class="in_item">
+<!-- 			<view class="in_item">
 				<view>手机号</view>
 				<view class="item_color">{{userInfo.mobile}}</view>
-			</view>
+			</view> -->
 			<view class="in_item" v-if="userInfo.CreatedAt">
 				<view>创建时间</view>
 				<view class="item_color">{{userInfo.CreatedAt.slice(0, 10)}} {{ userInfo.CreatedAt.slice(11, 19)}}</view>

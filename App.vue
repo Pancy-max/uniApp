@@ -35,6 +35,7 @@
 					const timestamp = Math.round(new Date().getTime() / 1000).toString();
 					// 刷新token有效期
 					let expires_time = res.data.expiresAt / 1000
+					console.log('時間差', expires_time - parseInt(timestamp))
 					if (expires_time - parseInt(timestamp) < 43200) {
 					console.log('difftime', expires_time - parseInt(timestamp))
 					//TODO:改时间

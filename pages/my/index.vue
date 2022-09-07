@@ -416,6 +416,7 @@
 			getInfo() {
 				let value = uni.getStorageSync('myinfo');
 				if (value) {
+					
 					if (!value || !value.user) {
 						uni.removeStorage('myinfo');
 					} else {
