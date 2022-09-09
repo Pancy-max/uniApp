@@ -3,16 +3,16 @@
 		<view class="uni-share-content">
 			<view class="uni-share-content-box">
 				<view class="uni-share-content-item" v-for="(item,index) in bottomData" :key="index" @click.stop="select(item,index)">
-					<template v-if="item.name === 'wx'">
+					<block v-if="item.name === 'wx'">
 						<button open-type="share" class="share-btn">
 							<image class="uni-share-image" :src="item.icon" mode="aspectFill"></image>
 						</button>
 						<text class="uni-share-text">{{item.text}}</text>
-					</template>
-					<template v-else>
+					</block>
+					<block v-else>
 						<image class="uni-share-image" :src="item.icon" mode="aspectFill"></image>
 						<text class="uni-share-text">{{item.text}}</text>
-					</template>
+					</block>
 				</view>
 			</view>
 		</view>
@@ -28,6 +28,10 @@
 				default: '分享到'
 			}
 		},
+		imagesList: [
+			'../../static/common/wechatfriend.png',
+			'../../static/common/share.jpeg'
+		],
 		inject: ['popup'],
 		data() {
 			return {
@@ -87,6 +91,7 @@
 		width: 100%;
 		justify-content: space-around;
 		padding: 10px 0;
+		height: 200rpx;
 	}
 	
 	.uni-share-content-item {
