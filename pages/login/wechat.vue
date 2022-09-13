@@ -262,7 +262,7 @@
 					},
 					complete() {
 						// 获取用户信息
-						that.$refs.loading.hideLoading()
+						// that.$refs.loading.hideLoading()
 						// that.getUserInfo(e)
 						that.getWxUserInfo(e)
 					}
