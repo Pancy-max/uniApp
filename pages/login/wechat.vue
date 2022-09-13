@@ -76,10 +76,10 @@
 					delta:1
 				})
 			},
-			getWxUserInfo(e) {
+			getWxUserInfo(e, isTimeOut) {
 				const userInfo = getApp().globalData.wechatInfo.userInfo
 				// this.getUserInfo(e, userInfo)
-				this.userLogin(e, userInfo)
+				this.userLogin(e, userInfo, isTimeOut)
 			},
 			
 			async getUserInfo(e, userInfo) {
@@ -132,7 +132,7 @@
 				})
 			},
 			
-			userLogin(e, userInfo) {
+			userLogin(e, userInfo, isTimeOut = false) {
 				const that = this
 				this.request({
 					url: '/mini/wxLogin',
@@ -171,17 +171,19 @@
 							 url:'../my/index'
 						  })
 					  }
-					  // else if(res.code == 400){
-						 //  uni.showModal({
-						 //  	title:res.msg,
-							// showCancel:false,
-							// success() {
-							// 	uni.switchTab({
-							// 		url:'../index/index'
-							// 	})
-							// }
-						 //  })
-					  // }
+					  else if(res.code == 8 && !isTimeOut){
+						  uni.showModal({
+						  	title:res.msg,
+							showCancel:false
+						  })
+						  wx.login({
+							success: res => {
+							console.log('wx.login', res)
+							  that.loginRes = res.code
+							  that.getWxUserInfo(e, true)
+							}
+						  })
+					  }
 					  else{
 						  uni.showToast({
 							  title:res.msg,
@@ -246,9 +248,9 @@
 				    return;
 				}
 				
-				let nonce = Math.random().toString(36).substr(2)
-				let time_stamp = Date.parse(new Date())/1000
-				let getData = {}
+				// let nonce = Math.random().toString(36).substr(2)
+				// let time_stamp = Date.parse(new Date())/1000
+				// let getData = {}
 				uni.checkSession({
 					success() {
 						that.getWxUserInfo(e)
