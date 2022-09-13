@@ -118,19 +118,26 @@ export default {
 			uni.showModal({
 				title: '提示信息',
 				content: '请先登录',
-				cancelText: '去登录',
-				confirmText: '取消',
-				confirmColor: "#262626",
-				success(res) {
-					if (res.confirm) {
-
-					} else if (res.cancel) {
-						uni.navigateTo({
-							url: '../login/index'
-						})
-					}
-				}
+				showCancel: false,
 			})
+			// uni.showModal({
+			// 	title: '提示信息',
+			// 	content: '请先登录',
+			// 	cancelText: '去登录',
+			// 	confirmText: '取消',
+			// 	confirmColor: "#262626",
+			// 	success(res) {
+			// 		if (res.confirm) {
+			// 			debugger
+						
+			// 			uni.navigateTo({
+			// 				url: '../login/index'
+			// 			})
+			// 		} else if (res.cancel) {
+			// 			debugger
+			// 		}
+			// 	}
+			// })
 	  	}
 	  },
 	  // 获取商品
