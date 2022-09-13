@@ -251,12 +251,14 @@
 				let getData = {}
 				uni.checkSession({
 					success() {
+						that.getWxUserInfo(e)
 					},
 					fail() {
 						wx.login({
 						      success: res => {
 							    console.log('wx.login', res)
 						        that.loginRes = res.code
+								that.getWxUserInfo(e)
 						      }
 						    })
 					},
@@ -264,7 +266,7 @@
 						// 获取用户信息
 						// that.$refs.loading.hideLoading()
 						// that.getUserInfo(e)
-						that.getWxUserInfo(e)
+						// that.getWxUserInfo(e)
 					}
 				})
 				
