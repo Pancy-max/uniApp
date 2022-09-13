@@ -28,6 +28,12 @@
 					<image src="../../static/my/btn_01.png" mode=""></image>
 				</view>
 			</view>
+			<view class="fengexian"></view>
+			<view class="my_tabs">
+				<view class="tabs_right">
+					<text>版本号：{{version}}</text>
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -38,11 +44,13 @@
 				// aboutUsInfo: {
 					
 				// }
-				logoUrl: ''
+				logoUrl: '',
+				version: ''
 			}
 		},
 		onLoad() {
 			this.getAboutUs()
+			this.getVersion()
 		},
 		methods: {
 			getAboutUs() {
@@ -58,6 +66,11 @@
 					console.error(e)
 					// this.aboutUsInfo = {};
 				})
+			},
+			getVersion() {
+				let accountInfo = wx.getAccountInfoSync(); 
+				// let appid = accountInfo.miniProgram.appId; // "wxfb6368d158c85cb7"小程序appid
+				this.version = accountInfo.miniProgram.version; // 1.0.0 小程序版本号
 			},
 			getContent(key) {
 				// uni.navigateTo({
