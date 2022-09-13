@@ -48,25 +48,25 @@
 					//1.微信登录成功后拿到code
 			        this.loginRes = res.code
 					// 2.用code 换取 session 和 openid/unionid
-					uni.request({
-						url: 'https://api.weixin.qq.com/sns/jscode2session',  
-						method:'GET',
-						header: {
-						  'content-type': 'application/x-www-form-urlencoded'
-						},
-						data: {  
-							appid: this.$appKey,        //你的小程序的APPID  
-							secret: this.$appKeyTi,       //你的小程序的,  
-							js_code: res.code,            //wx.login 登录成功后的code 
-							grant_type: 'authorization_code'
-						},
-						success: (cts) => {
-							// 换取成功后 暂存这些数据 留作后续操作  
-							this.wxKeys.openid=cts.data.openid     //openid 用户唯一标识  
-							// this.wxKeys.unionid=cts.data.unionid     //unionid 开放平台唯一标识  
-							this.wxKeys.session_key=cts.data.session_key     //session_key  会话密钥  
-						}  
-					});
+					// uni.request({
+					// 	url: 'https://api.weixin.qq.com/sns/jscode2session',  
+					// 	method:'GET',
+					// 	header: {
+					// 	  'content-type': 'application/x-www-form-urlencoded'
+					// 	},
+					// 	data: {  
+					// 		appid: this.$appKey,        //你的小程序的APPID  
+					// 		secret: this.$appKeyTi,       //你的小程序的,  
+					// 		js_code: res.code,            //wx.login 登录成功后的code 
+					// 		grant_type: 'authorization_code'
+					// 	},
+					// 	success: (cts) => {
+					// 		// 换取成功后 暂存这些数据 留作后续操作  
+					// 		this.wxKeys.openid=cts.data.openid     //openid 用户唯一标识  
+					// 		// this.wxKeys.unionid=cts.data.unionid     //unionid 开放平台唯一标识  
+					// 		this.wxKeys.session_key=cts.data.session_key     //session_key  会话密钥  
+					// 	}  
+					// });
 			      }
 			    })
 		},
@@ -78,7 +78,8 @@
 			},
 			getWxUserInfo(e) {
 				const userInfo = getApp().globalData.wechatInfo.userInfo
-				this.getUserInfo(e, userInfo)
+				// this.getUserInfo(e, userInfo)
+				this.userLogin(e, userInfo)
 			},
 			
 			async getUserInfo(e, userInfo) {
@@ -131,7 +132,65 @@
 				})
 			},
 			
-			userLogin(data) {
+			userLogin(e, userInfo) {
+				const that = this
+				this.request({
+					url: '/mini/wxLogin',
+					method: 'POST', 
+					data: {										 
+						"avatarUrl": userInfo.avatarUrl,
+						"lcode": that.loginRes,
+						"nickname": userInfo.nickName,
+						pcode: e.detail.code,
+						privacyAgree: 1,
+					}
+				}).then((res)=>{
+					that.$refs.loading.hideLoading()
+					  if(res.code === 0){
+						  // that.$save_client(res.data.user.uuid);
+						  uni.showToast({
+						  	title: res.msg,
+						  	icon:"success"
+						  })
+						  uni.setStorage({
+							 key: 'myinfo',
+							 data: {
+								user: {
+									nickname: userInfo.nickName,
+									username: userInfo.nickName,
+									avatar: userInfo.avatarUrl,
+									userLevel: res.data.userLevel,
+									weixinOpenid: res.data.weixinOpenid
+								},
+								...res.data
+							 },
+							 success() {
+							 }
+						  })
+						  uni.switchTab({
+							 url:'../my/index'
+						  })
+					  }
+					  // else if(res.code == 400){
+						 //  uni.showModal({
+						 //  	title:res.msg,
+							// showCancel:false,
+							// success() {
+							// 	uni.switchTab({
+							// 		url:'../index/index'
+							// 	})
+							// }
+						 //  })
+					  // }
+					  else{
+						  uni.showToast({
+							  title:res.msg,
+							  icon:"none"
+						  })
+					  }
+				})
+			},
+			userLoginBak(data) {
 				const that = this
 				this.request({
 				  url:'/mini/login',

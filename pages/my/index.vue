@@ -300,11 +300,11 @@
 			},
 			// 分享
 			share() {
-				// if (this.userInfo != '') {
-				this.openPopup()
-				// } else {
-				// 	this.gologin();
-				// }
+				if (this.userInfo != '') {
+					this.openPopup()
+				} else {
+					this.gologin();
+				}
 			},
 			selectShareItem(val) {
 				if (val.item && val.item.name === 'paint') { // 画报分享

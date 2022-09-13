@@ -50,7 +50,7 @@
 				tel: '',
 				openId: '',
 				logoUrl: '',
-				loginRes: ''
+				// loginRes: ''
 			};
 		},
 
@@ -106,12 +106,12 @@
 							// app_key: this.$appKey
 						// }
 						getApp().globalData.wechatInfo = infoRes
-						wx.login({
-							  success: res => {
+						// wx.login({
+						// 	  success: res => {
 								//1.微信登录成功后拿到code
-								this.loginRes = res.code
+								// this.loginRes = res.code
 								// 2.用code 换取 session 和 openid/unionid
-								this.userLogin(infoRes.userInfo)
+								// this.userLogin(infoRes.userInfo)
 								// uni.request({
 								// 	url: 'https://api.weixin.qq.com/sns/jscode2session',  
 								// 	method:'GET',
@@ -132,72 +132,15 @@
 								// 		// this.wxKeys.session_key=cts.data.session_key     //session_key  会话密钥  
 								// 	}  
 								// });
-							  }
-						})
-						// this.$refs.loading.hideLoading()
-						// // 跳到到微信登录
-						// uni.navigateTo({
-						// 	url: '/pages/login/wechat'
+						// 	  }
 						// })
+						this.$refs.loading.hideLoading()
+						// 跳到到微信登录
+						uni.navigateTo({
+							url: '/pages/login/wechat'
+						})
 		
 					}
-				})
-			},
-			userLogin(userInfo) {
-				const that = this
-				this.request({
-					url: '/mini/wxLogin',
-					method: 'POST', 
-					data: {										 
-						"avatarUrl": userInfo.avatarUrl,
-						"lcode": that.loginRes,
-						"nickname": userInfo.nickName,
-						privacyAgree: 1,
-					}
-				}).then((res)=>{
-					that.$refs.loading.hideLoading()
-					  if(res.code === 0){
-						  // that.$save_client(res.data.user.uuid);
-						  uni.showToast({
-						  	title: res.msg,
-						  	icon:"success"
-						  })
-						  uni.setStorage({
-							 key: 'myinfo',
-							 data: {
-								user: {
-									nickname: userInfo.nickName,
-									username: userInfo.nickName,
-									avatar: userInfo.avatarUrl,
-									userLevel: res.data.userLevel,
-									weixinOpenid: res.data.weixinOpenid
-								},
-								...res.data
-							 },
-							 success() {
-							 }
-						  })
-						  uni.switchTab({
-							 url:'../my/index'
-						  })
-					  }
-					  // else if(res.code == 400){
-						 //  uni.showModal({
-						 //  	title:res.msg,
-							// showCancel:false,
-							// success() {
-							// 	uni.switchTab({
-							// 		url:'../index/index'
-							// 	})
-							// }
-						 //  })
-					  // }
-					  else{
-						  uni.showToast({
-							  title:res.msg,
-							  icon:"none"
-						  })
-					  }
 				})
 			},
 			wechatLogin() {
