@@ -302,9 +302,22 @@
 			share() {
 				if (this.userInfo != '') {
 					this.openPopup()
+					this.getPaintData()
 				} else {
 					this.gologin();
 				}
+			},
+			getPaintData() {
+				this.request({
+					url: '/mini/getPosterInfo',
+					method: 'GET'
+				}).then(res => {
+					getApp().globalData.posterInfo = res.data.posterInfo
+					// this.toChoose(0)
+				}).catch(e => {
+					console.error(e)
+					// this.aboutUsInfo = {};
+				})
 			},
 			selectShareItem(val) {
 				if (val.item && val.item.name === 'paint') { // 画报分享

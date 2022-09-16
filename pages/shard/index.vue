@@ -1,13 +1,20 @@
 <template>
 	<view class="page">
-		<view class="poster" v-if="!show_poster">
+		<view class="poster">
 			<!-- <lPainter :board="posterObj" ref="painter" style="display: none;"></lPainter> -->
-			<l-painter ref="painter" width="686rpx"  height="928rpx" />
+			<!-- <l-painter ref="painter" width="686rpx"  height="928rpx" /> -->
+			<l-painter
+			  isRenderImage
+			  ref="painter" 
+			  width="686rpx"
+			  height="928rpx"
+			  @success="loadSuccess($event)"
+			/>
 			<view class="footer-btn">
 				<view class="" @tap="goBack">
 					返回
 				</view>
-				<view class="save" @click="toSave">
+				<view class="save" @click="saveImage">
 					保存
 				</view>
 			</view>
@@ -21,32 +28,22 @@
 			</view>
 		</view>
 		<!-- 生成的图片 -->
-		<uni-popup type="center" ref="posterImg" :maskClick="false">
+		<!-- <uni-popup type="center" ref="posterImg" :maskClick="false">
 			<view class="poster-img">
 				<text @click="closePopup"></text>
 				<image :src="path" mode="" @click="previewImg"></image>
-				<!-- #ifdef H5 -->
-				<view class="">
-					长按图片保存到手机
-				</view>
-				<!-- #endif -->
-				<!-- #ifndef H5 -->
-				<view class="">
-					点击图片保存到手机
-				</view>
-				<!-- #endif -->
 			</view>
-		</uni-popup>
+		</uni-popup> -->
 	</view>
 </template>
 
 <script>
-	import uniPopup from "../../components/uni-popup/uni-popup.vue";
+	// import uniPopup from "../../components/uni-popup/uni-popup.vue";
 	import lPainter from '../../components/lime-painter/index.vue'
 	export default {
 		components: {
 			lPainter,
-			uniPopup
+			// uniPopup
 		},
 		data() {
 			return {
@@ -79,9 +76,16 @@
 			}
 		},
 		onLoad() {
-			this.getPaintData()
+			// this.getPaintData()
 			this.myInfo = uni.getStorageSync('myinfo');
 			this.avatar = this.myInfo.user.avatar
+			if (getApp().globalData.posterInfo && getApp().globalData.posterInfo.qrcodeUrl) {
+				this.posterInfo = getApp().globalData.posterInfo
+				this.toChoose(0)
+			} else {
+				this.getPaintData()
+			}
+			
 		},
 		// watch: {
 		// 	check_idx(newVal,oldVal){
@@ -89,6 +93,10 @@
 		// 	}
 		// },
 		methods: {
+			loadSuccess(path) {
+				this.path = path
+				uni.hideLoading()
+			},
 			getPaintData() {
 				this.request({
 					url: '/mini/getPosterInfo',
@@ -101,40 +109,57 @@
 					// this.aboutUsInfo = {};
 				})
 			},
-			previewImg(){
-				// #ifdef H5
-				return;
-				// #endif
-				uni.previewImage({
-					current:this.path,
-					urls: [this.path]
-				});
-			},
-			closePopup(){
-				this.$refs.posterImg.close();
-				this.show_poster=false;
-			},
-			toSave() {
-				uni.showLoading({
-					title:'海报生成中',
-				})
-				const painter = this.$refs.painter;
-				painter.canvasToTempFilePath().then(res => {
-					this.path = res.tempFilePath;
-					this.$refs.posterImg.open();
-					this.show_poster=true;
-					uni.hideLoading()
-				});
-			},
+			// previewImg(){
+			// 	// #ifdef H5
+			// 	return;
+			// 	// #endif
+			// 	uni.previewImage({
+			// 		current:this.path,
+			// 		urls: [this.path]
+			// 	});
+			// },
+			// closePopup(){
+			// 	this.$refs.posterImg.close();
+			// 	this.show_poster=false;
+			// },
+			// toSave() {
+				// uni.showLoading({
+				// 	title:'海报生成中',
+				// })
+				// const painter = this.$refs.painter;
+				// painter.canvasToTempFilePath().then(res => {
+				// 	this.path = res.tempFilePath;
+				// 	this.$refs.posterImg.open();
+				// 	this.show_poster=true;
+				// 	uni.hideLoading()
+				// });
+			// },
 			onRender() {
 				// 支持通过调用render传入参数
 				const painter = this.$refs.painter
 				painter.render(this.posterObj)
+				//开启加载
+				uni.showLoading({
+				  title: '加载中...',
+				  mask: true
+				})
 			},
-			canvasToTempFilePath() {
-				const painter = this.$refs.painter
-				// 支持通过调用canvasToTempFilePath方法传入参数 调取生成图片
-				painter.canvasToTempFilePath().then(res => this.path = res.tempFilePath)
+			// canvasToTempFilePath() {
+			// 	const painter = this.$refs.painter
+			// 	// 支持通过调用canvasToTempFilePath方法传入参数 调取生成图片
+			// 	painter.canvasToTempFilePath().then(res => this.path = res.tempFilePath)
+			// },
+			saveImage() {
+			    uni.saveImageToPhotosAlbum({
+			        filePath: this.path,
+			        success(res) {
+			            uni.showToast({
+			                title: '已保存到相册',
+			                icon: 'success',
+			                duration: 2000
+			            })
+			        }
+			    })
 			},
 			goBack() {
 				uni.switchTab({
@@ -546,4 +571,5 @@
 
 <style lang="scss" scoped>
 	@import './style.scss';
+	image{will-change: transform}
 </style>

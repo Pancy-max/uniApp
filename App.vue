@@ -13,7 +13,8 @@
 			evaListInfo: [],
 			help: {},
 			logoUrl: '',
-			wechatInfo: {}
+			wechatInfo: {},
+			posterInfo: {}
 		},
 		onLaunch: function() {
 			let that = this
